@@ -17,28 +17,33 @@ class SensorsScreen extends StatelessWidget {
       body: ListView.builder(
         padding: const EdgeInsets.only(top: 10),
         itemBuilder: (context, index) => Container(
-            height: 100,
-            width: double.infinity,
-            margin: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5.5),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0xfff2f4f7),
-                  blurRadius: 0.3,
-                  offset: Offset(1.8, 1.8),
-                )
-              ],
+          height: 100,
+          width: double.infinity,
+          margin: const EdgeInsets.only(
+            bottom: 10,
+            right: 10,
+            left: 10,
+          ),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5.5),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0xfff2f4f7),
+                blurRadius: 0.3,
+                offset: Offset(1.8, 1.8),
+              )
+            ],
+          ),
+          child: Text(
+            'Sensor $index',
+            style: const TextStyle(
+              fontSize: 15,
+              color: Colors.black87,
             ),
-            child: Text(
-              'Sensor $index',
-              style: const TextStyle(
-                fontSize: 15,
-                color: Colors.black87,
-              ),
-            )),
+          ),
+        ),
       ),
     );
   }
