@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
+import 'package:water_pressure_iot/constants/page_titles.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({
@@ -73,31 +74,7 @@ class Sidebar extends StatelessWidget {
           ),
         );
       },
-      items: [
-        SidebarXItem(
-          icon: Icons.home,
-          label: 'Home',
-          onTap: () {
-            debugPrint('Home');
-          },
-        ),
-        const SidebarXItem(
-          icon: Icons.search,
-          label: 'Search',
-        ),
-        const SidebarXItem(
-          icon: Icons.people,
-          label: 'People',
-        ),
-        const SidebarXItem(
-          icon: Icons.favorite,
-          label: 'Favorites',
-        ),
-        const SidebarXItem(
-          iconWidget: FlutterLogo(size: 20),
-          label: 'Flutter',
-        ),
-      ],
+      items: PageTitle.getSidebarItems(() {}),
     );
   }
 }

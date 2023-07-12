@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
-import 'package:water_pressure_iot/screens/sensors/sensors_screen.dart';
+import 'package:water_pressure_iot/constants/page_titles.dart';
+import 'package:water_pressure_iot/screens/main/main_content_screen.dart';
 import 'package:water_pressure_iot/screens/widgets/side_bar.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
   final _key = GlobalKey<ScaffoldState>();
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
-  final SidebarXController controller = SidebarXController(
-    selectedIndex: 0,
-    extended: true,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +18,16 @@ class MainScreen extends StatelessWidget {
           key: _key,
           appBar: isSmallScreen
               ? AppBar(
-                  backgroundColor: canvasColor,
-                  title: Text(_getTitleByIndex(_controller.selectedIndex)),
+                  backgroundColor: const Color(0xD4E5E9),
+                  title: AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, _) {
+                      return Text(
+                        PageTitle.getTitleByIndex(_controller.selectedIndex),
+                        style: const TextStyle(color: Colors.white),
+                      );
+                    },
+                  ),
                   leading: IconButton(
                     onPressed: () {
                       // if (!Platform.isAndroid && !Platform.isIOS) {
@@ -40,7 +45,7 @@ class MainScreen extends StatelessWidget {
               if (!isSmallScreen) Sidebar(controller: _controller),
               Expanded(
                 child: Center(
-                  child: SensorsScreen(
+                  child: MainContentScreen(
                     controller: _controller,
                   ),
                 ),
@@ -50,26 +55,5 @@ class MainScreen extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-String _getTitleByIndex(int index) {
-  switch (index) {
-    case 0:
-      return 'Home';
-    case 1:
-      return 'Search';
-    case 2:
-      return 'People';
-    case 3:
-      return 'Favorites';
-    case 4:
-      return 'Custom iconWidget';
-    case 5:
-      return 'Profile';
-    case 6:
-      return 'Settings';
-    default:
-      return 'Not found page';
   }
 }

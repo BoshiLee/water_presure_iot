@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:water_pressure_iot/screens/main_screen.dart';
+import 'package:water_pressure_iot/screens/main/main_screen.dart';
 
 class App extends StatelessWidget {
   final botToastBuilder = BotToastInit();
