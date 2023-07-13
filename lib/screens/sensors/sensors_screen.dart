@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:water_pressure_iot/cubits/sensors_cubit.dart';
 import 'package:water_pressure_iot/screens/sensors/dashboard_card.dart';
 import 'package:water_pressure_iot/screens/widgets/static_pagination_list_view.dart';
@@ -91,8 +92,41 @@ class SensorsScreen extends StatelessWidget {
                       flex: 4,
                       child: DashBoardCard(
                         margin: const EdgeInsets.only(
-                            left: 8, right: 16, bottom: 16),
-                        child: Container(),
+                          left: 8,
+                          right: 16,
+                          bottom: 16,
+                        ),
+                        child: Container(
+                          child: SfSparkLineChart(
+                            //Enable the trackball
+                            trackball: SparkChartTrackball(
+                                activationMode: SparkChartActivationMode.tap),
+                            //Enable marker
+                            marker: SparkChartMarker(
+                                displayMode: SparkChartMarkerDisplayMode.all),
+                            //Enable data label
+                            labelDisplayMode: SparkChartLabelDisplayMode.all,
+                            data: <double>[
+                              1,
+                              5,
+                              -6,
+                              0,
+                              1,
+                              -2,
+                              7,
+                              -7,
+                              -4,
+                              -10,
+                              13,
+                              -6,
+                              7,
+                              5,
+                              11,
+                              5,
+                              3
+                            ],
+                          ),
+                        ),
                       ),
                     )
                   ],
