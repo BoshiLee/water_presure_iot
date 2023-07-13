@@ -1,17 +1,16 @@
 import 'flavor.dart';
 
 class Config {
-  static Flavor appFlavor = Flavor.UNDETERMINED;
+  static Flavor appFlavor = Flavor.LOCALHOST;
 
   static String get host {
     switch (appFlavor) {
       case Flavor.PRODUCTION:
-        return 'prod.hearting.online';
+        return 'prod.nbiot.itri.org.tw';
       case Flavor.DEVELOPMENT:
-        return 'dev.hearting.online';
+        return 'dev.nbiot.itri.org.tw';
       case Flavor.LOCALHOST:
-        return '192.168.1.106:8080'; //職初
-    // return '10.1.1.5:8080'; //北新路 139 巷
+        return '127.0.0.1:5000';
 
       case Flavor.UNDETERMINED:
         return 'dev.hearting.online';

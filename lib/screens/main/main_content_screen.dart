@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:water_pressure_iot/constants/page_titles.dart';
+import 'package:water_pressure_iot/cubits/sensors_cubit.dart';
 import 'package:water_pressure_iot/screens/sensors/sensors_screen.dart';
 
 class MainContentScreen extends StatelessWidget {
@@ -20,7 +22,10 @@ class MainContentScreen extends StatelessWidget {
         final pageTitle = PageTitle.getTitleByIndex(controller.selectedIndex);
         switch (controller.selectedIndex) {
           case 0:
-            return SensorsScreen(controller: controller);
+            return BlocProvider(
+              create: (context) => SensorsCubit(),
+              child: SensorsScreen(controller: controller),
+            );
           default:
             return Text(
               pageTitle,

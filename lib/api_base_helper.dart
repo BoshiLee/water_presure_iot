@@ -3,22 +3,23 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:water_pressure_iot/config.dart';
-import 'package:water_pressure_iot/flavor.dart';
 import 'package:water_pressure_iot/repository/user_repository.dart';
+
 import 'api/api_response.dart';
 import 'api/app_exception.dart';
+import 'flavor.dart';
 
 class ApiBaseHelper {
-
   get baseUrl {
     switch (Config.appFlavor) {
       case Flavor.LOCALHOST:
         return Uri.http(
-            Config.host,
-            ).toString();
+          Config.host,
+        ).toString();
       default:
         return Uri.https(
-            Config.host,).toString();
+          Config.host,
+        ).toString();
     }
   }
 
@@ -30,17 +31,17 @@ class ApiBaseHelper {
         baseUrl: baseUrl,
       ),
     )..interceptors.add(
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: true,
-        error: true,
-        compact: true,
-        maxWidth: 130,
-        // logPrint: (obj) => debugPrint(obj.toString()),
-      ),
-    );
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: true,
+          error: true,
+          compact: true,
+          maxWidth: 130,
+          // logPrint: (obj) => debugPrint(obj.toString()),
+        ),
+      );
     // ..httpClientAdapter = client;
 
     return dio;
@@ -60,10 +61,10 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> get(
-      String url, {
-        Map<String, dynamic>? queryParameters = const {},
-        ResponseType responseType = ResponseType.json,
-      }) async {
+    String url, {
+    Map<String, dynamic>? queryParameters = const {},
+    ResponseType responseType = ResponseType.json,
+  }) async {
     final Options requestOptions = Options(headers: _headers);
     requestOptions.responseType = responseType;
     try {
@@ -86,11 +87,11 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> post(
-      String url, {
-        Map<String, dynamic>? queryParameters,
-        dynamic data,
-        String? contentType,
-      }) async {
+    String url, {
+    Map<String, dynamic>? queryParameters,
+    dynamic data,
+    String? contentType,
+  }) async {
     Map<String, dynamic> headers = _headers;
     if (data == null) {
       headers[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
@@ -116,7 +117,7 @@ class ApiBaseHelper {
     } on DioException catch (e) {
       throw DioExceptionHandler(
         e,
-            () => post(
+        () => post(
           url,
           queryParameters: queryParameters,
           data: data,
@@ -129,11 +130,11 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> put(
-      String url, {
-        Map<String, String>? queryParameters,
-        dynamic data,
-        dynamic contentType,
-      }) async {
+    String url, {
+    Map<String, String>? queryParameters,
+    dynamic data,
+    dynamic contentType,
+  }) async {
     Map<String, dynamic> headers = _headers;
     if (data == null) {
       headers[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
@@ -159,7 +160,7 @@ class ApiBaseHelper {
     } on DioException catch (e) {
       throw DioExceptionHandler(
         e,
-            () => put(
+        () => put(
           url,
           queryParameters: queryParameters,
           data: data,
@@ -172,11 +173,11 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> delete(
-      String url, {
-        Map<String, dynamic>? queryParameters,
-        dynamic data,
-        String? contentType,
-      }) async {
+    String url, {
+    Map<String, dynamic>? queryParameters,
+    dynamic data,
+    String? contentType,
+  }) async {
     Map<String, dynamic> headers = _headers;
     if (data == null) {
       headers[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
@@ -202,7 +203,7 @@ class ApiBaseHelper {
     } on DioException catch (e) {
       throw DioExceptionHandler(
         e,
-            () => delete(
+        () => delete(
           url,
           queryParameters: queryParameters,
           data: data,
@@ -239,7 +240,7 @@ class ApiBaseHelper {
         final errorMessage = response.data != null
             ? ApiResponse.fromJson(response.data).message
             : 'Error occurred while Communication with Server with StatusCode'
-            ' : ${response.statusCode}';
+                ' : ${response.statusCode}';
         switch (response.statusCode) {
           case 400:
             if (errorMessage == 'token_invalid') {
