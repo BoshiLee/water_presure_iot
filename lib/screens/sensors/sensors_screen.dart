@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:water_pressure_iot/cubits/sensors_cubit.dart';
-import 'package:water_pressure_iot/screens/sensors/dashboard_card.dart';
-import 'package:water_pressure_iot/screens/sensors/dashboard_value_card.dart';
 import 'package:water_pressure_iot/screens/sensors/dashboard_plot_card.dart';
+import 'package:water_pressure_iot/screens/sensors/dashboard_value_card.dart';
 import 'package:water_pressure_iot/screens/widgets/static_pagination_list_view.dart';
 
 class SensorsScreen extends StatelessWidget {
