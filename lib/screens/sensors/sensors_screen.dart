@@ -4,6 +4,7 @@ import 'package:sidebarx/sidebarx.dart';
 import 'package:water_pressure_iot/cubits/sensors_cubit.dart';
 import 'package:water_pressure_iot/screens/sensors/dashboard_card.dart';
 import 'package:water_pressure_iot/screens/sensors/dashboard_value_card.dart';
+import 'package:water_pressure_iot/screens/sensors/dashboard_plot_card.dart';
 import 'package:water_pressure_iot/screens/widgets/static_pagination_list_view.dart';
 
 class SensorsScreen extends StatelessWidget {
@@ -42,10 +43,12 @@ class SensorsScreen extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 4,
-                      child: DashBoardCard(
-                        margin: const EdgeInsets.only(
-                            left: 8, right: 16, bottom: 16),
-                        child: Container(),
+                      child: DashboardChartCard(
+                        dataList: context
+                                .read<SensorsCubit>()
+                                .sensors[index]
+                                .sensorData ??
+                            [],
                       ),
                     )
                   ],
