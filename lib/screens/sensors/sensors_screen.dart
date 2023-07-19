@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:water_pressure_iot/cubits/sensors_cubit.dart';
 import 'package:water_pressure_iot/screens/sensors/dashboard_plot_card.dart';
-import 'package:water_pressure_iot/screens/sensors/dashboard_value_card.dart';
-import 'package:water_pressure_iot/screens/widgets/static_pagination_list_view.dart';
 
 class SensorsScreen extends StatelessWidget {
   const SensorsScreen({
@@ -16,44 +14,32 @@ class SensorsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final gridSpacing = 10.0;
+    final gridItemWidth = screenWidth / 2;
+    final gridItemHeight = (screenHeight - gridSpacing * 3) / 1.5;
     return Scaffold(
       backgroundColor: const Color(0xfff7f9fd),
       body: BlocBuilder<SensorsCubit, SensorsState>(
         builder: (context, state) {
-          return RefreshIndicator(
-            onRefresh: () async =>
-                await context.read<SensorsCubit>().fetchSensors(),
-            child: StaticPaginationListView(
-              isLoading: state is SensorsLoading,
-              itemCount: context.read<SensorsCubit>().sensors.length,
-              physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics(),
-              ),
-              padding: const EdgeInsets.only(top: 10),
-              itemBuilder: (context, index) => SizedBox(
-                height: 300,
-                child: Row(
-                  children: [
-                    Container(
-                      constraints: const BoxConstraints(maxWidth: 300),
-                      child: DashboardValueCard(
-                        sensor: context.read<SensorsCubit>().sensors[index],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: DashboardChartCard(
-                        dataList: context
-                                .read<SensorsCubit>()
-                                .sensors[index]
-                                .sensorData ??
-                            [],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+          return GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: gridItemWidth / gridItemHeight,
             ),
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: DashboardChartCard(
+                  sensor: context.read<SensorsCubit>().sensors[index],
+                  dataList:
+                      context.read<SensorsCubit>().sensors[index].sensorData ??
+                          [],
+                ),
+              );
+            },
+            itemCount: context.read<SensorsCubit>().sensors.length,
           );
         },
       ),

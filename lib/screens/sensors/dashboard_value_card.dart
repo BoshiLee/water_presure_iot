@@ -37,7 +37,7 @@ class DashboardValueCard extends StatelessWidget {
                   text: sensorData?.pressure?.toString() ?? '--',
                   style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
-                    fontSize: 75,
+                    fontSize: 35,
                     fontFamily: 'Roboto',
                   ),
                   children: <TextSpan>[
