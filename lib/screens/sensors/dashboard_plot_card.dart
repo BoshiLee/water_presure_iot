@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water_pressure_iot/cubits/sensor_history_cubit.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
 import 'package:water_pressure_iot/screens/sensors/chart_widget.dart';
@@ -25,7 +27,10 @@ class DashboardChartCard extends StatelessWidget {
   void _showHistoryDialog(BuildContext context, Sensor sensor) {
     showDialog(
       context: context,
-      builder: (context) => SensorHistoryDialog(sensor: sensor),
+      builder: (context) => BlocProvider(
+        create: (context) => SensorHistoryCubit(sensor: sensor),
+        child: const SensorHistoryDialog(),
+      ),
     );
   }
 
@@ -83,7 +88,7 @@ class DashboardChartCard extends StatelessWidget {
                   }
                   _showHistoryDialog(context, sensor!);
                 },
-                icon: Icon(Icons.list_alt), // 使用icon作為按鈕內容
+                icon: const Icon(Icons.list_alt), // 使用icon作為按鈕內容
               ),
             ],
           ),
