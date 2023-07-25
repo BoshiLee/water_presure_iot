@@ -7,7 +7,7 @@
 .idea/libraries/*
 build/
 windows/
-macos/*
+macos/
 linux/
 web/
 # If you're building an application, you may want to check-in your pubspec.lock
