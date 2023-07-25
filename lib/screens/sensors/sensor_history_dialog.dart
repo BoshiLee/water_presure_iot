@@ -17,13 +17,37 @@ class SensorHistoryDialog extends StatelessWidget {
         children: [
           Text('${sensor.name} Pressure History'),
           IconButton(
+            color: Colors.redAccent[400],
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
           ),
         ],
       ),
+      actions: [
+        InkWell(
+          onTap: () {
+            // _exportToCsv();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.blueAccent[400],
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(10), // 設置按鈕內容的padding
+              child: Text(
+                'Export to CSV',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Roboto',
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
       content: SizedBox(
         width: double.maxFinite,
         child: ListView.builder(
