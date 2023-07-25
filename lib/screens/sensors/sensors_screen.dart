@@ -16,9 +16,8 @@ class SensorsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final gridSpacing = 10.0;
     final gridItemWidth = screenWidth / 2;
-    final gridItemHeight = (screenHeight - gridSpacing * 3) / 1.5;
+    final gridItemHeight = (screenHeight) / 1.75;
     return Scaffold(
       backgroundColor: const Color(0xfff7f9fd),
       body: BlocBuilder<SensorsCubit, SensorsState>(
@@ -30,13 +29,11 @@ class SensorsScreen extends StatelessWidget {
               childAspectRatio: gridItemWidth / gridItemHeight,
             ),
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: DashboardChartCard(
-                  sensor: context.read<SensorsCubit>().sensors[index],
-                  dataList:
-                      context.read<SensorsCubit>().sensors[index].sensorData ??
-                          [],
-                ),
+              return DashboardChartCard(
+                sensor: context.read<SensorsCubit>().sensors[index],
+                dataList:
+                    context.read<SensorsCubit>().sensors[index].sensorData ??
+                        [],
               );
             },
             itemCount: context.read<SensorsCubit>().sensors.length,

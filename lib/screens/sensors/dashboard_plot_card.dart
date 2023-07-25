@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
+import 'package:water_pressure_iot/screens/sensors/chart_widget.dart';
 import 'package:water_pressure_iot/screens/sensors/dashboard_card.dart';
 
 class DashboardChartCard extends StatelessWidget {
@@ -53,7 +53,7 @@ class DashboardChartCard extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Container(
-            child: dataList.isEmpty
+            child: sensor == null || dataList.isEmpty
                 ? const Center(
                     child: Text(
                       '此感測器無資料',
@@ -64,23 +64,7 @@ class DashboardChartCard extends StatelessWidget {
                     ),
                   )
                 : Expanded(
-                    child: SfSparkLineChart(
-                      //Enable the trackball
-                      trackball: const SparkChartTrackball(
-                        activationMode: SparkChartActivationMode.tap,
-                      ),
-                      //Enable marker
-                      marker: const SparkChartMarker(
-                        displayMode: SparkChartMarkerDisplayMode.all,
-                      ),
-                      //Enable data label
-                      labelDisplayMode: SparkChartLabelDisplayMode.all,
-                      data: dataList
-                          .map(
-                            (e) => (e.pressure ?? 0).toDouble(),
-                          )
-                          .toList(),
-                    ),
+                    child: ChartWidget(sensor: sensor!),
                   ),
           ),
         ],
