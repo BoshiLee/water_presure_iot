@@ -3,6 +3,7 @@ import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
 import 'package:water_pressure_iot/screens/sensors/chart_widget.dart';
 import 'package:water_pressure_iot/screens/sensors/dashboard_card.dart';
+import 'package:water_pressure_iot/screens/sensors/sensor_history_sheet.dart';
 
 class DashboardChartCard extends StatelessWidget {
   final Sensor? sensor;
@@ -21,35 +22,70 @@ class DashboardChartCard extends StatelessWidget {
     return dataList.last;
   }
 
+  void _showHistoryDialog(BuildContext context, Sensor sensor) {
+    showDialog(
+      context: context,
+      builder: (context) => SensorHistoryDialog(sensor: sensor),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DashBoardCard(
       child: Column(
         children: [
-          Text.rich(
-            TextSpan(
-              text: '${sensor?.nameIdentity ?? 'Sensor Name'}: ',
-              children: <TextSpan>[
-                TextSpan(
-                  text: sensorData?.pressure?.toString() ?? '--',
-                  style: const TextStyle(
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceAround, // 將Text和ElevatedButton置中
+            children: [
+              // Expanded(child: Container()),
+              IconButton(
+                onPressed: () {
+                  // _showHistoryDialog(context, sensor);
+                },
+                icon: const Icon(
+                  Icons.list_alt,
+                  color: Colors.transparent,
+                ), // 使用icon作為按鈕內容
+              ),
+              Expanded(
+                child: Text.rich(
+                  TextSpan(
+                    text: '${sensor?.nameIdentity ?? 'Sensor Name'}: ',
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: sensorData?.pressure?.toString() ?? '--',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '  ${sensor?.unit ?? 'kgf'}',
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                  strutStyle: const StrutStyle(
                     fontSize: 20,
-                    overflow: TextOverflow.ellipsis,
+                    fontFamily: 'Roboto',
+                    height: 1.0,
                   ),
                 ),
-                TextSpan(
-                  text: '  ${sensor?.unit ?? 'kgf'}',
-                  style: const TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-            strutStyle: const StrutStyle(
-              fontSize: 20,
-              fontFamily: 'Roboto',
-              height: 1.0,
-            ),
+              ),
+              IconButton(
+                onPressed: () {
+                  if (sensor == null) {
+                    return;
+                  }
+                  _showHistoryDialog(context, sensor!);
+                },
+                icon: Icon(Icons.list_alt), // 使用icon作為按鈕內容
+              ),
+            ],
           ),
           SizedBox(height: 10),
           Container(

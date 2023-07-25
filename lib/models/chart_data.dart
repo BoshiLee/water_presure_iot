@@ -11,8 +11,12 @@ List<ChartData> convertSensorDataToChartData(List<SensorData>? sensorData) {
   List<ChartData> chartDataList = [];
   if (sensorData != null) {
     for (var data in sensorData) {
-      chartDataList
-          .add(ChartData(date: data.timestamp, pressure: data.pressure));
+      chartDataList.add(
+        ChartData(
+          date: data.timestamp,
+          pressure: data.pressure,
+        ),
+      );
     }
   }
   return chartDataList;
