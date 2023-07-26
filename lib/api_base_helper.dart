@@ -52,8 +52,9 @@ class ApiBaseHelper {
       HttpHeaders.acceptHeader: ContentType.json.toString(),
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
     };
-    if (UserRepository.shared.jwt.isNotEmpty) {
-      final String authToken = UserRepository.shared.jwt;
+    if (UserRepository.shared.hasJWT) {
+      final String? authToken = UserRepository.shared.jwt;
+      if (authToken == null) return map;
       map[HttpHeaders.authorizationHeader] = 'Bearer $authToken';
       // debugPrint('authorization: ${map[HttpHeaders.authorizationHeader]}');
     }

@@ -1,3 +1,4 @@
+import 'package:water_pressure_iot/models/account.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 
 class ParseJsonHelper {
@@ -8,5 +9,10 @@ class ParseJsonHelper {
       sensors.add(Sensor.fromJson(v));
     });
     return sensors;
+  }
+
+  static Account? parseAccount(Map<String, dynamic> json) {
+    if (json['account'] == null) return null;
+    return Account.fromJson(json['account']);
   }
 }

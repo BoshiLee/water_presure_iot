@@ -10,15 +10,39 @@ class UserRepository {
     SharedPreferencesUtils.remove(AppKey.TOKEN);
   }
 
-  set jwt(String jwt) {
+  set jwt(String? jwt) {
+    if (jwt == null) {
+      SharedPreferencesUtils.remove(AppKey.TOKEN);
+      return;
+    }
     SharedPreferencesUtils.putString(AppKey.TOKEN, jwt);
   }
 
-  String get jwt {
+  String? get jwt {
     return SharedPreferencesUtils.getString(AppKey.TOKEN);
   }
 
   bool get hasJWT {
-    return (this.jwt.isNotEmpty);
+    return (jwt != null && jwt!.isNotEmpty);
+  }
+
+  set email(String? email) {
+    if (email == null) {
+      SharedPreferencesUtils.remove(AppKey.EMAIL);
+      return;
+    }
+    SharedPreferencesUtils.putString(AppKey.EMAIL, email);
+  }
+
+  String? get email {
+    return SharedPreferencesUtils.getString(AppKey.EMAIL);
+  }
+
+  set rememberMe(bool rememberMe) {
+    SharedPreferencesUtils.putBool(AppKey.REMEMBER_ME, rememberMe);
+  }
+
+  bool get rememberMe {
+    return SharedPreferencesUtils.getBool(AppKey.REMEMBER_ME);
   }
 }
