@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
 import 'package:water_pressure_iot/cubits/login/login_cubit.dart';
-import 'package:water_pressure_iot/screens/login/login_screen.dart';
 import 'package:water_pressure_iot/screens/login/welecome_screen.dart';
-import 'package:water_pressure_iot/screens/main/main_screen.dart';
 
 class App extends StatelessWidget {
   final botToastBuilder = BotToastInit();
@@ -64,12 +62,12 @@ class App extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            if (state is AppAuthenticated) {
-              return MainScreen();
-            }
-            if (state is AppNotLogin) {
-              return const LoginScreen();
-            }
+            // if (state is AppAuthenticated) {
+            //   return MainScreen();
+            // }
+            // if (state is AppNotLogin) {
+            //   return const LoginScreen();
+            // }
             return const WelcomeScreen();
           },
         ),

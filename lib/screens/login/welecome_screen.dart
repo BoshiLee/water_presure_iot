@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_pressure_iot/constants/colors.dart';
+import 'package:water_pressure_iot/icons/nbiot_icons.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -10,20 +12,55 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.water_damage,
-              size: 150,
-              color: Colors.blue,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '壓力計顯示系統',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: itri_black,
+                  ),
+                ),
+                SizedBox(
+                  width: 42,
+                ),
+              ],
             ),
-            Text(
-              '壓力計顯示系統',
-              style: TextStyle(fontSize: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Nbiot.itri_logo,
+                  size: 150,
+                  color: itri_blue,
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 18,
+                    ),
+                    Icon(
+                      Nbiot.itri,
+                      size: 60,
+                      color: itri_black,
+                    ),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    Icon(
+                      Nbiot.itri_all,
+                      size: 65,
+                      color: itri_black,
+                    )
+                  ],
+                ),
+              ],
             ),
-            // Image.asset(
-            //   'assets/logo.png', // 替換為你Logo的路徑
-            //   width: 150,
-            //   height: 150,
-            // ),
           ],
         ),
       ),
