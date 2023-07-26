@@ -18,6 +18,10 @@ class UserRepository {
     SharedPreferencesUtils.putString(AppKey.TOKEN, jwt);
   }
 
+  Future<void> logout() async {
+    deleteJWT();
+  }
+
   String? get jwt {
     return SharedPreferencesUtils.getString(AppKey.TOKEN);
   }

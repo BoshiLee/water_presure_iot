@@ -42,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   AccountInputField(
+                    initialValue: context.watch<LoginCubit>().auth.email ?? '',
                     hintText: 'E-mail',
                     onChanged: (value) {
                       context.read<LoginCubit>().auth.email = value;

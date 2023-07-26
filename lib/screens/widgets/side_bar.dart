@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:water_pressure_iot/constants/page_titles.dart';
+import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({
@@ -74,7 +76,21 @@ class Sidebar extends StatelessWidget {
           ),
         );
       },
-      items: PageTitle.getSidebarItems(() {}),
+      items: PageTitle.sidebarItemBuilder(
+        context,
+        PageTitle.icons.length,
+        (context, index) {
+          return SidebarXItem(
+            icon: PageTitle.icons[index],
+            label: PageTitle.getTitleByIndex(index),
+            onTap: () {
+              if (index == PageTitle.icons.length - 1) {
+                context.read<AppCubit>().logout();
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }

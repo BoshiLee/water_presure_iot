@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 
+typedef IndexSidebarBuilder = SidebarXItem Function(
+    BuildContext context, int index);
+
 class PageTitle {
   static const List<IconData> icons = [
     Icons.home,
@@ -20,17 +23,14 @@ class PageTitle {
     return titles[index];
   }
 
-  static SidebarXItem getSidebarItem(int index, VoidCallback callback) =>
-      SidebarXItem(
-        icon: PageTitle.icons[index],
-        label: PageTitle.getTitleByIndex(index),
-        onTap: callback,
-      );
-
-  static List<SidebarXItem> getSidebarItems(VoidCallback callback) {
+  static List<SidebarXItem> sidebarItemBuilder(
+    BuildContext context,
+    int itemCount,
+    IndexSidebarBuilder builder,
+  ) {
     final List<SidebarXItem> sidebarItems = [];
-    for (var i = 0; i < titles.length; i++) {
-      sidebarItems.add(getSidebarItem(i, callback));
+    for (var i = 0; i < itemCount; i++) {
+      sidebarItems.add(builder(context, i));
     }
     return sidebarItems;
   }

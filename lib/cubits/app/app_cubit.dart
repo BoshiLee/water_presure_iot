@@ -33,4 +33,9 @@ class AppCubit extends Cubit<AppState> {
       emit(AppNotLogin());
     }
   }
+
+  void logout() async {
+    await _userRepository.logout();
+    authenticator();
+  }
 }

@@ -7,7 +7,10 @@ import 'package:water_pressure_iot/screens/widgets/side_bar.dart';
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
   final _key = GlobalKey<ScaffoldState>();
-  final _controller = SidebarXController(selectedIndex: 0, extended: true);
+  final _controller = SidebarXController(
+    selectedIndex: 0,
+    extended: true,
+  );
 
   @override
   Widget build(BuildContext context) {

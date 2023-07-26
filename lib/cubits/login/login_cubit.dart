@@ -43,6 +43,11 @@ class LoginCubit extends Cubit<LoginState> {
         emit(const LoginError('無法取得帳號資訊'));
         return;
       }
+      if (rememberMail) {
+        _userRepository.email = auth.email;
+      } else {
+        _userRepository.email = null;
+      }
       _userRepository.jwt = account.token;
       emit(LoginSuccess(account));
     } catch (e) {
