@@ -2,7 +2,7 @@ import 'dart:html' as html;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water_pressure_iot/cubits/sensor_history_cubit.dart';
+import 'package:water_pressure_iot/cubits/sensor_history/sensor_history_cubit.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 
 class SensorHistoryDialog extends StatelessWidget {
@@ -33,17 +33,23 @@ class SensorHistoryDialog extends StatelessWidget {
       builder: (context, state) {
         final Sensor sensor = context.read<SensorHistoryCubit>().sensor;
         return AlertDialog(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('${sensor.name} Pressure History'),
-              IconButton(
-                color: Colors.redAccent[400],
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.close),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('${sensor.name} Pressure History'),
+                  IconButton(
+                    color: Colors.redAccent[400],
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
               ),
+              const Text('Pressure, Longitude, Latitude, Date'),
             ],
           ),
           actions: [
@@ -75,8 +81,9 @@ class SensorHistoryDialog extends StatelessWidget {
               itemBuilder: (context, index) {
                 var data = sensor.sensorData![index];
                 return ListTile(
-                  title: Text('Pressure: ${data.pressure}'),
-                  subtitle: Text('Date: ${data.timestamp}'),
+                  title: Text(
+                    '${data.pressure} | ${data.longitude} | ${data.latitude} | ${data.timestamp}',
+                  ),
                 );
               },
             ),

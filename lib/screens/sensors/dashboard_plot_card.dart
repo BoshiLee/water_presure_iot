@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water_pressure_iot/cubits/sensor_history_cubit.dart';
+import 'package:water_pressure_iot/cubits/sensor_history/sensor_history_cubit.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
 import 'package:water_pressure_iot/screens/sensors/chart_widget.dart';

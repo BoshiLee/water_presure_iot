@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:water_pressure_iot/constants/page_titles.dart';
-import 'package:water_pressure_iot/cubits/sensors_cubit.dart';
+import 'package:water_pressure_iot/cubits/sensors/sensors_cubit.dart';
 import 'package:water_pressure_iot/screens/sensors/sensors_screen.dart';
 
 class MainContentScreen extends StatelessWidget {

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:csv/csv.dart';
 import 'package:equatable/equatable.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
+import 'package:water_pressure_iot/models/sensor_data.dart';
 
 part 'sensor_history_state.dart';
 
@@ -14,11 +15,17 @@ class SensorHistoryCubit extends Cubit<SensorHistoryState> {
 
   void exportToCsv() {
     List<List<String>> csvData = [
-      ['Pressure', 'Date']
+      ['Name', 'Pressure', 'Date', 'Latitude', 'Longitude']
     ];
 
-    for (var data in sensor.sensorData ?? []) {
-      csvData.add([data.pressure.toString(), data.timestamp.toString()]);
+    for (SensorData data in sensor.sensorData ?? []) {
+      csvData.add([
+        data.sensorNameIdentity.toString(),
+        data.pressure.toString(),
+        data.timestamp.toString(),
+        data.latitude.toString(),
+        data.longitude.toString(),
+      ]);
     }
 
     String csvString = const ListToCsvConverter().convert(csvData);
