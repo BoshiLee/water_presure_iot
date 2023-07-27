@@ -49,7 +49,7 @@ class _SensorsTabbedPageState extends State<SensorsTabbedPage>
           }
           if (state is SensorsDataTableLoaded) {
             return SensorDataTable(
-              sensors: state.sensors,
+              dataHeader: state.dataHeader,
               dataTable: state.dataTable,
             );
           }

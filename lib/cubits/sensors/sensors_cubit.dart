@@ -30,19 +30,12 @@ class SensorsCubit extends Cubit<SensorsState> {
         throw Exception('無法取得感測器資訊');
       }
       sensors = findValidSensors(sensors); // 只保留有sensorData的sensor
-      getAllData();
-      findMinMaxDate(allData);
-      minuteTimestamps = findTimeIntervalBetweenMinMaxTimestamp();
     } catch (e) {
       emit(SensorsError(e.toString()));
     } finally {
       emit(
         SensorsLoaded(
           sensors,
-          timeInterval,
-          minTimestamp,
-          maxTimestamp,
-          minuteTimestamps,
         ),
       );
     }
@@ -53,35 +46,4 @@ class SensorsCubit extends Cubit<SensorsState> {
         (sensor) => sensor.sensorData != null && sensor.sensorData!.isNotEmpty,
       )
       .toList();
-
-  void getAllData() {
-    for (var sensor in sensors) {
-      allData.addAll(sensor.sensorData ?? []);
-    }
-  }
-
-  void findMinMaxDate(List<SensorData> allData) {
-    // 找出所有sensorData的最小和最大timestamp
-    if (allData.isNotEmpty) {
-      List<SensorData> sortedData = List.from(allData)
-        ..sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
-      minTimestamp = sortedData.first.timestamp;
-      maxTimestamp = sortedData.last.timestamp;
-    }
-  }
-
-  List<DateTime> findTimeIntervalBetweenMinMaxTimestamp() {
-    // 計算每一分鐘的時間點
-    List<DateTime> minuteTimestamps = [];
-    if (minTimestamp != null && maxTimestamp != null) {
-      DateTime currentMinute = minTimestamp!.subtract(
-        Duration(seconds: minTimestamp!.second),
-      );
-      while (currentMinute.isBefore(maxTimestamp!)) {
-        minuteTimestamps.add(currentMinute);
-        currentMinute = currentMinute.add(timeInterval);
-      }
-    }
-    return minuteTimestamps;
-  }
 }

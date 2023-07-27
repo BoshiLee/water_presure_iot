@@ -17,16 +17,9 @@ class SensorsLoading extends SensorsState {
 class SensorsLoaded extends SensorsState {
   @override
   final List<Sensor> sensors;
-  final Duration timeInterval; // 時間間隔
-  final DateTime? minTimestamp; // 最早的timestamp
-  final DateTime? maxTimestamp; // 最晚的timestamp
-  final List<DateTime>? minuteTimestamps;
+
   const SensorsLoaded(
     this.sensors,
-    this.timeInterval,
-    this.minTimestamp,
-    this.maxTimestamp,
-    this.minuteTimestamps,
   ) : super(sensors);
 }
 

@@ -15,11 +15,11 @@ class SensorsDataTableLoading extends SensorsDataTableState {
 }
 
 class SensorsDataTableLoaded extends SensorsDataTableState {
-  final List<Sensor> sensors;
+  final List<String> dataHeader;
   final List<List<String>> dataTable;
 
   const SensorsDataTableLoaded({
-    required this.sensors,
+    required this.dataHeader,
     required this.dataTable,
   }) : super();
 

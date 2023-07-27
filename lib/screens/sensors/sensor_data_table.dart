@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:water_pressure_iot/models/sensor.dart';
 
 class SensorDataTable extends StatelessWidget {
-  final List<Sensor> sensors;
+  final List<String> dataHeader;
   final List<List<String>> dataTable;
 
   const SensorDataTable({
     super.key,
-    required this.sensors,
+    required this.dataHeader,
     required this.dataTable,
   });
 
   List<Widget> _buildRows(List<String> dataRow) {
     return dataRow
         .map(
-          (e) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
+          (e) => Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              height: 50,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                ),
               ),
+              child: Text(e),
             ),
-            child: Text(e),
           ),
         )
         .toList();
@@ -28,20 +32,36 @@ class SensorDataTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (sensors.isEmpty) {
+    if (dataHeader.isEmpty) {
       return const Center(
         child: Text('目前尚無壓力計資料'),
       );
     }
     // 取得所有sensor的sensorData，並合併成一個列表
-    return ListView.builder(
-      itemCount: dataTable.length,
-      itemBuilder: (context, index) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: _buildRows(dataTable[index]),
-        );
-      },
+    return Column(
+      children: [
+        SizedBox(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: _buildRows(
+              dataHeader,
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: dataTable.length,
+            itemBuilder: (context, index) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: _buildRows(dataTable[index]),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

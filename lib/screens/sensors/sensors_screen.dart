@@ -36,7 +36,7 @@ class SensorsScreen extends StatelessWidget {
               create: (context) => SensorsDataTableCubit(
                 state.sensors,
                 const Duration(minutes: 1),
-              ),
+              )..initializeData(),
               child: SensorsTabbedPage(
                 sensors: state.sensors,
                 gridItemWidth: gridItemWidth,

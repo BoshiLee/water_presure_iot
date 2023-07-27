@@ -52,6 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   AccountInputField(
+                    initialValue:
+                        context.watch<LoginCubit>().auth.password ?? '',
                     hintText: 'Password',
                     onChanged: (value) {
                       context.read<LoginCubit>().auth.password = value;
