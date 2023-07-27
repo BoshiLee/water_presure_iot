@@ -22,7 +22,12 @@ class ApiResponse {
       final Map<String, dynamic> json = Map<String, dynamic>.from(data);
       this.json = json;
       statusCode = json['statusCode'];
-      message = json['message'];
+      if (json.containsKey('message')) {
+        message = json['message'];
+      }
+      if (json.containsKey('error')) {
+        message = json['error'];
+      }
     }
   }
 }

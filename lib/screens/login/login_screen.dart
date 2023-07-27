@@ -29,6 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
               if (state is LoginLoading) {
                 BotToast.showLoading();
               }
+              if (state is LoginLoaded) {
+                BotToast.closeAllLoading();
+              }
               if (state is LoginSuccess) {
                 BotToast.closeAllLoading();
                 BotToast.showSimpleNotification(
