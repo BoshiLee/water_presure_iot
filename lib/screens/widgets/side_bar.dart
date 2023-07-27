@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:water_pressure_iot/constants/page_titles.dart';
 import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
+import 'package:water_pressure_iot/icons/nbiot_icons.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({
@@ -64,15 +65,12 @@ class Sidebar extends StatelessWidget {
       ),
       footerDivider: divider,
       headerBuilder: (context, extended) {
-        return const SizedBox(
-          height: 100,
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Icon(
-              Icons.account_circle,
-              size: 50,
-              color: Colors.white,
-            ),
+        return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: Icon(
+            Nbiot.itri_logo,
+            size: 50,
+            color: Colors.white,
           ),
         );
       },
