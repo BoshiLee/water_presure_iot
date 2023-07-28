@@ -4,11 +4,13 @@ class SensorDataTable extends StatelessWidget {
   final List<String> dataHeader;
   final List<List<String>> dataTable;
   final VoidCallback? exportCSV;
+  final VoidCallback? exportExcel;
 
   const SensorDataTable({
     super.key,
     required this.dataHeader,
     required this.dataTable,
+    this.exportExcel,
     this.exportCSV,
   });
 
@@ -52,6 +54,13 @@ class SensorDataTable extends StatelessWidget {
               ElevatedButton(
                 onPressed: exportCSV,
                 child: const Text('匯出 CSV'),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              ElevatedButton(
+                onPressed: exportExcel,
+                child: const Text('匯出 Excel'),
               ),
             ],
           ),

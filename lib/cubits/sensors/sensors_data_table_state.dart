@@ -1,27 +1,56 @@
 part of 'sensors_data_table_cubit.dart';
 
 abstract class SensorsDataTableState extends Equatable {
-  const SensorsDataTableState();
+  final List<String>? dataHeader;
+  final List<List<String>>? dataTable;
+  const SensorsDataTableState({this.dataHeader, this.dataTable});
 }
 
 class SensorsDataTableInitial extends SensorsDataTableState {
+  const SensorsDataTableInitial() : super();
+
   @override
   List<Object> get props => [];
 }
 
 class SensorsDataTableLoading extends SensorsDataTableState {
   @override
-  List<Object> get props => [];
+  List<Object> get props => [DateTime.now().toIso8601String()];
 }
 
 class SensorsDataExportLoading extends SensorsDataTableState {
   @override
-  List<Object> get props => [];
+  List<Object> get props => [DateTime.now().toIso8601String()];
 }
 
-class SensorsDataExportLoaded extends SensorsDataTableState {
+class SensorsDataExportCSVLoaded extends SensorsDataTableState {
+  final String csvString;
+  final String fileName;
+
+  const SensorsDataExportCSVLoaded({
+    required this.csvString,
+    required this.fileName,
+    super.dataHeader,
+    super.dataTable,
+  }) : super();
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [DateTime.now().toIso8601String()];
+}
+
+class SensorsDataExportExcelLoaded extends SensorsDataTableState {
+  final List<int> excel;
+  final String fileName;
+
+  const SensorsDataExportExcelLoaded({
+    required this.excel,
+    required this.fileName,
+    super.dataHeader,
+    super.dataTable,
+  }) : super();
+
+  @override
+  List<Object> get props => [DateTime.now().toIso8601String()];
 }
 
 class SensorsDataTableError extends SensorsDataTableState {
@@ -32,11 +61,13 @@ class SensorsDataTableError extends SensorsDataTableState {
   }) : super();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [DateTime.now().toIso8601String()];
 }
 
 class SensorsDataTableLoaded extends SensorsDataTableState {
+  @override
   final List<String> dataHeader;
+  @override
   final List<List<String>> dataTable;
 
   const SensorsDataTableLoaded({
@@ -45,5 +76,5 @@ class SensorsDataTableLoaded extends SensorsDataTableState {
   }) : super();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [DateTime.now().toIso8601String()];
 }
