@@ -1,8 +1,10 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water_pressure_iot/constants/colors.dart';
 import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
 import 'package:water_pressure_iot/cubits/login/login_cubit.dart';
+import 'package:water_pressure_iot/icons/nbiot_icons.dart';
 import 'package:water_pressure_iot/screens/login/account_input_field.dart';
 import 'package:water_pressure_iot/screens/login/remember_me_checkbox.dart';
 
@@ -44,6 +46,29 @@ class _LoginScreenState extends State<LoginScreen> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 40.0),
+                    child: const Column(
+                      children: [
+                        Icon(
+                          Nbiot.itri_logo,
+                          size: 150,
+                          color: itri_blue,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          '壓力計顯示系統',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: itri_black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   AccountInputField(
                     initialValue: context.watch<LoginCubit>().auth.email ?? '',
                     hintText: 'E-mail',
