@@ -1,9 +1,8 @@
-import 'dart:html' as html;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/sensor_history/sensor_history_cubit.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
+import 'package:water_pressure_iot/utils/sava_file_html.dart';
 
 class SensorHistoryDialog extends StatelessWidget {
   const SensorHistoryDialog({
@@ -15,14 +14,7 @@ class SensorHistoryDialog extends StatelessWidget {
     return BlocConsumer<SensorHistoryCubit, SensorHistoryState>(
       listener: (context, state) {
         if (state is SensorHistoryConverted) {
-          final blob = html.Blob([state.csvString]);
-          final url = html.Url.createObjectUrlFromBlob(blob);
-          final _ = html.AnchorElement(href: url)
-            ..setAttribute("download", "${state.sensorName}_history.csv")
-            ..click();
-
-          html.Url.revokeObjectUrl(url);
-
+          webDownloadFile(state.csvString, "${state.sensorName}_history.csv");
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Exported to CSV'),
