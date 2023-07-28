@@ -17,7 +17,7 @@ class SensorHistoryDialog extends StatelessWidget {
         if (state is SensorHistoryConverted) {
           final blob = html.Blob([state.csvString]);
           final url = html.Url.createObjectUrlFromBlob(blob);
-          final anchor = html.AnchorElement(href: url)
+          final _ = html.AnchorElement(href: url)
             ..setAttribute("download", "${state.sensorName}_history.csv")
             ..click();
 

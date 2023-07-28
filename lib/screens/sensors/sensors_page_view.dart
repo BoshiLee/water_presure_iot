@@ -4,8 +4,8 @@ import 'package:water_pressure_iot/constants/colors.dart';
 import 'package:water_pressure_iot/cubits/sensors/sensors_data_table_cubit.dart';
 import 'package:water_pressure_iot/icons/nbiot_icons.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
-import 'package:water_pressure_iot/screens/sensors/sensor_data_table.dart';
-import 'package:water_pressure_iot/screens/sensors/sensors_gird_view.dart';
+import 'package:water_pressure_iot/screens/sensors/chart/sensors_gird_view.dart';
+import 'package:water_pressure_iot/screens/sensors/table/sensor_data_table.dart';
 
 class SensorsTabbedPage extends StatefulWidget {
   final double gridItemWidth;
@@ -56,6 +56,7 @@ class _SensorsTabbedPageState extends State<SensorsTabbedPage>
             return SensorDataTable(
               dataHeader: state.dataHeader,
               dataTable: state.dataTable,
+              exportCSV: context.read<SensorsDataTableCubit>().generateCsvFile,
             );
           }
           return const Center(

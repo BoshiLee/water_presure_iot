@@ -1,22 +1,15 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
-import 'package:water_pressure_iot/models/sensor_data.dart';
 import 'package:water_pressure_iot/repository/sensor_repository.dart';
 
 part 'sensors_state.dart';
 
 class SensorsCubit extends Cubit<SensorsState> {
   final SensorRepository _repository = SensorRepository();
-  List<Sensor> sensors = [];
-  List<SensorData> allData = [];
-  List<DateTime>? minuteTimestamps;
-  Duration timeInterval;
-  DateTime? minTimestamp;
-  DateTime? maxTimestamp;
-  SensorsCubit({
-    this.timeInterval = const Duration(minutes: 1),
-  }) : super(SensorsInitial()) {
+  List<Sensor> _sensors = [];
+
+  SensorsCubit() : super(const SensorsInitial()) {
     fetchSensors();
   }
 
@@ -25,18 +18,20 @@ class SensorsCubit extends Cubit<SensorsState> {
   Future<void> fetchSensors() async {
     emit(const SensorsLoading());
     try {
-      sensors = await _repository.fetchSensors();
-      if (sensors.isEmpty) {
+      _sensors = await _repository.fetchSensors();
+      if (_sensors.isEmpty) {
         throw Exception('無法取得感測器資訊');
       }
-      sensors = findValidSensors(sensors); // 只保留有sensorData的sensor
+      // 只保留有sensorData的sensor
+      _sensors = await compute<List<Sensor>, List<Sensor>>(
+        findValidSensors,
+        _sensors,
+      );
     } catch (e) {
       emit(SensorsError(e.toString()));
     } finally {
       emit(
-        SensorsLoaded(
-          sensors,
-        ),
+        SensorsLoaded(_sensors),
       );
     }
   }

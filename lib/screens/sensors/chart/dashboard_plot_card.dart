@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/sensor_history/sensor_history_cubit.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
-import 'package:water_pressure_iot/screens/sensors/chart_widget.dart';
-import 'package:water_pressure_iot/screens/sensors/dashboard_card.dart';
-import 'package:water_pressure_iot/screens/sensors/sensor_history_dialog.dart';
+import 'package:water_pressure_iot/screens/sensors/chart/chart_widget.dart';
+import 'package:water_pressure_iot/screens/sensors/chart/dashboard_card.dart';
+import 'package:water_pressure_iot/screens/sensors/chart/sensor_history_dialog.dart';
 
 class DashboardChartCard extends StatelessWidget {
   final Sensor? sensor;

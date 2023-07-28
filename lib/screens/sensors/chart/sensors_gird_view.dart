@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
-import 'package:water_pressure_iot/screens/sensors/dashboard_plot_card.dart';
+import 'package:water_pressure_iot/screens/sensors/chart/dashboard_plot_card.dart';
 
 class SensorsGridview extends StatelessWidget {
   final double gridItemWidth;

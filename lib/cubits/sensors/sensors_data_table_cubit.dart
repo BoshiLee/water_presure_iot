@@ -1,23 +1,26 @@
 import 'package:bloc/bloc.dart';
+import 'package:csv/csv.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobx/mobx.dart';
+import 'package:flutter/foundation.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
 
 part 'sensors_data_table_state.dart';
 
 class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
-  @observable
   List<Sensor>? sensors = [];
 
-  @observable
   List<List<String>> dataTable = [];
 
   List<String> get dataHeader {
     if (sensors == null || sensors!.isEmpty) {
       return [];
     }
-    return ['Time', for (var sensor in sensors!) '${sensor.nameIdentity}'];
+    return [
+      'UID',
+      'Time',
+      for (var sensor in sensors!) '${sensor.nameIdentity}',
+    ];
   }
 
   final Duration timeInterval;
@@ -25,28 +28,28 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   SensorsDataTableCubit(
     this.sensors,
     this.timeInterval,
-  ) : super(SensorsDataTableInitial()) {}
+  ) : super(SensorsDataTableInitial()) {
+    initializeData();
+  }
 
-  @action
   Future<void> initializeData() async {
     emit(SensorsDataTableLoading());
-
-    await Future.delayed(
-      Duration.zero,
-      () {
-        List<SensorData> allData = _flatAllSensorData(sensors!);
-        dataTable = _generateDataTable(allData);
-        emit(
-          SensorsDataTableLoaded(
-            dataHeader: dataHeader,
-            dataTable: dataTable,
-          ),
-        );
-      },
+    List<SensorData> allData = await compute<List<Sensor>, List<SensorData>>(
+      _flatAllSensorData,
+      sensors!,
+    );
+    dataTable = await compute<List<SensorData>, List<List<String>>>(
+      _generateDataTable,
+      allData,
+    );
+    emit(
+      SensorsDataTableLoaded(
+        dataHeader: dataHeader,
+        dataTable: dataTable,
+      ),
     );
   }
 
-  @computed
   List<SensorData> _flatAllSensorData(List<Sensor> sensors) {
     List<SensorData> flatData = [];
     for (var sensor in sensors) {
@@ -55,7 +58,6 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     return flatData;
   }
 
-  @computed
   List<List<String>> _generateDataTable(List<SensorData> allData) {
     if (sensors == null || sensors!.isEmpty) {
       return [];
@@ -69,6 +71,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     List<List<String>> dataTable = [];
     for (SensorData data in allData) {
       List<String> row = [];
+      row.add(data.id?.toString() ?? '--');
       row.add(data.timestamp!.toIso8601String());
       if (data.sensorNameIdentity == null &&
           sensorDataMap[data.sensorNameIdentity!] == null) {
@@ -81,10 +84,26 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
         } else {
           row.add('--');
         }
-        dataTable.add(row);
       }
+      dataTable.add(row);
     }
 
     return dataTable;
+  }
+
+  void generateCsvFile() async {
+    emit(SensorsDataExportLoading());
+    final String csvString = await compute<List<List<String>>, String>(
+      createCSVString,
+      dataTable,
+    );
+  }
+
+  String createCSVString(List<List<String>> dataTable) {
+    List<List<dynamic>> rows = dataTable
+        .map((row) => row.map((cell) => cell as dynamic).toList())
+        .toList();
+    List<String> headers = dataHeader;
+    return const ListToCsvConverter().convert(rows);
   }
 }
