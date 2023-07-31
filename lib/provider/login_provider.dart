@@ -11,11 +11,4 @@ class LoginProvider {
       data: auth.toJson(),
     );
   }
-
-  Future<Map<String, dynamic>?> register({required RegisterAuth auth}) async {
-    return await _helper.post(
-      '/accounts/register',
-      data: auth.toJson(),
-    );
-  }
 }
