@@ -95,6 +95,30 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      '請再次輸入用戶密碼',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                  AccountInputField(
+                    // initialValue: context.watch<LoginCubit>().auth.email ?? '',
+                    hintText: 'Enter Password Again',
+                    obscureText: true,
+                    onChanged: (value) => context
+                        .read<RegisterCubit>()
+                        .auth
+                        .passwordConfirmation = value,
+                  ),
+                ],
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20.0),

@@ -40,7 +40,6 @@ class RegisterAuth extends LoginAuth {
       'name': name,
       'email': email,
       'password': password,
-      'password_confirmation': passwordConfirmation,
     };
   }
 
