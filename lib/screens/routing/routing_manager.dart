@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
 import 'package:water_pressure_iot/cubits/register/register_cubit.dart';
 import 'package:water_pressure_iot/screens/register/register_screen.dart';
 import 'package:water_pressure_iot/screens/routing/navigator_extension.dart';
@@ -48,9 +47,7 @@ class RoutingManager {
         context,
         BlocProvider(
           create: (context) {
-            return RegisterCubit(
-              context.read<AppCubit>(),
-            );
+            return RegisterCubit();
           },
           child: const RegisterScreen(),
         ),

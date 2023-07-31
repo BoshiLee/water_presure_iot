@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/register/register_cubit.dart';
@@ -21,7 +22,11 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
       body: BlocConsumer<RegisterCubit, RegisterState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is RegisterFailure) {
+            BotToast.showSimpleNotification(title: state.errorMessage);
+          }
+        },
         builder: (context, stata) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +47,8 @@ class RegisterScreen extends StatelessWidget {
                   AccountInputField(
                     // initialValue: context.watch<LoginCubit>().auth.email ?? '',
                     hintText: 'Username',
-                    onChanged: (value) {},
+                    onChanged: (value) =>
+                        context.read<RegisterCubit>().auth.name = value,
                   ),
                 ],
               ),
@@ -62,7 +68,8 @@ class RegisterScreen extends StatelessWidget {
                   AccountInputField(
                     // initialValue: context.watch<LoginCubit>().auth.email ?? '',
                     hintText: 'E-mail',
-                    onChanged: (value) {},
+                    onChanged: (value) =>
+                        context.read<RegisterCubit>().auth.email = value,
                   ),
                 ],
               ),
@@ -83,7 +90,8 @@ class RegisterScreen extends StatelessWidget {
                     // initialValue: context.watch<LoginCubit>().auth.email ?? '',
                     hintText: 'Password',
                     obscureText: true,
-                    onChanged: (value) {},
+                    onChanged: (value) =>
+                        context.read<RegisterCubit>().auth.password = value,
                   ),
                 ],
               ),
@@ -91,9 +99,7 @@ class RegisterScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20.0),
                 ),
-                onPressed: () {
-                  // context.read<LoginCubit>().login();
-                },
+                onPressed: context.read<RegisterCubit>().register,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: 10.0,

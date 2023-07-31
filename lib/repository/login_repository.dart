@@ -9,6 +9,11 @@ class LoginRepository {
   final LoginProvider _loginProvider = LoginProvider();
 
   Future<Account?> login(LoginAuth auth) async {
+    try {
+      auth.validate();
+    } catch (e) {
+      throw BadRequestException(e.toString());
+    }
     final response = await _loginProvider.login(auth: auth);
     if (response == null) throw BadRequestException('無法取得帳號資訊');
     return compute<Map<String, dynamic>, Account?>(
@@ -18,6 +23,11 @@ class LoginRepository {
   }
 
   Future<Account?> register(RegisterAuth auth) async {
+    try {
+      auth.validate();
+    } catch (e) {
+      throw BadRequestException(e.toString());
+    }
     final response = await _loginProvider.register(auth: auth);
     if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
     return compute<Map<String, dynamic>, Account?>(
