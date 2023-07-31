@@ -32,6 +32,26 @@ class RegisterScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
+                      '請輸入用戶名稱',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                  AccountInputField(
+                    // initialValue: context.watch<LoginCubit>().auth.email ?? '',
+                    hintText: 'Username',
+                    onChanged: (value) {},
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
                       '請輸入用戶 Email',
                       style: TextStyle(
                         fontSize: 16.0,

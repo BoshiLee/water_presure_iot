@@ -16,4 +16,13 @@ class LoginRepository {
       response,
     );
   }
+
+  Future<Account?> register(RegisterAuth auth) async {
+    final response = await _loginProvider.register(auth: auth);
+    if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
+    return compute<Map<String, dynamic>, Account?>(
+      ParseJsonHelper.parseAccount,
+      response,
+    );
+  }
 }
