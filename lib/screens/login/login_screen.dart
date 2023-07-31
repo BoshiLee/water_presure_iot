@@ -1,12 +1,12 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water_pressure_iot/constants/colors.dart';
 import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
 import 'package:water_pressure_iot/cubits/login/login_cubit.dart';
-import 'package:water_pressure_iot/icons/nbiot_icons.dart';
 import 'package:water_pressure_iot/screens/login/account_input_field.dart';
+import 'package:water_pressure_iot/screens/login/login_logo_widget.dart';
 import 'package:water_pressure_iot/screens/login/remember_me_checkbox.dart';
+import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -48,26 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   Container(
                     margin: const EdgeInsets.only(bottom: 40.0),
-                    child: const Column(
-                      children: [
-                        Icon(
-                          Nbiot.itri_logo,
-                          size: 150,
-                          color: itri_blue,
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Text(
-                          '壓力計顯示系統',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: itri_black,
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: const LoginLogoWidgets(),
                   ),
                   AccountInputField(
                     initialValue: context.watch<LoginCubit>().auth.email ?? '',
@@ -80,12 +61,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     initialValue:
                         context.watch<LoginCubit>().auth.password ?? '',
                     hintText: 'Password',
+                    obscureText: true,
                     onChanged: (value) {
                       context.read<LoginCubit>().auth.password = value;
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 20.0),
+                    padding: const EdgeInsets.fromLTRB(
+                      20.0,
+                      0,
+                      0,
+                      20.0,
+                    ),
                     child: RememberMeCheckBox(
                       initialValue: context.watch<LoginCubit>().rememberMail,
                       onChanged: (value) {
@@ -105,6 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: Text('登入'),
                     ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      RoutingManager.pushToRegisterScreen(context);
+                    },
+                    child: const Text('註冊帳號'),
                   ),
                 ],
               );
