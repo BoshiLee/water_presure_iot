@@ -8,7 +8,7 @@ class Config {
       case Flavor.PRODUCTION:
         return 'prod.nbiot.itri.org.tw';
       case Flavor.DEVELOPMENT:
-        return 'dev.nbiot.itri.org.tw';
+        return '192.168.1.169:5000';
       case Flavor.LOCALHOST:
         return '127.0.0.1:5000';
 

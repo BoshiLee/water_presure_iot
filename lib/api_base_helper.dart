@@ -16,6 +16,10 @@ class ApiBaseHelper {
         return Uri.http(
           Config.host,
         ).toString();
+      case Flavor.DEVELOPMENT:
+        return Uri.http(
+          Config.host,
+        ).toString();
       default:
         return Uri.https(
           Config.host,
