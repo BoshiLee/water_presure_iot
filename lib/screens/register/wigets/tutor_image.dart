@@ -4,11 +4,14 @@ class TutorImage extends StatelessWidget {
   final String title;
   final String imagePath;
   final double size;
-  const TutorImage(
-      {super.key,
-      required this.title,
-      required this.imagePath,
-      required this.size});
+  final BoxFit imageFit;
+  const TutorImage({
+    super.key,
+    required this.title,
+    required this.imagePath,
+    required this.size,
+    this.imageFit = BoxFit.fitHeight,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class TutorImage extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(imagePath),
-                fit: BoxFit.fitHeight,
+                fit: imageFit,
               ),
               color: Colors.blueGrey[50],
               borderRadius: BorderRadius.circular(25.5),
