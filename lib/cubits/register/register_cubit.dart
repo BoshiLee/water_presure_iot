@@ -13,6 +13,17 @@ class RegisterCubit extends Cubit<RegisterState> {
     auth = RegisterAuth();
   }
 
+  void validAuthAndPushToNextPage() {
+    try {
+      auth.validate();
+      emit(RegisterValid());
+    } catch (e) {
+      emit(RegisterFailure(e.toString()));
+    } finally {
+      emit(RegisterLoaded());
+    }
+  }
+
   Future<void> register() async {
     emit(RegisterLoading());
     try {
