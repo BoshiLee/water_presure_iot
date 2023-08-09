@@ -23,7 +23,7 @@ class RegisterScreen extends StatelessWidget {
       body: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state is RegisterValid) {
-            RoutingManager.pushToRegisterDeviceScreen(context);
+            RoutingManager.pushToRegisterProjectTutorScreen(context);
           }
           if (state is RegisterFailure) {
             BotToast.showSimpleNotification(title: state.errorMessage);

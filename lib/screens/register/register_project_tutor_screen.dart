@@ -31,7 +31,7 @@ class RegisterProjectTutorScreen extends StatelessWidget {
                 textStyle: const TextStyle(fontSize: 20.0),
               ),
               onPressed: () {
-                RoutingManager.pushToRegisterDeviceScreen(context);
+                RoutingManager.pushToRegisterProjectScreen(context);
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(

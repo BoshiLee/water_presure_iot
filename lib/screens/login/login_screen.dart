@@ -102,12 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {
-                              RoutingManager.pushToRegisterDeviceTutorScreen(
-                                  context);
-                              // RoutingManager.pushToRegisterProjectTutorScreen(context);
-                              // RoutingManager.pushToRegisterScreen(context);
-                            },
+                            onPressed: () =>
+                                RoutingManager.pushToRegisterScreen(context),
                             child: const Text('註冊帳號'),
                           ),
                         ],

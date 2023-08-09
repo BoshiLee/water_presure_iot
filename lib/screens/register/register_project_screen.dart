@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_pressure_iot/screens/register/wigets/title_input_field.dart';
+import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
 
 class RegisterProjectScreen extends StatelessWidget {
   static const id = 'register_project_screen';
@@ -68,7 +69,9 @@ class RegisterProjectScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 20.0),
               ),
-              onPressed: () {},
+              onPressed: () {
+                RoutingManager.pushToRegisterDeviceTutorScreen(context);
+              },
               child: const Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 10.0,
