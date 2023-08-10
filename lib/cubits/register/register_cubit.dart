@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:water_pressure_iot/config.dart';
+import 'package:water_pressure_iot/flavor.dart';
 import 'package:water_pressure_iot/models/account.dart';
 import 'package:water_pressure_iot/models/login_auth.dart';
 import 'package:water_pressure_iot/repository/register_repository.dart';
@@ -10,7 +12,15 @@ class RegisterCubit extends Cubit<RegisterState> {
   final RegisterRepository _repository = RegisterRepository();
   late RegisterAuth auth;
   RegisterCubit() : super(RegisterInitial()) {
-    auth = RegisterAuth();
+    if (Config.appFlavor != Flavor.DEVELOPMENT) {
+      auth = RegisterAuth();
+    }
+    auth = RegisterAuth(
+      name: 'test',
+      email: 'test@dev.com',
+      password: '123456',
+      passwordConfirmation: '123456',
+    );
   }
 
   void validAuthAndPushToNextPage() {

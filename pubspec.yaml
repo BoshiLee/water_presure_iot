@@ -49,6 +49,7 @@ dependencies:
   csv: ^5.0.2
   file_picker: ^5.3.3
   syncfusion_flutter_xlsio: ^22.2.5
+  page_view_dot_indicator: ^2.3.0
 
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
@@ -32,6 +33,13 @@ class App extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
+          dragDevices: {
+            PointerDeviceKind.touch,
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.trackpad,
+          },
+        ),
         debugShowCheckedModeBanner: false,
         builder: (context, child) {
           child = Scaffold(

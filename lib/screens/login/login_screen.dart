@@ -47,6 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -103,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TextButton(
                             onPressed: () =>
-                                RoutingManager.pushToRegisterScreen(context),
+                                RoutingManager.pushToRegisterScreen(
+                              context,
+                            ),
                             child: const Text('註冊帳號'),
                           ),
                         ],

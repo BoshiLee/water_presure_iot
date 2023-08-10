@@ -34,18 +34,21 @@ class RegisterScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TitleInputField(
+                initialValue: context.read<RegisterCubit>().auth.name,
                 title: '請輸入用戶名稱',
                 hintText: 'Username',
                 onChanged: (value) =>
                     context.read<RegisterCubit>().auth.name = value,
               ),
               TitleInputField(
+                initialValue: context.read<RegisterCubit>().auth.email,
                 title: '請輸入用戶 Email',
                 hintText: 'E-mail',
                 onChanged: (value) =>
                     context.read<RegisterCubit>().auth.email = value,
               ),
               TitleInputField(
+                initialValue: context.read<RegisterCubit>().auth.password,
                 title: '請輸入用戶密碼',
                 hintText: 'Password',
                 obscureText: true,
@@ -53,6 +56,8 @@ class RegisterScreen extends StatelessWidget {
                     context.read<RegisterCubit>().auth.password = value,
               ),
               TitleInputField(
+                initialValue:
+                    context.read<RegisterCubit>().auth.passwordConfirmation,
                 title: '請再次輸入用戶密碼',
                 hintText: 'Enter Password Again',
                 obscureText: true,

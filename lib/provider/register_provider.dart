@@ -22,7 +22,7 @@ class RegisterProvider {
       'devices': devices.map((e) => e.toJson()).toList(),
     };
     return await _helper.post(
-      '/projects/$projectId/devices/register',
+      '/projects/$projectId/devices/register/multiple',
       data: data,
     );
   }
