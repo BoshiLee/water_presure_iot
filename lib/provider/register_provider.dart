@@ -14,12 +14,24 @@ class RegisterProvider {
     );
   }
 
-  Future<Map<String, dynamic>?> registerDevice({
-    required Device device,
+  Future<Map<String, dynamic>?> registerDevices({
+    required int projectId,
+    required List<Device> devices,
   }) async {
+    Map<String, dynamic> data = {
+      'devices': devices.map((e) => e.toJson()).toList(),
+    };
     return await _helper.post(
-      '/devices/register',
-      data: device.toJson(),
+      '/projects/$projectId/devices/register',
+      data: data,
+    );
+  }
+
+  Future<Map<String, dynamic>?> importChtDevice({
+    required int projectId,
+  }) async {
+    return await _helper.get(
+      '/projects/$projectId/devices/nbiot',
     );
   }
 

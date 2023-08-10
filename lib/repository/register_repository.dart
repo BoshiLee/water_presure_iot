@@ -25,7 +25,7 @@ class RegisterRepository {
     );
   }
 
-  Future<ApiResponse> registerProject(Project project) async {
+  Future<Project> registerProject(Project project) async {
     try {
       project.validate();
     } catch (e) {
@@ -33,19 +33,50 @@ class RegisterRepository {
     }
     final response = await _regisProvider.registerProject(project: project);
     if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
-    return compute<Map<String, dynamic>, ApiResponse>(
-      ParseJsonHelper.parseApiResponse,
+    return compute<Map<String, dynamic>, Project>(
+      ParseJsonHelper.parseProject,
       response,
     );
   }
 
-  Future<ApiResponse> registerDevice(Device device) async {
-    try {
-      device.validate();
-    } catch (e) {
-      throw BadRequestException(e.toString());
+  Future<List<Device>> importDevicesFromCHT({
+    required int projectId,
+  }) async {
+    final response = await _regisProvider.importChtDevice(
+      projectId: projectId,
+    );
+    if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
+    ApiResponse result = await compute<Map<String, dynamic>, ApiResponse>(
+      ParseJsonHelper.parseApiResponse,
+      response,
+    );
+    if (result.json == null) throw BadRequestException('線上無可用的設備');
+    if (!result.json!.keys.contains('devices')) {
+      throw BadRequestException('線上無可用的設備');
     }
-    final response = await _regisProvider.registerDevice(device: device);
+    List<Device> devices = await compute<Map<String, dynamic>, List<Device>>(
+      ParseJsonHelper.parseDevices,
+      result.json!,
+    );
+    if (devices.isEmpty) throw BadRequestException('線上無可用的設備');
+    return devices;
+  }
+
+  Future<ApiResponse> registerDevices({
+    required int projectId,
+    required List<Device> devices,
+  }) async {
+    for (Device device in devices) {
+      try {
+        device.validate();
+      } catch (e) {
+        throw BadRequestException(e.toString());
+      }
+    }
+    final response = await _regisProvider.registerDevices(
+      devices: devices,
+      projectId: projectId,
+    );
     if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
     return compute<Map<String, dynamic>, ApiResponse>(
       ParseJsonHelper.parseApiResponse,

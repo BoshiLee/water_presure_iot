@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(fontSize: 10.0),
                         ),
                         Text(
-                          '材化所 K900 版權所有 © 2023',
+                          '材化所 K900 智慧運維研究室 版權所有 © 2023',
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 10.0),
                         ),

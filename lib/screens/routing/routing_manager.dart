@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water_pressure_iot/cubits/register/device/register_device_cubit.dart';
 import 'package:water_pressure_iot/cubits/register/register_cubit.dart';
+import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/screens/register/register_device_screen.dart';
 import 'package:water_pressure_iot/screens/register/register_device_tutor_screen.dart';
 import 'package:water_pressure_iot/screens/register/register_project_screen.dart';
@@ -77,17 +79,25 @@ class RoutingManager {
       );
 
   static void pushToRegisterDeviceTutorScreen(
-    BuildContext context,
-  ) =>
+    BuildContext context, {
+    required int projectId,
+  }) =>
       NavigatorExtension.navigateToNextPage(
         context,
-        const RegisterDeviceTutorScreen(),
+        BlocProvider(
+          create: (context) {
+            return RegisterDeviceTutorCubit(projectId: projectId);
+          },
+          child: const RegisterDeviceTutorScreen(),
+        ),
         RegisterDeviceTutorScreen.id,
       );
 
   static void pushToRegisterDeviceScreen(
-    BuildContext context,
-  ) =>
+    BuildContext context, {
+    required int projectId,
+    required List<Device> devices,
+  }) =>
       NavigatorExtension.navigateToNextPage(
         context,
         const RegisterDeviceScreen(),

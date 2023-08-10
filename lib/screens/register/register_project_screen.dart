@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water_pressure_iot/cubits/register/project/register_project_cubit.dart';
 import 'package:water_pressure_iot/screens/register/wigets/title_input_field.dart';
 import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
 
@@ -17,71 +19,97 @@ class RegisterProjectScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      '請輸入專案資訊',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
+      body: BlocConsumer<RegisterProjectCubit, RegisterProjectState>(
+        listener: (context, state) {
+          if (state is RegisterProjectSuccess) {
+            RoutingManager.pushToRegisterDeviceTutorScreen(
+              context,
+              projectId: state.projectId,
+            );
+          }
+        },
+        builder: (context, state) {
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          '請輸入專案資訊',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
+                      TitleInputField(
+                        title: '輸入專案名稱',
+                        hintText: 'Project Name',
+                        onChanged: (value) => context
+                            .read<RegisterProjectCubit>()
+                            .project
+                            .name = value,
+                      ),
+                      TitleInputField(
+                        title: '輸入專案描述',
+                        hintText: 'Project Description',
+                        onChanged: (value) => context
+                            .read<RegisterProjectCubit>()
+                            .project
+                            .description = value,
+                      ),
+                      TitleInputField(
+                        title: '輸入專案領域',
+                        hintText: 'Project Application Field',
+                        onChanged: (value) => context
+                            .read<RegisterProjectCubit>()
+                            .project
+                            .applicationField = value,
+                      ),
+                      TitleInputField(
+                        title: '輸入專案代碼',
+                        hintText: 'Project code',
+                        onChanged: (value) => context
+                            .read<RegisterProjectCubit>()
+                            .project
+                            .projectCode = value,
+                      ),
+                      TitleInputField(
+                        title: '輸入專案金鑰',
+                        hintText: 'Project Key',
+                        obscureText: true,
+                        onChanged: (value) => context
+                            .read<RegisterProjectCubit>()
+                            .project
+                            .projectKey = value,
+                      ),
+                    ],
                   ),
-                  TitleInputField(
-                    title: '輸入專案名稱',
-                    hintText: 'Project Name',
-                    onChanged: (value) {},
-                  ),
-                  TitleInputField(
-                    title: '輸入專案描述',
-                    hintText: 'Project Description',
-                    onChanged: (value) {},
-                  ),
-                  TitleInputField(
-                    title: '輸入專案領域',
-                    hintText: 'Project Application Field',
-                    onChanged: (value) {},
-                  ),
-                  TitleInputField(
-                    title: '輸入專案代碼',
-                    hintText: 'Project code',
-                    onChanged: (value) {},
-                  ),
-                  TitleInputField(
-                    title: '輸入專案金鑰',
-                    hintText: 'Project Key',
-                    obscureText: true,
-                    onChanged: (value) {},
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 20.0),
-              ),
-              onPressed: () {
-                RoutingManager.pushToRegisterDeviceTutorScreen(context);
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 50.0,
                 ),
-                child: Text('送出'),
               ),
-            ),
-          ),
-        ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20.0),
+                  ),
+                  onPressed:
+                      context.read<RegisterProjectCubit>().registerProject,
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 50.0,
+                    ),
+                    child: Text('送出'),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
