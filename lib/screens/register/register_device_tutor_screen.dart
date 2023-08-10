@@ -1,7 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water_pressure_iot/cubits/register/device/register_device_cubit.dart';
+import 'package:water_pressure_iot/cubits/register/device/register_device_tutor_cubit.dart';
 import 'package:water_pressure_iot/screens/register/wigets/register_device_tutorial.dart';
 import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
 

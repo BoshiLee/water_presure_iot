@@ -62,7 +62,7 @@ class RegisterRepository {
     return devices;
   }
 
-  Future<ApiResponse> registerDevices({
+  Future<List<Device>> registerDevices({
     required int projectId,
     required List<Device> devices,
   }) async {
@@ -78,8 +78,15 @@ class RegisterRepository {
       projectId: projectId,
     );
     if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
-    return compute<Map<String, dynamic>, ApiResponse>(
+    ApiResponse result = await compute<Map<String, dynamic>, ApiResponse>(
       ParseJsonHelper.parseApiResponse,
+      response,
+    );
+    if (!result.json!.keys.contains('devices')) {
+      throw BadRequestException('註冊失敗，請稍後再試');
+    }
+    return compute<Map<String, dynamic>, List<Device>>(
+      ParseJsonHelper.parseDevices,
       response,
     );
   }

@@ -1,29 +1,28 @@
 part of 'register_device_cubit.dart';
 
-abstract class RegisterDeviceTutorState extends Equatable {
-  const RegisterDeviceTutorState();
+abstract class RegisterDeviceState extends Equatable {
+  const RegisterDeviceState();
 }
 
-class RegisterDeviceTutorInitial extends RegisterDeviceTutorState {
+class RegisterDeviceInitial extends RegisterDeviceState {
   @override
   List<Object> get props => [];
 }
 
-class RegisterDeviceTutorLoading extends RegisterDeviceTutorState {
+class RegisterDeviceLoading extends RegisterDeviceState {
   @override
   List<Object> get props => [DateTime.now().toIso8601String()];
 }
 
-class RegisterDeviceTutorLoaded extends RegisterDeviceTutorState {
+class RegisterDeviceLoaded extends RegisterDeviceState {
   @override
   List<Object> get props => [DateTime.now().toIso8601String()];
 }
 
-class RegisterDeviceTutorImportSuccess extends RegisterDeviceTutorState {
+class RegisterDeviceSuccess extends RegisterDeviceState {
   final List<Device> devices;
-  final int projectId;
-  const RegisterDeviceTutorImportSuccess({
-    required this.projectId,
+
+  const RegisterDeviceSuccess({
     required this.devices,
   });
 
@@ -31,10 +30,10 @@ class RegisterDeviceTutorImportSuccess extends RegisterDeviceTutorState {
   List<Object?> get props => [DateTime.now().toIso8601String()];
 }
 
-class RegisterDeviceTutorFailure extends RegisterDeviceTutorState {
+class RegisterDeviceFailure extends RegisterDeviceState {
   final String error;
 
-  const RegisterDeviceTutorFailure(this.error);
+  const RegisterDeviceFailure(this.error);
 
   @override
   List<Object?> get props => [error];

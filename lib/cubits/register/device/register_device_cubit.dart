@@ -5,29 +5,34 @@ import 'package:water_pressure_iot/repository/register_repository.dart';
 
 part 'register_device_state.dart';
 
-class RegisterDeviceTutorCubit extends Cubit<RegisterDeviceTutorState> {
-  final RegisterRepository _repository = RegisterRepository();
+class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
   final int projectId;
+  final List<Device> chtDevices;
+  final RegisterRepository _repository = RegisterRepository();
   List<Device> devices = [];
 
-  RegisterDeviceTutorCubit({required this.projectId})
-      : super(RegisterDeviceTutorInitial());
+  RegisterDeviceCubit({
+    required this.projectId,
+    required this.chtDevices,
+  }) : super(RegisterDeviceInitial());
 
-  Future<void> importDevicesFromCHT() async {
-    emit(RegisterDeviceTutorLoading());
+  Future<void> registerDevices() async {
+    emit(RegisterDeviceLoading());
     try {
-      final List<Device> result = await _repository.importDevicesFromCHT(
+      final List<Device> result = await _repository.registerDevices(
+        devices: devices,
         projectId: projectId,
       );
       devices = result;
-      emit(RegisterDeviceTutorImportSuccess(
-        projectId: projectId,
-        devices: devices,
-      ));
+      emit(
+        RegisterDeviceSuccess(
+          devices: devices,
+        ),
+      );
     } catch (e) {
-      emit(RegisterDeviceTutorFailure(e.toString()));
+      emit(RegisterDeviceFailure(e.toString()));
     } finally {
-      emit(RegisterDeviceTutorLoaded());
+      emit(RegisterDeviceLoaded());
     }
   }
 }
