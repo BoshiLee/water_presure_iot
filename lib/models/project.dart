@@ -7,11 +7,11 @@ class Project {
   String? projectKey;
 
   Project({
-    name,
-    description,
-    applicationField,
-    projectCode,
-    projectKey,
+    this.name,
+    this.description,
+    this.applicationField,
+    this.projectCode,
+    this.projectKey,
   });
 
   void validate() {

@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/register/project/register_project_cubit.dart';
@@ -21,6 +22,15 @@ class RegisterProjectScreen extends StatelessWidget {
       ),
       body: BlocConsumer<RegisterProjectCubit, RegisterProjectState>(
         listener: (context, state) {
+          if (state is RegisterProjectFailure) {
+            BotToast.showText(text: state.error);
+          }
+          if (state is RegisterProjectLoading) {
+            BotToast.showLoading();
+          }
+          if (state is RegisterProjectLoaded) {
+            BotToast.closeAllLoading();
+          }
           if (state is RegisterProjectSuccess) {
             RoutingManager.pushToRegisterDeviceTutorScreen(
               context,
@@ -33,6 +43,7 @@ class RegisterProjectScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  key: const PageStorageKey('register_project_screen'),
                   child: Column(
                     children: [
                       const Padding(
@@ -46,6 +57,8 @@ class RegisterProjectScreen extends StatelessWidget {
                         ),
                       ),
                       TitleInputField(
+                        initialValue:
+                            context.watch<RegisterProjectCubit>().project.name,
                         title: '輸入專案名稱',
                         hintText: 'Project Name',
                         onChanged: (value) => context
@@ -54,6 +67,10 @@ class RegisterProjectScreen extends StatelessWidget {
                             .name = value,
                       ),
                       TitleInputField(
+                        initialValue: context
+                            .watch<RegisterProjectCubit>()
+                            .project
+                            .description,
                         title: '輸入專案描述',
                         hintText: 'Project Description',
                         onChanged: (value) => context
@@ -62,14 +79,22 @@ class RegisterProjectScreen extends StatelessWidget {
                             .description = value,
                       ),
                       TitleInputField(
-                        title: '輸入專案領域',
+                        initialValue: context
+                            .watch<RegisterProjectCubit>()
+                            .project
+                            .applicationField,
+                        title: '輸入應用領域',
                         hintText: 'Project Application Field',
                         onChanged: (value) => context
-                            .read<RegisterProjectCubit>()
+                            .watch<RegisterProjectCubit>()
                             .project
                             .applicationField = value,
                       ),
                       TitleInputField(
+                        initialValue: context
+                            .watch<RegisterProjectCubit>()
+                            .project
+                            .projectCode,
                         title: '輸入專案代碼',
                         hintText: 'Project code',
                         onChanged: (value) => context
@@ -78,11 +103,15 @@ class RegisterProjectScreen extends StatelessWidget {
                             .projectCode = value,
                       ),
                       TitleInputField(
+                        initialValue: context
+                            .watch<RegisterProjectCubit>()
+                            .project
+                            .projectKey,
                         title: '輸入專案金鑰',
                         hintText: 'Project Key',
                         obscureText: true,
                         onChanged: (value) => context
-                            .read<RegisterProjectCubit>()
+                            .watch<RegisterProjectCubit>()
                             .project
                             .projectKey = value,
                       ),

@@ -29,55 +29,74 @@ class RegisterScreen extends StatelessWidget {
             BotToast.showSimpleNotification(title: state.errorMessage);
           }
         },
-        builder: (context, stata) {
+        builder: (context, state) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TitleInputField(
-                initialValue: context.read<RegisterCubit>().auth.name,
-                title: '請輸入用戶名稱',
-                hintText: 'Username',
-                onChanged: (value) =>
-                    context.read<RegisterCubit>().auth.name = value,
+            children: [
+              const SizedBox(
+                height: 20.0,
               ),
-              TitleInputField(
-                initialValue: context.read<RegisterCubit>().auth.email,
-                title: '請輸入用戶 Email',
-                hintText: 'E-mail',
-                onChanged: (value) =>
-                    context.read<RegisterCubit>().auth.email = value,
-              ),
-              TitleInputField(
-                initialValue: context.read<RegisterCubit>().auth.password,
-                title: '請輸入用戶密碼',
-                hintText: 'Password',
-                obscureText: true,
-                onChanged: (value) =>
-                    context.read<RegisterCubit>().auth.password = value,
-              ),
-              TitleInputField(
-                initialValue:
-                    context.read<RegisterCubit>().auth.passwordConfirmation,
-                title: '請再次輸入用戶密碼',
-                hintText: 'Enter Password Again',
-                obscureText: true,
-                onChanged: (value) => context
-                    .read<RegisterCubit>()
-                    .auth
-                    .passwordConfirmation = value,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20.0),
-                ),
-                onPressed:
-                    context.read<RegisterCubit>().validAuthAndPushToNextPage,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 50.0,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      TitleInputField(
+                        initialValue: context.read<RegisterCubit>().auth.name,
+                        title: '請輸入用戶名稱',
+                        hintText: 'Username',
+                        onChanged: (value) =>
+                            context.read<RegisterCubit>().auth.name = value,
+                      ),
+                      TitleInputField(
+                        initialValue: context.read<RegisterCubit>().auth.email,
+                        title: '請輸入用戶 Email',
+                        hintText: 'E-mail',
+                        onChanged: (value) =>
+                            context.read<RegisterCubit>().auth.email = value,
+                      ),
+                      TitleInputField(
+                        initialValue:
+                            context.read<RegisterCubit>().auth.password,
+                        title: '請輸入用戶密碼',
+                        hintText: 'Password',
+                        obscureText: true,
+                        onChanged: (value) =>
+                            context.read<RegisterCubit>().auth.password = value,
+                      ),
+                      TitleInputField(
+                        initialValue: context
+                            .read<RegisterCubit>()
+                            .auth
+                            .passwordConfirmation,
+                        title: '請再次輸入用戶密碼',
+                        hintText: 'Enter Password Again',
+                        obscureText: true,
+                        onChanged: (value) => context
+                            .read<RegisterCubit>()
+                            .auth
+                            .passwordConfirmation = value,
+                      ),
+                    ],
                   ),
-                  child: Text('下一步'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20.0,
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20.0),
+                  ),
+                  onPressed:
+                      context.read<RegisterCubit>().validAuthAndPushToNextPage,
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 50.0,
+                    ),
+                    child: Text('下一步'),
+                  ),
                 ),
               ),
             ],

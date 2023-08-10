@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:water_pressure_iot/config.dart';
+import 'package:water_pressure_iot/flavor.dart';
 import 'package:water_pressure_iot/models/project.dart';
 import 'package:water_pressure_iot/repository/register_repository.dart';
 
@@ -10,7 +12,16 @@ class RegisterProjectCubit extends Cubit<RegisterProjectState> {
   late Project project;
 
   RegisterProjectCubit() : super(RegisterProjectInitial()) {
-    project = Project();
+    if (Config.appFlavor == Flavor.PRODUCTION) {
+      project = Project();
+    }
+    project = Project(
+      name: 'KST-WATER_PRESSURE-NBIOT',
+      description: 'KST-WATER_PRESSURE-NBIOT',
+      applicationField: 'Others',
+      projectCode: '27483',
+      projectKey: 'PK1BWRZ0KAMWBUTC5F',
+    );
   }
 
   Future<void> registerProject() async {
