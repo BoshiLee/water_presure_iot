@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water_pressure_iot/screens/register/wigets/title_input_field.dart';
 
 class RegisterDeviceScreen extends StatelessWidget {
   static const id = 'register_Device_screen';
@@ -18,55 +17,17 @@ class RegisterDeviceScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      '請輸入設備資訊',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  TitleInputField(
-                    title: '輸入設備名稱',
-                    hintText: 'Device Name',
-                    onChanged: (value) {},
-                  ),
-                  TitleInputField(
-                    title: '輸入設備描述',
-                    hintText: 'Device Description',
-                    onChanged: (value) {},
-                  ),
-                  TitleInputField(
-                    title: '輸入設備 uri',
-                    hintText: 'Device uri',
-                    onChanged: (value) {},
-                  ),
-                  TitleInputField(
-                    title: '輸入設備類型',
-                    hintText: 'Device Type',
-                    onChanged: (value) {},
-                  ),
-                  // TitleInputField(
-                  //   title: '輸入設備代碼',
-                  //   hintText: 'Device number',
-                  //   onChanged: (value) {},
-                  // ),
-                  TitleInputField(
-                    title: '輸入設備金鑰',
-                    hintText: 'Device Key',
-                    obscureText: true,
-                    onChanged: (value) {},
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Expanded(
+          //   child: RegisterDeviceForm(
+          //     initDevice: const Device(
+          //       name: '',
+          //       description: '',
+          //       uri: '',
+          //       type: '',
+          //     ),
+          //     onChanged: (value) {},
+          //   )
+          // ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: ElevatedButton(

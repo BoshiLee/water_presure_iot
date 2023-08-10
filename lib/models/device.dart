@@ -38,6 +38,26 @@ class Device {
     if (projectId == null) throw Exception('請選擇專案');
   }
 
+  Device copyWith({
+    String? name,
+    String? description,
+    String? uri,
+    String? type,
+    String? deviceKey,
+    String? deviceNumber,
+    int? projectId,
+  }) {
+    return Device(
+      name: name ?? this.name,
+      description: description ?? this.description,
+      uri: uri ?? this.uri,
+      type: type ?? this.type,
+      deviceKey: deviceKey ?? this.deviceKey,
+      deviceNumber: deviceNumber ?? this.deviceNumber,
+      projectId: projectId ?? this.projectId,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
