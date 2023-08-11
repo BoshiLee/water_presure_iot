@@ -69,9 +69,10 @@ class ApiBaseHelper {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
       HttpHeaders.accessControlAllowOriginHeader: '*', // CORS
       HttpHeaders.accessControlAllowMethodsHeader:
-          'GET,PUT,POST,DELETE, PATCH, OPTIONS, CREATE', // CORS
+          'GET, PUT, POST, DELETE, PATCH, OPTIONS, CREATE', // CORS
       HttpHeaders.accessControlAllowHeadersHeader:
-          'Origin, Authorization, Content-Type, Accept', // CORS
+          'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization', // CORS
+      HttpHeaders.accessControlAllowCredentialsHeader: 'true', // CORS
     };
     if (UserRepository.shared.hasJWT) {
       final String? authToken = UserRepository.shared.jwt;
