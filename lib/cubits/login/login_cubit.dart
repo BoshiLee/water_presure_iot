@@ -57,10 +57,11 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginLoading());
       project = await _registerRepository.getPreferProject();
     } catch (e) {
-      print(e.toString());
       emit(LoginError(e.toString()));
+      _userRepository.registerProgress == RegisterProgress.registeredUser;
     } finally {
       emit(LoginLoaded());
+      emit(LoginResumeRegisterProgress(_userRepository.registerProgress));
     }
   }
 
