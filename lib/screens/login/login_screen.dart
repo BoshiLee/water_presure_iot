@@ -47,13 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
               }
               if (state is LoginResumeRegisterProgress) {
                 switch (state.registerProgress) {
-                  case RegisterProgress.registered:
+                  case RegisterProgress.registeredUser:
                     RoutingManager.pushToRegisterProjectTutorScreen(context);
                     break;
                   case RegisterProgress.registeredProject:
-                    RoutingManager.pushToRegisterProjectScreen(context);
-                    break;
-                  case RegisterProgress.registeredProjectAndDevices:
                     int? projectId = context.read<LoginCubit>().project?.id;
                     if (projectId == null) {
                       RoutingManager.pushToRegisterProjectScreen(context);
@@ -63,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         projectId: projectId,
                       );
                     }
-                    break;
                   default:
                     RoutingManager.pushToRegisterScreen(
                       context,

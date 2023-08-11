@@ -48,11 +48,12 @@ class LoginCubit extends Cubit<LoginState> {
       emit(const LoginResumeRegisterProgress(null));
       return;
     }
-    if (pg != RegisterProgress.registeredProjectAndDevices) {
+    if (pg != RegisterProgress.registeredProject) {
       emit(LoginResumeRegisterProgress(pg));
       return;
     }
     try {
+      // 因為已註冊完專案的話應該可進入到註冊裝置，這時應該先預取得裝置
       emit(LoginLoading());
       project = await _registerRepository.getPreferProject();
     } catch (e) {

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/repository/register_repository.dart';
+import 'package:water_pressure_iot/repository/user_repository.dart';
 
 part 'register_device_state.dart';
 
@@ -24,6 +25,7 @@ class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
         projectId: projectId,
       );
       devices = result;
+      UserRepository.shared.registerProgress = null; // reset register progress
       emit(
         RegisterDeviceSuccess(
           devices: devices,

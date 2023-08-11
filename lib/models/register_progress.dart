@@ -1,21 +1,15 @@
 enum RegisterProgress {
-  unregistered,
-  registered,
+  registeredUser,
   registeredProject,
-  registeredProjectAndDevices
 }
 
 extension RegisterProgressExtension on RegisterProgress {
   String? get rawValue {
     switch (this) {
-      case RegisterProgress.unregistered:
-        return 'unregistered';
-      case RegisterProgress.registered:
-        return 'registered';
+      case RegisterProgress.registeredUser:
+        return 'registeredUser';
       case RegisterProgress.registeredProject:
         return 'registeredProject';
-      case RegisterProgress.registeredProjectAndDevices:
-        return 'registeredProjectAndDevices';
       default:
         return null;
     }
@@ -23,14 +17,10 @@ extension RegisterProgressExtension on RegisterProgress {
 
   static RegisterProgress? fromRawValue(String? rawValue) {
     switch (rawValue) {
-      case 'unregistered':
-        return RegisterProgress.unregistered;
-      case 'registered':
-        return RegisterProgress.registered;
+      case 'registeredUser':
+        return RegisterProgress.registeredUser;
       case 'registeredProject':
         return RegisterProgress.registeredProject;
-      case 'registeredProjectAndDevices':
-        return RegisterProgress.registeredProjectAndDevices;
       default:
         return null;
     }

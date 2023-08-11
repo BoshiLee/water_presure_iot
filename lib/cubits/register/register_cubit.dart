@@ -34,7 +34,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       if (account.token != null) {
         _userRepository.jwt = account.token;
         _userRepository.email = account.email;
-        _userRepository.registerProgress = RegisterProgress.registered;
+        _userRepository.registerProgress = RegisterProgress.registeredUser;
       }
       emit(RegisterSuccess(account));
     } catch (e) {

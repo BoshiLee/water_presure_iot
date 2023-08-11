@@ -51,12 +51,10 @@ class UserRepository {
     return SharedPreferencesUtils.getBool(AppKey.REMEMBER_ME);
   }
 
-  RegisterProgress? get registerProgress {
-    return RegisterProgressExtension.fromRawValue(
-          SharedPreferencesUtils.getString(AppKey.REGISTER_PROGRESS),
-        ) ??
-        RegisterProgress.unregistered;
-  }
+  RegisterProgress? get registerProgress =>
+      RegisterProgressExtension.fromRawValue(
+        SharedPreferencesUtils.getString(AppKey.REGISTER_PROGRESS),
+      );
 
   set registerProgress(RegisterProgress? registerProgress) {
     SharedPreferencesUtils.putString(
