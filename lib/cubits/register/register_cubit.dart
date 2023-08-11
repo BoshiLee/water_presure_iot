@@ -5,11 +5,13 @@ import 'package:water_pressure_iot/flavor.dart';
 import 'package:water_pressure_iot/models/account.dart';
 import 'package:water_pressure_iot/models/login_auth.dart';
 import 'package:water_pressure_iot/repository/register_repository.dart';
+import 'package:water_pressure_iot/repository/user_repository.dart';
 
 part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   final RegisterRepository _repository = RegisterRepository();
+  final UserRepository _userRepository = UserRepository.shared;
   late RegisterAuth auth;
   RegisterCubit() : super(RegisterInitial()) {
     if (Config.appFlavor == Flavor.PRODUCTION) {
@@ -39,6 +41,9 @@ class RegisterCubit extends Cubit<RegisterState> {
     try {
       final account = await _repository.registerAccount(auth);
       if (account == null) throw Exception('註冊失敗，請稍後再試');
+      if (account.token != null) {
+        _userRepository.jwt = account.token;
+      }
       emit(RegisterSuccess(account));
     } catch (e) {
       emit(RegisterFailure(e.toString()));

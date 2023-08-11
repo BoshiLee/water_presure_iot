@@ -22,6 +22,15 @@ class RegisterScreen extends StatelessWidget {
       ),
       body: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
+          if (state is RegisterLoading) {
+            BotToast.showLoading();
+          }
+          if (state is RegisterLoading) {
+            BotToast.showLoading();
+          }
+          if (state is RegisterSuccess) {
+            RoutingManager.pushToRegisterProjectTutorScreen(context);
+          }
           if (state is RegisterValid) {
             RoutingManager.pushToRegisterProjectTutorScreen(context);
           }
@@ -88,8 +97,7 @@ class RegisterScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
                   ),
-                  onPressed:
-                      context.read<RegisterCubit>().validAuthAndPushToNextPage,
+                  onPressed: context.read<RegisterCubit>().register,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 10.0,

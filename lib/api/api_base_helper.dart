@@ -2,14 +2,18 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:water_pressure_iot/api/api_versioning.dart';
 import 'package:water_pressure_iot/config.dart';
 import 'package:water_pressure_iot/repository/user_repository.dart';
 
-import 'api/api_response.dart';
-import 'api/app_exception.dart';
-import 'flavor.dart';
+import '../flavor.dart';
+import 'api_response.dart';
+import 'app_exception.dart';
 
 class ApiBaseHelper {
+  final ApiVersioning apiVersion;
+  ApiBaseHelper({this.apiVersion = ApiVersioning.v1});
+
   get baseUrl {
     switch (Config.appFlavor) {
       case Flavor.LOCALHOST:
@@ -19,10 +23,16 @@ class ApiBaseHelper {
       case Flavor.DEVELOPMENT:
         return Uri.http(
           Config.host,
+          Config.apiVersioning(
+            version: apiVersion,
+          ),
         ).toString();
       default:
         return Uri.https(
           Config.host,
+          Config.apiVersioning(
+            version: apiVersion,
+          ),
         ).toString();
     }
   }
@@ -32,6 +42,7 @@ class ApiBaseHelper {
       BaseOptions(
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
+        receiveDataWhenStatusError: true,
         baseUrl: baseUrl,
       ),
     )..interceptors.add(
@@ -46,8 +57,6 @@ class ApiBaseHelper {
           // logPrint: (obj) => debugPrint(obj.toString()),
         ),
       );
-    // ..httpClientAdapter = client;
-
     return dio;
   }
 
@@ -55,6 +64,11 @@ class ApiBaseHelper {
     Map<String, dynamic> map = {
       HttpHeaders.acceptHeader: ContentType.json.toString(),
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
+      HttpHeaders.accessControlAllowOriginHeader: '*', // CORS
+      HttpHeaders.accessControlAllowMethodsHeader:
+          'GET,PUT,POST,DELETE', // CORS
+      HttpHeaders.accessControlAllowHeadersHeader:
+          'Origin, Authorization, Content-Type, Accept', // CORS
     };
     if (UserRepository.shared.hasJWT) {
       final String? authToken = UserRepository.shared.jwt;
@@ -353,7 +367,7 @@ class ApiBaseHelper {
       case DioExceptionType.unknown:
         if (e.error is SocketException) {
           return NetworkConnectException(
-            'No Internet connection',
+            '網路請求異常, ${e.error}',
             retryHandler: retryHandler,
           );
         }
