@@ -4,6 +4,7 @@ import 'package:water_pressure_iot/config.dart';
 import 'package:water_pressure_iot/flavor.dart';
 import 'package:water_pressure_iot/models/account.dart';
 import 'package:water_pressure_iot/models/login_auth.dart';
+import 'package:water_pressure_iot/models/register_progress.dart';
 import 'package:water_pressure_iot/repository/register_repository.dart';
 import 'package:water_pressure_iot/repository/user_repository.dart';
 
@@ -25,17 +26,6 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
   }
 
-  void validAuthAndPushToNextPage() {
-    try {
-      auth.validate();
-      emit(RegisterValid());
-    } catch (e) {
-      emit(RegisterFailure(e.toString()));
-    } finally {
-      emit(RegisterLoaded());
-    }
-  }
-
   Future<void> register() async {
     emit(RegisterLoading());
     try {
@@ -43,6 +33,8 @@ class RegisterCubit extends Cubit<RegisterState> {
       if (account == null) throw Exception('註冊失敗，請稍後再試');
       if (account.token != null) {
         _userRepository.jwt = account.token;
+        _userRepository.email = account.email;
+        _userRepository.registerProgress = RegisterProgress.registered;
       }
       emit(RegisterSuccess(account));
     } catch (e) {

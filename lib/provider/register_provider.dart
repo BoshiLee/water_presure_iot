@@ -27,9 +27,9 @@ class RegisterProvider {
     );
   }
 
-  Future<Map<String, dynamic>?> getProject() async {
+  Future<Map<String, dynamic>?> getPreferProject() async {
     return await _helper.get(
-      '/projects',
+      '/projects/prefer',
     );
   }
 

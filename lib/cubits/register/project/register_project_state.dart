@@ -10,6 +10,10 @@ class RegisterProjectInitial extends RegisterProjectState {
 }
 
 class RegisterProjectLoading extends RegisterProjectState {
+  final String message;
+
+  const RegisterProjectLoading({this.message = 'Loading...'});
+
   @override
   List<Object> get props => [DateTime.now().toIso8601String()];
 }

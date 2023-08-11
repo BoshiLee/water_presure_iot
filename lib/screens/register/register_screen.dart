@@ -5,6 +5,8 @@ import 'package:water_pressure_iot/cubits/register/register_cubit.dart';
 import 'package:water_pressure_iot/screens/register/wigets/title_input_field.dart';
 import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
 
+import '../widgets/custom_loading_widget.dart';
+
 class RegisterScreen extends StatelessWidget {
   static const id = 'register_screen';
 
@@ -23,19 +25,18 @@ class RegisterScreen extends StatelessWidget {
       body: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state is RegisterLoading) {
-            BotToast.showLoading();
-          }
-          if (state is RegisterLoading) {
-            BotToast.showLoading();
+            BotToast.showCustomLoading(
+              toastBuilder: (_) => const CustomLoadingWidget(),
+            );
           }
           if (state is RegisterSuccess) {
             RoutingManager.pushToRegisterProjectTutorScreen(context);
           }
-          if (state is RegisterValid) {
-            RoutingManager.pushToRegisterProjectTutorScreen(context);
-          }
           if (state is RegisterFailure) {
             BotToast.showSimpleNotification(title: state.errorMessage);
+          }
+          if (state is RegisterLoaded) {
+            BotToast.closeAllLoading();
           }
         },
         builder: (context, state) {
@@ -97,8 +98,7 @@ class RegisterScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
                   ),
-                  onPressed:
-                      context.read<RegisterCubit>().validAuthAndPushToNextPage,
+                  onPressed: context.read<RegisterCubit>().register,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 10.0,

@@ -37,6 +37,15 @@ class LoginError extends LoginState {
   List<Object> get props => [message];
 }
 
+class LoginResumeRegisterProgress extends LoginState {
+  final RegisterProgress? registerProgress;
+
+  const LoginResumeRegisterProgress(this.registerProgress);
+
+  @override
+  List<Object> get props => [DateTime.now().toIso8601String()];
+}
+
 class LoginSuccess extends LoginState {
   final Account account;
 

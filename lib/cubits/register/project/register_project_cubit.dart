@@ -4,6 +4,7 @@ import 'package:water_pressure_iot/config.dart';
 import 'package:water_pressure_iot/flavor.dart';
 import 'package:water_pressure_iot/models/project.dart';
 import 'package:water_pressure_iot/repository/register_repository.dart';
+import 'package:water_pressure_iot/repository/user_repository.dart';
 
 part 'register_project_state.dart';
 
@@ -25,11 +26,17 @@ class RegisterProjectCubit extends Cubit<RegisterProjectState> {
   }
 
   Future<void> getProject() async {
-    emit(RegisterProjectLoading());
+    if (!UserRepository.shared.hasJWT) {
+      return;
+    }
+    emit(
+      const RegisterProjectLoading(message: '讀取專案資料中...'),
+    );
     try {
-      project = await _repository.getProject();
-      if (project.id == null) throw Exception('註冊失敗，請稍後再試');
-      emit(RegisterProjectSuccess(project.id!));
+      final Project project = await _repository.getPreferProject();
+      if (project.id == null) {
+        this.project = project;
+      }
     } catch (e) {
       emit(RegisterProjectFailure(e.toString()));
     } finally {
@@ -38,7 +45,9 @@ class RegisterProjectCubit extends Cubit<RegisterProjectState> {
   }
 
   Future<void> registerProject() async {
-    emit(RegisterProjectLoading());
+    emit(
+      const RegisterProjectLoading(message: '註冊專案中...'),
+    );
     try {
       project = await _repository.registerProject(project);
       if (project.id == null) throw Exception('註冊失敗，請稍後再試');

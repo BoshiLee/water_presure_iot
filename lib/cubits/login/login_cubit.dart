@@ -3,7 +3,10 @@ import 'package:equatable/equatable.dart';
 import 'package:water_pressure_iot/constants/test_accounts.dart';
 import 'package:water_pressure_iot/models/account.dart';
 import 'package:water_pressure_iot/models/login_auth.dart';
+import 'package:water_pressure_iot/models/project.dart';
+import 'package:water_pressure_iot/models/register_progress.dart';
 import 'package:water_pressure_iot/repository/login_repository.dart';
+import 'package:water_pressure_iot/repository/register_repository.dart';
 import 'package:water_pressure_iot/repository/user_repository.dart';
 
 part 'login_state.dart';
@@ -11,6 +14,8 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final UserRepository _userRepository = UserRepository.shared;
   final LoginRepository _loginRepository = LoginRepository();
+  final RegisterRepository _registerRepository = RegisterRepository();
+  Project? project;
 
   LoginCubit() : super(LoginInitial()) {
     if (_userRepository.email != null && _userRepository.email!.isNotEmpty) {
@@ -35,6 +40,26 @@ class LoginCubit extends Cubit<LoginState> {
 
   bool get rememberMail {
     return _userRepository.rememberMe;
+  }
+
+  void checkRegisterProgress() async {
+    RegisterProgress? pg = _userRepository.registerProgress;
+    if (pg == null) {
+      emit(const LoginResumeRegisterProgress(null));
+      return;
+    }
+    if (pg != RegisterProgress.registeredProjectAndDevices) {
+      emit(LoginResumeRegisterProgress(pg));
+      return;
+    }
+    try {
+      emit(LoginLoading());
+      project = await _registerRepository.getPreferProject();
+    } catch (e) {
+      emit(LoginError(e.toString()));
+    } finally {
+      emit(LoginLoaded());
+    }
   }
 
   void login() async {

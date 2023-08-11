@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
 import 'package:water_pressure_iot/cubits/login/login_cubit.dart';
+import 'package:water_pressure_iot/models/register_progress.dart';
 import 'package:water_pressure_iot/screens/login/account_input_field.dart';
 import 'package:water_pressure_iot/screens/login/login_logo_widget.dart';
 import 'package:water_pressure_iot/screens/login/remember_me_checkbox.dart';
 import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
+import 'package:water_pressure_iot/screens/widgets/custom_loading_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,7 +31,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 BotToast.showSimpleNotification(title: state.message);
               }
               if (state is LoginLoading) {
-                BotToast.showLoading();
+                BotToast.showCustomLoading(
+                  toastBuilder: (_) => const CustomLoadingWidget(),
+                );
               }
               if (state is LoginLoaded) {
                 BotToast.closeAllLoading();
@@ -40,6 +44,32 @@ class _LoginScreenState extends State<LoginScreen> {
                   title: "Hi, ${state.account.name} 歡迎您回來",
                 );
                 context.read<AppCubit>().authenticator();
+              }
+              if (state is LoginResumeRegisterProgress) {
+                switch (state.registerProgress) {
+                  case RegisterProgress.registered:
+                    RoutingManager.pushToRegisterProjectTutorScreen(context);
+                    break;
+                  case RegisterProgress.registeredProject:
+                    RoutingManager.pushToRegisterProjectScreen(context);
+                    break;
+                  case RegisterProgress.registeredProjectAndDevices:
+                    int? projectId = context.read<LoginCubit>().project?.id;
+                    if (projectId == null) {
+                      RoutingManager.pushToRegisterProjectScreen(context);
+                    } else {
+                      RoutingManager.pushToRegisterDeviceTutorScreen(
+                        context,
+                        projectId: projectId,
+                      );
+                    }
+                    break;
+                  default:
+                    RoutingManager.pushToRegisterScreen(
+                      context,
+                    );
+                    break;
+                }
               }
             },
             builder: (context, state) {
@@ -106,9 +136,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () => RoutingManager.pushToRegisterScreen(
-                          context,
-                        ),
+                        onPressed: () {
+                          context.read<LoginCubit>().checkRegisterProgress();
+                        },
                         child: const Text('註冊帳號'),
                       ),
                     ],

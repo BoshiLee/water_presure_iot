@@ -14,11 +14,6 @@ class RegisterLoading extends RegisterState {
   List<Object> get props => [DateTime.now().toIso8601String()];
 }
 
-class RegisterValid extends RegisterState {
-  @override
-  List<Object> get props => [DateTime.now().toIso8601String()];
-}
-
 class RegisterSuccess extends RegisterState {
   final Account account;
 

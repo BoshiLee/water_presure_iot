@@ -25,8 +25,8 @@ class RegisterRepository {
     );
   }
 
-  Future<Project> getProject() async {
-    final response = await _regisProvider.getProject();
+  Future<Project> getPreferProject() async {
+    final response = await _regisProvider.getPreferProject();
     if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
     return compute<Map<String, dynamic>, Project>(
       ParseJsonHelper.parseProject,

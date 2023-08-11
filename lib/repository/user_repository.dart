@@ -1,4 +1,5 @@
 import 'package:water_pressure_iot/constants/app_keys.dart';
+import 'package:water_pressure_iot/models/register_progress.dart';
 import 'package:water_pressure_iot/utils/shared_preferences_utils.dart';
 
 class UserRepository {
@@ -48,5 +49,19 @@ class UserRepository {
 
   bool get rememberMe {
     return SharedPreferencesUtils.getBool(AppKey.REMEMBER_ME);
+  }
+
+  RegisterProgress? get registerProgress {
+    return RegisterProgressExtension.fromRawValue(
+          SharedPreferencesUtils.getString(AppKey.REGISTER_PROGRESS),
+        ) ??
+        RegisterProgress.unregistered;
+  }
+
+  set registerProgress(RegisterProgress? registerProgress) {
+    SharedPreferencesUtils.putString(
+      AppKey.REGISTER_PROGRESS,
+      registerProgress?.rawValue ?? '',
+    );
   }
 }
