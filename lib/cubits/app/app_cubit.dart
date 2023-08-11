@@ -27,11 +27,15 @@ class AppCubit extends Cubit<AppState> {
   bool rememberMe = false;
 
   void authenticator() async {
-    if (_userRepository.hasJWT) {
-      emit(AppAuthenticated());
-    } else {
+    if (!_userRepository.hasJWT) {
       emit(AppNotLogin());
+      return;
     }
+    if (_userRepository.registerProgress == null) {
+      emit(AppAuthenticated());
+      return;
+    }
+    emit(AppNotLogin());
   }
 
   void logout() async {

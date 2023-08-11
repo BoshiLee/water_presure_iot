@@ -44,7 +44,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   void checkRegisterProgress() async {
     RegisterProgress? pg = _userRepository.registerProgress;
-    if (pg == null) {
+    if (pg == null || _userRepository.jwt == null) {
       emit(const LoginResumeRegisterProgress(null));
       return;
     }
