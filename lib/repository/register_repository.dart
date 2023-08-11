@@ -27,10 +27,11 @@ class RegisterRepository {
 
   Future<Project> getPreferProject() async {
     final response = await _regisProvider.getPreferProject();
-    if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
+    if (response == null) throw BadRequestException('獲取失敗，請稍後再試');
+    if (response['project'] == null) throw BadRequestException('獲取失敗，請稍後再試');
     return compute<Map<String, dynamic>, Project>(
       ParseJsonHelper.parseProject,
-      response,
+      response['project'],
     );
   }
 
@@ -42,9 +43,10 @@ class RegisterRepository {
     }
     final response = await _regisProvider.registerProject(project: project);
     if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
+    if (response['project'] == null) throw BadRequestException('註冊失敗，請稍後再試');
     return compute<Map<String, dynamic>, Project>(
       ParseJsonHelper.parseProject,
-      response,
+      response['project'],
     );
   }
 
