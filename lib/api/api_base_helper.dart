@@ -100,6 +100,16 @@ class ApiBaseHelper {
           responseType: responseType,
         ),
       );
+    } on DioException catch (e) {
+      throw DioExceptionHandler(
+        e,
+        () => post(
+          url,
+          queryParameters: queryParameters,
+        ),
+      );
+    } catch (error) {
+      throw error;
     }
   }
 
