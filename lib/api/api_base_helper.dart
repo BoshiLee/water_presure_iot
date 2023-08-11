@@ -67,12 +67,6 @@ class ApiBaseHelper {
     Map<String, dynamic> map = {
       HttpHeaders.acceptHeader: ContentType.json.toString(),
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
-      HttpHeaders.accessControlAllowOriginHeader: '*', // CORS
-      HttpHeaders.accessControlAllowMethodsHeader:
-          'GET, PUT, POST, DELETE, PATCH, OPTIONS, CREATE', // CORS
-      HttpHeaders.accessControlAllowHeadersHeader:
-          'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization', // CORS
-      HttpHeaders.accessControlAllowCredentialsHeader: 'true', // CORS
     };
     if (UserRepository.shared.hasJWT) {
       final String? authToken = UserRepository.shared.jwt;
