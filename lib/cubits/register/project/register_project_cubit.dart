@@ -31,12 +31,14 @@ class RegisterProjectCubit extends Cubit<RegisterProjectState> {
       const RegisterProjectLoading(message: '註冊專案中...'),
     );
     try {
-      project = await _repository.registerProject(project);
+      Project project = await _repository.registerProject(this.project);
       if (project.id == null) throw Exception('註冊失敗，請稍後再試');
+      this.project = project;
       emit(RegisterProjectSuccess(project.id!));
       UserRepository.shared.registerProgress =
           RegisterProgress.registeredProject;
     } catch (e) {
+      UserRepository.shared.registerProgress = null;
       emit(RegisterProjectFailure(e.toString()));
     } finally {
       emit(RegisterProjectLoaded());
