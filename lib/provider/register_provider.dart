@@ -27,6 +27,12 @@ class RegisterProvider {
     );
   }
 
+  Future<Map<String, dynamic>?> getProject() async {
+    return await _helper.get(
+      '/projects',
+    );
+  }
+
   Future<Map<String, dynamic>?> importChtDevice({
     required int projectId,
   }) async {

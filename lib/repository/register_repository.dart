@@ -25,6 +25,15 @@ class RegisterRepository {
     );
   }
 
+  Future<Project> getProject() async {
+    final response = await _regisProvider.getProject();
+    if (response == null) throw BadRequestException('註冊失敗，請稍後再試');
+    return compute<Map<String, dynamic>, Project>(
+      ParseJsonHelper.parseProject,
+      response,
+    );
+  }
+
   Future<Project> registerProject(Project project) async {
     try {
       project.validate();

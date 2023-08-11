@@ -24,18 +24,18 @@ class RegisterProjectCubit extends Cubit<RegisterProjectState> {
     );
   }
 
-  // Future<void> getPorject() async {
-  //   emit(RegisterProjectLoading());
-  //   try {
-  //     project = await _repository.getProject(project);
-  //     if (project.id == null) throw Exception('註冊失敗，請稍後再試');
-  //     emit(RegisterProjectSuccess(project.id!));
-  //   } catch (e) {
-  //     emit(RegisterProjectFailure(e.toString()));
-  //   } finally {
-  //     emit(RegisterProjectLoaded());
-  //   }
-  // }
+  Future<void> getProject() async {
+    emit(RegisterProjectLoading());
+    try {
+      project = await _repository.getProject();
+      if (project.id == null) throw Exception('註冊失敗，請稍後再試');
+      emit(RegisterProjectSuccess(project.id!));
+    } catch (e) {
+      emit(RegisterProjectFailure(e.toString()));
+    } finally {
+      emit(RegisterProjectLoaded());
+    }
+  }
 
   Future<void> registerProject() async {
     emit(RegisterProjectLoading());
