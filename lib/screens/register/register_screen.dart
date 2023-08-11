@@ -97,7 +97,8 @@ class RegisterScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
                   ),
-                  onPressed: context.read<RegisterCubit>().register,
+                  onPressed:
+                      context.read<RegisterCubit>().validAuthAndPushToNextPage,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 10.0,

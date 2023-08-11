@@ -19,6 +19,9 @@ class ApiBaseHelper {
       case Flavor.LOCALHOST:
         return Uri.http(
           Config.host,
+          Config.apiVersioning(
+            version: apiVersion,
+          ),
         ).toString();
       case Flavor.DEVELOPMENT:
         return Uri.http(
@@ -66,7 +69,7 @@ class ApiBaseHelper {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
       HttpHeaders.accessControlAllowOriginHeader: '*', // CORS
       HttpHeaders.accessControlAllowMethodsHeader:
-          'GET,PUT,POST,DELETE', // CORS
+          'GET,PUT,POST,DELETE, PATCH, OPTIONS, CREATE', // CORS
       HttpHeaders.accessControlAllowHeadersHeader:
           'Origin, Authorization, Content-Type, Accept', // CORS
     };
