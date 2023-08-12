@@ -2,7 +2,9 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/register/device/register_device_tutor_cubit.dart';
+import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/screens/register/wigets/register_device_tutorial.dart';
+import 'package:water_pressure_iot/screens/routing/dialog_helper.dart';
 import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
 
 class RegisterDeviceTutorScreen extends StatelessWidget {
@@ -23,7 +25,18 @@ class RegisterDeviceTutorScreen extends StatelessWidget {
       body: BlocConsumer<RegisterDeviceTutorCubit, RegisterDeviceTutorState>(
         listener: (context, state) {
           if (state is RegisterDeviceTutorFailure) {
-            BotToast.showText(text: state.error);
+            showAlertDialog(context,
+                title: '取得設備出錯',
+                content: state.error,
+                defaultActionText: '確認', defaultAction: () {
+              RoutingManager.pushToRegisterDeviceScreen(
+                context,
+                projectId: context.read<RegisterDeviceTutorCubit>().projectId,
+                devices: [
+                  Device(),
+                ],
+              );
+            });
           }
           if (state is RegisterDeviceTutorImportSuccess) {
             RoutingManager.pushToRegisterDeviceScreen(

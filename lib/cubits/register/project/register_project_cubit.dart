@@ -38,7 +38,7 @@ class RegisterProjectCubit extends Cubit<RegisterProjectState> {
       UserRepository.shared.registerProgress =
           RegisterProgress.registeredProject;
     } catch (e) {
-      UserRepository.shared.registerProgress = null;
+      UserRepository.shared.registerProgress = RegisterProgress.registeredUser;
       emit(RegisterProjectFailure(e.toString()));
     } finally {
       emit(RegisterProjectLoaded());

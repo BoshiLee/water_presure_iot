@@ -86,7 +86,7 @@ class RegisterProjectScreen extends StatelessWidget {
                         title: '輸入應用領域',
                         hintText: 'Project Application Field',
                         onChanged: (value) => context
-                            .watch<RegisterProjectCubit>()
+                            .read<RegisterProjectCubit>()
                             .project
                             .applicationField = value,
                       ),
@@ -111,7 +111,7 @@ class RegisterProjectScreen extends StatelessWidget {
                         hintText: 'Project Key',
                         obscureText: true,
                         onChanged: (value) => context
-                            .watch<RegisterProjectCubit>()
+                            .read<RegisterProjectCubit>()
                             .project
                             .projectKey = value,
                       ),
