@@ -8,13 +8,12 @@ part 'register_device_state.dart';
 
 class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
   final int projectId;
-  final List<Device> chtDevices;
   final RegisterRepository _repository = RegisterRepository();
   List<Device> devices = [];
 
   RegisterDeviceCubit({
     required this.projectId,
-    required this.chtDevices,
+    required this.devices,
   }) : super(RegisterDeviceInitial());
 
   Future<void> registerDevices() async {

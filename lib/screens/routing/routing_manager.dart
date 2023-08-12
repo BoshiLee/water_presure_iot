@@ -111,7 +111,7 @@ class RoutingManager {
           create: (context) {
             return RegisterDeviceCubit(
               projectId: projectId,
-              chtDevices: devices,
+              devices: devices,
             );
           },
           child: const RegisterDeviceScreen(),
