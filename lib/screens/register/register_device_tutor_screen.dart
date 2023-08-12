@@ -25,18 +25,26 @@ class RegisterDeviceTutorScreen extends StatelessWidget {
       body: BlocConsumer<RegisterDeviceTutorCubit, RegisterDeviceTutorState>(
         listener: (context, state) {
           if (state is RegisterDeviceTutorFailure) {
-            showAlertDialog(context,
-                title: '取得設備出錯',
-                content: state.error,
-                defaultActionText: '確認', defaultAction: () {
-              RoutingManager.pushToRegisterDeviceScreen(
-                context,
-                projectId: context.read<RegisterDeviceTutorCubit>().projectId,
-                devices: [
-                  Device(),
-                ],
-              );
-            });
+            showAlertDialog(
+              context,
+              title: state.error,
+              content: '請確認前往下一步，或者取消留在本頁並請前往中華電信平台確認設備是否存在',
+              defaultActionText: '取消',
+              defaultAction: () {
+                Navigator.pop(context); // cancel
+              },
+              destructiveActionText: '確認',
+              destructiveAction: () {
+                Navigator.pop(context);
+                RoutingManager.pushToRegisterDeviceScreen(
+                  context,
+                  projectId: context.read<RegisterDeviceTutorCubit>().projectId,
+                  devices: [
+                    Device(),
+                  ],
+                );
+              },
+            );
           }
           if (state is RegisterDeviceTutorImportSuccess) {
             RoutingManager.pushToRegisterDeviceScreen(
