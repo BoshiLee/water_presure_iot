@@ -75,17 +75,14 @@ class _RegisterDeviceScreenState extends State<RegisterDeviceScreen> {
                   controller: _controller,
                   itemCount:
                       context.watch<RegisterDeviceCubit>().chtDevices.length,
-                  itemBuilder: (context, index) {
-                    return RegisterDeviceForm(
-                      initDevice: context
-                          .watch<RegisterDeviceCubit>()
-                          .chtDevices[index],
-                      onChanged: (value) {
-                        context.read<RegisterDeviceCubit>().chtDevices[index] =
-                            value;
-                      },
-                    );
-                  },
+                  itemBuilder: (context, index) => RegisterDeviceForm(
+                    initDevice:
+                        context.read<RegisterDeviceCubit>().chtDevices[index],
+                    onChanged: (value) {
+                      context.read<RegisterDeviceCubit>().devices[index] =
+                          value;
+                    },
+                  ),
                 ),
               ),
               if (context.watch<RegisterDeviceCubit>().chtDevices.length > 1)

@@ -12,8 +12,8 @@ void showAlertDialog(
   showCupertinoModalPopup<void>(
     context: context,
     builder: (BuildContext context) => CupertinoAlertDialog(
-      title: const Text('註冊成功'),
-      content: const Text('點擊確認回到登入畫面'),
+      title: Text(title),
+      content: Text(content),
       actions: <CupertinoDialogAction>[
         if (defaultAction != null)
           CupertinoDialogAction(

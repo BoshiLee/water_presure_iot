@@ -18,13 +18,14 @@ class Device {
       projectId});
 
   Device.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    description = json['description'];
-    uri = json['uri'];
-    type = json['type'];
-    deviceKey = json['device_key'];
-    deviceNumber = json['device_number'];
-    projectId = json['project_id'];
+    name = json.containsKey('name') ? json['name'] : null;
+    description = json.containsKey('description') ? json['description'] : null;
+    uri = json.containsKey('url') ? json['uri'] : null;
+    type = json.containsKey('type') ? json['type'] : null;
+    deviceKey = json.containsKey('device_key') ? json['device_key'] : null;
+    deviceNumber =
+        json.containsKey('device_number') ? json['device_number'] : null;
+    projectId = json.containsKey('project_id') ? json['project_id'] : null;
   }
 
   void validate() {
