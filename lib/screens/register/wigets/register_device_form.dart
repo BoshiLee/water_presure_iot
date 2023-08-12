@@ -69,7 +69,7 @@ class _RegisterDeviceFormState extends State<RegisterDeviceForm> {
             },
           ),
           TitleInputField(
-            initialValue: device.type,
+            initialValue: device.deviceType,
             title: '輸入設備類型',
             hintText: 'Device Type',
             onChanged: (value) {

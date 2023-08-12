@@ -2,26 +2,27 @@ class Device {
   String? name;
   String? description;
   String? uri;
-  String? type;
+  String? deviceType;
   String? deviceKey;
   String? deviceNumber;
   int? projectId;
 
-  Device(
-      {name,
-      description,
-      uri,
-      type,
-      deviceKey,
-      deviceNumber,
-      accountId,
-      projectId});
+  Device({
+    name,
+    description,
+    uri,
+    type,
+    deviceKey,
+    deviceNumber,
+    accountId,
+    projectId,
+  });
 
   Device.fromJson(Map<String, dynamic> json) {
     name = json.containsKey('name') ? json['name'] : null;
     description = json.containsKey('description') ? json['description'] : null;
-    uri = json.containsKey('url') ? json['uri'] : null;
-    type = json.containsKey('type') ? json['type'] : null;
+    uri = json.containsKey('uri') ? json['uri'] : null;
+    deviceType = json.containsKey('device_type') ? json['device_type'] : null;
     deviceKey = json.containsKey('device_key') ? json['device_key'] : null;
     deviceNumber =
         json.containsKey('device_number') ? json['device_number'] : null;
@@ -52,7 +53,7 @@ class Device {
       name: name ?? this.name,
       description: description ?? this.description,
       uri: uri ?? this.uri,
-      type: type ?? this.type,
+      type: type ?? this.deviceType,
       deviceKey: deviceKey ?? this.deviceKey,
       deviceNumber: deviceNumber ?? this.deviceNumber,
       projectId: projectId ?? this.projectId,
@@ -64,7 +65,7 @@ class Device {
     data['name'] = name;
     data['description'] = description;
     data['uri'] = uri;
-    data['type'] = type;
+    data['type'] = deviceType;
     data['device_key'] = deviceKey;
     data['device_number'] = deviceNumber;
     data['project_id'] = projectId;

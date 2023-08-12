@@ -34,7 +34,7 @@ class ParseJsonHelper {
   static List<Device> parseDevices(Map<String, dynamic> json) {
     final List<Device> devices = [];
     if (json['devices'] == null) return devices;
-    json['devices'].forEach((Map<String, dynamic> v) {
+    json['devices'].forEach((v) {
       devices.add(parseDevice(v));
     });
     return devices;
