@@ -8,14 +8,13 @@ class Device {
   int? projectId;
 
   Device({
-    name,
-    description,
-    uri,
-    type,
-    deviceKey,
-    deviceNumber,
-    accountId,
-    projectId,
+    this.name,
+    this.description,
+    this.uri,
+    this.deviceType,
+    this.deviceKey,
+    this.deviceNumber,
+    this.projectId,
   });
 
   Device.fromJson(Map<String, dynamic> json) {
@@ -38,7 +37,7 @@ class Device {
     String? name,
     String? description,
     String? uri,
-    String? type,
+    String? deviceType,
     String? deviceKey,
     String? deviceNumber,
     int? projectId,
@@ -47,7 +46,7 @@ class Device {
       name: name ?? this.name,
       description: description ?? this.description,
       uri: uri ?? this.uri,
-      type: type ?? this.deviceType,
+      deviceType: deviceType ?? this.deviceType,
       deviceKey: deviceKey ?? this.deviceKey,
       deviceNumber: deviceNumber ?? this.deviceNumber,
       projectId: projectId ?? this.projectId,
