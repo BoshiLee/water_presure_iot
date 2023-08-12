@@ -60,7 +60,7 @@ class RegisterDeviceScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20.0),
                 ),
-                onPressed: () {},
+                onPressed: context.read<RegisterDeviceCubit>().registerDevices,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: 10.0,

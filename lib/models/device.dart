@@ -31,13 +31,7 @@ class Device {
 
   void validate() {
     if (name == null || name!.isEmpty) throw Exception('請輸入裝置名稱');
-    if (description == null || description!.isEmpty) throw Exception('請輸入裝置描述');
-    if (uri == null || uri!.isEmpty) throw Exception('請輸入裝置網址');
     if (deviceKey == null || deviceKey!.isEmpty) throw Exception('請輸入裝置金鑰');
-    if (deviceNumber == null || deviceNumber!.isEmpty) {
-      throw Exception('請輸入裝置編號');
-    }
-    if (projectId == null) throw Exception('請選擇專案');
   }
 
   Device copyWith({
