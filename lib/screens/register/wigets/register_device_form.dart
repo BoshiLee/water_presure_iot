@@ -46,7 +46,7 @@ class _RegisterDeviceFormState extends State<RegisterDeviceForm> {
             title: '輸入設備名稱',
             hintText: 'Device Name',
             onChanged: (value) {
-              device = device.copyWith(name: value);
+              device.name = value;
               widget.onChanged(device);
             },
           ),
@@ -55,7 +55,7 @@ class _RegisterDeviceFormState extends State<RegisterDeviceForm> {
             title: '輸入設備描述',
             hintText: 'Device Description',
             onChanged: (value) {
-              device = device.copyWith(description: value);
+              device.description = value;
               widget.onChanged(device);
             },
           ),
@@ -64,7 +64,7 @@ class _RegisterDeviceFormState extends State<RegisterDeviceForm> {
             title: '輸入設備 uri',
             hintText: 'Device uri',
             onChanged: (value) {
-              device = device.copyWith(uri: value);
+              device.uri = value;
               widget.onChanged(device);
             },
           ),
@@ -73,22 +73,25 @@ class _RegisterDeviceFormState extends State<RegisterDeviceForm> {
             title: '輸入設備類型',
             hintText: 'Device Type',
             onChanged: (value) {
-              device = device.copyWith(type: value);
+              device.deviceType = value;
               widget.onChanged(device);
             },
           ),
-          // TitleInputField(
-          //   title: '輸入設備代碼',
-          //   hintText: 'Device number',
-          //   onChanged: (value) {},
-          // ),
+          TitleInputField(
+            initialValue: device.deviceNumber,
+            title: '輸入設備代碼',
+            hintText: 'Device number',
+            onChanged: (value) {
+              device.deviceNumber = value;
+            },
+          ),
           TitleInputField(
             initialValue: device.deviceKey,
             title: '輸入設備金鑰',
             hintText: 'Device Key',
             obscureText: true,
             onChanged: (value) {
-              device = device.copyWith(deviceKey: value);
+              device.deviceKey = value;
               widget.onChanged(device);
             },
           ),

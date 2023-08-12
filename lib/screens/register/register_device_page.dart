@@ -7,12 +7,13 @@ import 'package:water_pressure_iot/screens/register/wigets/register_device_form.
 typedef OnDeviceChange = Function(int index, Device value);
 
 class RegisterDevicePage extends StatefulWidget {
-  final List<Device> chtDevices;
+  final List<Device> devices;
   final OnDeviceChange onDeviceChange;
-  RegisterDevicePage({
+
+  const RegisterDevicePage({
     super.key,
     required this.onDeviceChange,
-    required this.chtDevices,
+    required this.devices,
   });
 
   @override
@@ -26,7 +27,7 @@ class _RegisterDevicePageState extends State<RegisterDevicePage> {
 
   @override
   void initState() {
-    _devices = widget.chtDevices;
+    _devices = widget.devices;
     _currentPage = 0;
     _controller = PageController(
       initialPage: 0,
@@ -48,7 +49,7 @@ class _RegisterDevicePageState extends State<RegisterDevicePage> {
             itemCount: _devices.length,
             itemBuilder: (context, index) => RegisterDeviceForm(
               initDevice: _devices[index],
-              onChanged: (value) {
+              onChanged: (Device value) {
                 _devices[index] = value;
                 widget.onDeviceChange(index, value);
               },

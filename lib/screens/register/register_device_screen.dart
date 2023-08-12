@@ -53,7 +53,7 @@ class RegisterDeviceScreen extends StatelessWidget {
                   onDeviceChange: (int index, Device value) {
                     context.read<RegisterDeviceCubit>().devices[index] = value;
                   },
-                  chtDevices: context.watch<RegisterDeviceCubit>().devices,
+                  devices: context.watch<RegisterDeviceCubit>().devices,
                 ),
               ),
               ElevatedButton(
