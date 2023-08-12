@@ -16,6 +16,7 @@ class RegisterProjectCubit extends Cubit<RegisterProjectState> {
   RegisterProjectCubit() : super(RegisterProjectInitial()) {
     if (Config.appFlavor == Flavor.PRODUCTION) {
       project = Project();
+      return;
     }
     project = Project(
       name: 'KST-WATER_PRESSURE-NBIOT',
