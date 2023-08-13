@@ -30,6 +30,7 @@ class Device {
 
   void validate() {
     if (name == null || name!.isEmpty) throw Exception('請輸入裝置名稱');
+    if (deviceType == null || deviceType!.isEmpty) Exception('請輸入裝置類型');
     if (deviceKey == null || deviceKey!.isEmpty) throw Exception('請輸入裝置金鑰');
   }
 

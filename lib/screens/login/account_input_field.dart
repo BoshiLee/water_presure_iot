@@ -34,6 +34,7 @@ class _AccountInputFieldState extends State<AccountInputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(maxHeight: 120),
       padding: const EdgeInsets.symmetric(
         vertical: 10.0,
         horizontal: 20.0,
