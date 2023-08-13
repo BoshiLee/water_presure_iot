@@ -56,13 +56,12 @@ class Device {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['description'] = description;
-    data['uri'] = uri;
-    data['type'] = deviceType;
-    data['device_key'] = deviceKey;
-    data['device_number'] = deviceNumber;
-    data['project_id'] = projectId;
+    if (name != null) data['name'] = name;
+    if (description != null) data['description'] = description;
+    if (uri != null) data['uri'] = uri;
+    if (deviceType != null) data['device_type'] = deviceType;
+    if (deviceKey != null) data['device_key'] = deviceKey;
+    if (deviceNumber != null) data['device_number'] = deviceNumber;
     return data;
   }
 }
