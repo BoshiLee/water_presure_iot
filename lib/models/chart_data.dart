@@ -2,7 +2,7 @@ import 'package:water_pressure_iot/models/sensor_data.dart';
 
 class ChartData {
   DateTime? date;
-  int? pressure;
+  double? pressure;
 
   ChartData({this.date, this.pressure});
 }

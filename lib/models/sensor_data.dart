@@ -1,32 +1,34 @@
 import '../utils/date_helper.dart';
 
 class SensorData {
-  int? id;
-  int? latitude;
-  int? longitude;
-  int? pressure;
-  int? sensorId;
+  String? id;
+  double? latitude;
+  double? longitude;
+  double? pressure;
+  String? sensorId;
   String? sensorNameIdentity;
   DateTime? timestamp;
 
   SensorData({
-    id,
-    latitude,
-    longitude,
-    pressure,
-    sensorId,
-    sensorNameIdentity,
-    timestamp,
+    this.id,
+    this.latitude,
+    this.longitude,
+    this.pressure,
+    this.sensorId,
+    this.sensorNameIdentity,
+    this.timestamp,
   });
 
   SensorData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    pressure = json['pressure'];
-    sensorId = json['sensor_id'];
-    sensorNameIdentity = json['sensor_name_identity'];
-    timestamp = json['timestamp'] != null
+    id = json.containsKey('id') ? json['id'] : '';
+    latitude = json.containsKey('latitude') ? json['latitude'] : 0.0;
+    longitude = json.containsKey('longitude') ? json['longitude'] : 0.0;
+    pressure = json.containsKey('pressure') ? json['pressure'] : 0.0;
+    sensorId = json.containsKey('sensor_id') ? json['sensor_id'] : '';
+    sensorNameIdentity = json.containsKey('sensor_name_identity')
+        ? json['sensor_name_identity']
+        : '';
+    timestamp = json.containsKey('timestamp') && json['timestamp'] != null
         ? DateHelper.parseToLocal(json['timestamp'])
         : null;
   }

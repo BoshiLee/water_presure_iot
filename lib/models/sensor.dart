@@ -12,33 +12,35 @@ class Sensor {
   String? unit;
   String? uri;
 
-  Sensor(
-      {this.description,
-      this.deviceId,
-      this.formula,
-      this.id,
-      this.name,
-      this.nameIdentity,
-      this.sensorData,
-      this.sensorType,
-      this.unit,
-      this.uri});
+  Sensor({
+    this.description,
+    this.deviceId,
+    this.formula,
+    this.id,
+    this.name,
+    this.nameIdentity,
+    this.sensorData,
+    this.sensorType,
+    this.unit,
+    this.uri,
+  });
 
   Sensor.fromJson(Map<String, dynamic> json) {
-    description = json['description'];
-    deviceId = json['device_id'];
-    formula = json['formula'];
-    id = json['id'];
-    name = json['name'];
-    nameIdentity = json['name_identity'];
+    id = json.containsKey('id') ? json['id'] : '';
+    nameIdentity =
+        json.containsKey('name_identity') ? json['name_identity'] : '';
+    name = json.containsKey('name') ? json['name'] : '';
+    description = json.containsKey('description') ? json['description'] : '';
+    deviceId = json.containsKey('device_id') ? json['device_id'] : '';
+    formula = json.containsKey('formula') ? json['formula'] : '';
+    sensorType = json.containsKey('sensor_type') ? json['sensor_type'] : '';
+    uri = json.containsKey('uri') ? json['uri'] : '';
+    unit = json.containsKey('unit') ? json['unit'] : '';
     if (json['sensor_data'] != null) {
       sensorData = <SensorData>[];
       json['sensor_data'].forEach((v) {
         sensorData!.add(SensorData.fromJson(v));
       });
     }
-    sensorType = json['sensor_type'];
-    unit = json['unit'];
-    uri = json['uri'];
   }
 }
