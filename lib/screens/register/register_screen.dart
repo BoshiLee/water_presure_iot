@@ -26,7 +26,9 @@ class RegisterScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is RegisterLoading) {
             BotToast.showCustomLoading(
-              toastBuilder: (_) => const CustomLoadingWidget(),
+              toastBuilder: (_) => const CustomLoadingWidget(
+                message: '註冊中...',
+              ),
             );
           }
           if (state is RegisterSuccess) {

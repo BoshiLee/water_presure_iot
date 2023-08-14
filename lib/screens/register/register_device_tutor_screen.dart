@@ -6,6 +6,7 @@ import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/screens/register/wigets/register_device_tutorial.dart';
 import 'package:water_pressure_iot/screens/routing/dialog_helper.dart';
 import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
+import 'package:water_pressure_iot/screens/widgets/custom_loading_widget.dart';
 
 class RegisterDeviceTutorScreen extends StatelessWidget {
   static const id = 'register_device_tutor_screen';
@@ -47,6 +48,7 @@ class RegisterDeviceTutorScreen extends StatelessWidget {
             );
           }
           if (state is RegisterDeviceTutorImportSuccess) {
+            BotToast.showSimpleNotification(title: '匯入成功');
             RoutingManager.pushToRegisterDeviceScreen(
               context,
               projectId: state.projectId,
@@ -54,7 +56,11 @@ class RegisterDeviceTutorScreen extends StatelessWidget {
             );
           }
           if (state is RegisterDeviceTutorLoading) {
-            BotToast.showLoading();
+            BotToast.showCustomLoading(
+              toastBuilder: (_) => CustomLoadingWidget(
+                message: state.message,
+              ),
+            );
           }
           if (state is RegisterDeviceTutorLoaded) {
             BotToast.closeAllLoading();

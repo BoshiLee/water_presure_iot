@@ -66,7 +66,11 @@ class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
       emit(const RegisterDeviceLoading(message: '匯入感測器資料中...'));
       final ApiResponse sensorsDataResult =
           await _repository.importSensorDataFromCHT(
-        startTime: DateTime(2023, 6, 30),
+        startTime: DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          1,
+        ),
       );
       emit(
         RegisterDeviceSImportSensorsDataSuccess(

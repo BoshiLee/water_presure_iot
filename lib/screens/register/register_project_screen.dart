@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/register/project/register_project_cubit.dart';
 import 'package:water_pressure_iot/screens/register/wigets/title_input_field.dart';
 import 'package:water_pressure_iot/screens/routing/routing_manager.dart';
+import 'package:water_pressure_iot/screens/widgets/custom_loading_widget.dart';
 
 class RegisterProjectScreen extends StatelessWidget {
   static const id = 'register_project_screen';
@@ -26,7 +27,11 @@ class RegisterProjectScreen extends StatelessWidget {
             BotToast.showText(text: state.error);
           }
           if (state is RegisterProjectLoading) {
-            BotToast.showLoading();
+            BotToast.showCustomLoading(
+              toastBuilder: (_) => CustomLoadingWidget(
+                message: state.message,
+              ),
+            );
           }
           if (state is RegisterProjectLoaded) {
             BotToast.closeAllLoading();

@@ -27,7 +27,7 @@ class RegisterDeviceScreen extends StatelessWidget {
       body: BlocConsumer<RegisterDeviceCubit, RegisterDeviceState>(
         listener: (context, state) {
           if (state is RegisterDeviceSImportSensorsDataSuccess) {
-            BotToast.showSimpleNotification(title: '匯入成功，將進入主畫面');
+            BotToast.showSimpleNotification(title: state.message);
             context.read<AppCubit>().authenticator();
             NavigatorExtension.popToRoot(context);
           }

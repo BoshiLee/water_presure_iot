@@ -10,6 +10,10 @@ class RegisterDeviceTutorInitial extends RegisterDeviceTutorState {
 }
 
 class RegisterDeviceTutorLoading extends RegisterDeviceTutorState {
+  final String message;
+
+  const RegisterDeviceTutorLoading({this.message = '載入中...'});
+
   @override
   List<Object> get props => [DateTime.now().toIso8601String()];
 }

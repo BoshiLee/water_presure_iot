@@ -14,7 +14,7 @@ class RegisterDeviceTutorCubit extends Cubit<RegisterDeviceTutorState> {
       : super(RegisterDeviceTutorInitial());
 
   Future<void> importDevicesFromCHT() async {
-    emit(RegisterDeviceTutorLoading());
+    emit(const RegisterDeviceTutorLoading(message: '匯入裝置資訊中...'));
     try {
       final List<Device> result = await _repository.importDevicesFromCHT(
         projectId: projectId,
