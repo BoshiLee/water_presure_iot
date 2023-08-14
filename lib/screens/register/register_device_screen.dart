@@ -38,8 +38,8 @@ class RegisterDeviceScreen extends StatelessWidget {
               content: '點擊確認開始匯入感測器資料',
               destructiveActionText: '確認',
               destructiveAction: () {
-                context.read<RegisterDeviceCubit>().portingSensor();
                 Navigator.pop(context);
+                context.read<RegisterDeviceCubit>().portingSensor();
               },
             );
           }

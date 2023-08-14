@@ -35,8 +35,9 @@ class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
       emit(
         const RegisterDeviceSuccess(),
       );
+      return;
     }
-    emit(RegisterDeviceLoading());
+    emit(const RegisterDeviceLoading());
     try {
       final List<Device> result = await _repository.registerDevices(
         devices: devices,
