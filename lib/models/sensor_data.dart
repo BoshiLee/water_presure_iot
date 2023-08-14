@@ -1,11 +1,11 @@
 import '../utils/date_helper.dart';
 
 class SensorData {
-  String? id;
+  int? id;
   double? latitude;
   double? longitude;
   double? pressure;
-  String? sensorId;
+  int? sensorId;
   String? sensorNameIdentity;
   DateTime? timestamp;
 

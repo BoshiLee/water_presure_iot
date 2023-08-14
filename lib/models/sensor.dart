@@ -26,12 +26,12 @@ class Sensor {
   });
 
   Sensor.fromJson(Map<String, dynamic> json) {
-    id = json.containsKey('id') ? json['id'] : '';
+    id = json.containsKey('id') ? json['id'] : null;
     nameIdentity =
         json.containsKey('name_identity') ? json['name_identity'] : '';
     name = json.containsKey('name') ? json['name'] : '';
     description = json.containsKey('description') ? json['description'] : '';
-    deviceId = json.containsKey('device_id') ? json['device_id'] : '';
+    deviceId = json.containsKey('device_id') ? json['device_id'] : null;
     formula = json.containsKey('formula') ? json['formula'] : '';
     sensorType = json.containsKey('sensor_type') ? json['sensor_type'] : '';
     uri = json.containsKey('uri') ? json['uri'] : '';
