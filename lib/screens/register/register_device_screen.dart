@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water_pressure_iot/cubits/app/app_cubit.dart';
 import 'package:water_pressure_iot/cubits/register/device/register_device_cubit.dart';
 import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/screens/register/register_device_page.dart';
@@ -24,15 +25,19 @@ class RegisterDeviceScreen extends StatelessWidget {
       ),
       body: BlocConsumer<RegisterDeviceCubit, RegisterDeviceState>(
         listener: (context, state) {
+          if (state is RegisterDeviceSImportSensorsSuccess) {
+            BotToast.showSimpleNotification(title: '匯入成功，將進入主畫面');
+            context.read<AppCubit>().authenticator();
+            NavigatorExtension.popToRoot(context);
+          }
           if (state is RegisterDeviceSuccess) {
             showAlertDialog(
               context,
               title: '註冊成功',
-              content: '點擊確認返回登入畫面',
-              defaultActionText: '確認',
-              defaultAction: () {
-                NavigatorExtension.popToRoot(context);
-              },
+              content: '點擊確認開始匯入感測器資料',
+              destructiveActionText: '確認',
+              destructiveAction:
+                  context.read<RegisterDeviceCubit>().portSensorData,
             );
           }
           if (state is RegisterDeviceFailure) {

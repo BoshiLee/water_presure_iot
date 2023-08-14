@@ -20,11 +20,14 @@ class RegisterDeviceLoaded extends RegisterDeviceState {
 }
 
 class RegisterDeviceSuccess extends RegisterDeviceState {
-  final List<Device> devices;
+  const RegisterDeviceSuccess();
 
-  const RegisterDeviceSuccess({
-    required this.devices,
-  });
+  @override
+  List<Object?> get props => [DateTime.now().toIso8601String()];
+}
+
+class RegisterDeviceSImportSensorsSuccess extends RegisterDeviceState {
+  const RegisterDeviceSImportSensorsSuccess();
 
   @override
   List<Object?> get props => [DateTime.now().toIso8601String()];

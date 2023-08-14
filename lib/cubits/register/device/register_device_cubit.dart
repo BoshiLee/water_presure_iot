@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:water_pressure_iot/api/api_response.dart';
 import 'package:water_pressure_iot/config.dart';
 import 'package:water_pressure_iot/flavor.dart';
 import 'package:water_pressure_iot/models/device.dart';
@@ -30,6 +31,11 @@ class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
   }
 
   Future<void> registerDevices() async {
+    if (UserRepository.shared.registerProgress == null) {
+      emit(
+        const RegisterDeviceSuccess(),
+      );
+    }
     emit(RegisterDeviceLoading());
     try {
       final List<Device> result = await _repository.registerDevices(
@@ -39,9 +45,21 @@ class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
       devices = result;
       UserRepository.shared.registerProgress = null; // reset register progress
       emit(
-        RegisterDeviceSuccess(
-          devices: devices,
-        ),
+        const RegisterDeviceSuccess(),
+      );
+    } catch (e) {
+      emit(RegisterDeviceFailure(e.toString()));
+    } finally {
+      emit(RegisterDeviceLoaded());
+    }
+  }
+
+  Future portSensorData() async {
+    emit(RegisterDeviceLoading());
+    try {
+      final ApiResponse result = await _repository.importSensorsFromCHT();
+      emit(
+        const RegisterDeviceSImportSensorsSuccess(),
       );
     } catch (e) {
       emit(RegisterDeviceFailure(e.toString()));

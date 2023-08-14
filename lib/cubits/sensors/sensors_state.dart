@@ -21,6 +21,9 @@ class SensorsLoaded extends SensorsState {
   const SensorsLoaded(
     this.sensors,
   ) : super(sensors);
+
+  @override
+  List<Object> get props => [DateTime.now().toIso8601String()];
 }
 
 class SensorsError extends SensorsState {

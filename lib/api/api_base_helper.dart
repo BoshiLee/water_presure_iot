@@ -338,7 +338,7 @@ class ApiBaseHelper {
             );
           case 500:
             return InternalServerException(
-              'Whoops, looks like something went wrong',
+              errorMessage ?? 'Whoops, looks like something went wrong',
               response: ApiResponse(
                 statusCode: response.statusCode,
                 message: errorMessage,

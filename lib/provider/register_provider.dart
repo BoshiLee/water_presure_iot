@@ -41,6 +41,12 @@ class RegisterProvider {
     );
   }
 
+  Future<Map<String, dynamic>?> importSensors() async {
+    return await _helper.put(
+      '/sensors/porting_from_nbiot',
+    );
+  }
+
   Future<Map<String, dynamic>?> registerProject({
     required Project project,
   }) async {

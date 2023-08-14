@@ -5,5 +5,5 @@ class SensorProvider {
   static const String _route = '/sensors';
 
   Future<Map<String, dynamic>?> fetchSensors() async =>
-      await _helper.get(_route);
+      await _helper.get('$_route/all');
 }
