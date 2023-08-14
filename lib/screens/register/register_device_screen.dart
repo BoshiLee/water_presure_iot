@@ -37,8 +37,10 @@ class RegisterDeviceScreen extends StatelessWidget {
               title: '註冊成功',
               content: '點擊確認開始匯入感測器資料',
               destructiveActionText: '確認',
-              destructiveAction:
-                  context.read<RegisterDeviceCubit>().portingSensor,
+              destructiveAction: () {
+                context.read<RegisterDeviceCubit>().portingSensor();
+                Navigator.pop(context);
+              },
             );
           }
           if (state is RegisterDeviceFailure) {
@@ -46,7 +48,10 @@ class RegisterDeviceScreen extends StatelessWidget {
           }
           if (state is RegisterDeviceLoading) {
             BotToast.showCustomLoading(
-                toastBuilder: (_) => const CustomLoadingWidget());
+              toastBuilder: (_) => CustomLoadingWidget(
+                message: state.message ?? '匯入資料中...',
+              ),
+            );
           }
           if (state is RegisterDeviceLoaded) {
             BotToast.closeAllLoading();
