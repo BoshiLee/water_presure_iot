@@ -11,6 +11,8 @@ class AppCubit extends Cubit<AppState> {
     authenticator();
   }
 
+  bool get isLogin => state is AppAuthenticated;
+
   Future initializeAppSetting() async {
     emit(AppUninitialized());
     await SharedPreferencesUtils.getInstance();
@@ -31,7 +33,7 @@ class AppCubit extends Cubit<AppState> {
       emit(AppNotLogin());
       return;
     }
-    if (_userRepository.registerProgress == null) {
+    if (_userRepository.registerProgress == null && !isLogin) {
       emit(AppAuthenticated());
       return;
     }

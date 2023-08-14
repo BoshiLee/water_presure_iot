@@ -38,9 +38,9 @@ class Sensor {
     unit = json.containsKey('unit') ? json['unit'] : '';
     if (json['sensor_data'] != null) {
       sensorData = <SensorData>[];
-      json['sensor_data'].forEach((v) {
-        sensorData!.add(SensorData.fromJson(v));
-      });
+      json['sensor_data'].forEach(
+        (v) => sensorData!.add(SensorData.fromJson(v)),
+      );
     }
   }
 }

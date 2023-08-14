@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:csv/csv.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
@@ -34,7 +35,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   SensorsDataTableCubit(
     this.sensors,
     this.timeInterval,
-  ) : super(SensorsDataTableInitial()) {
+  ) : super(const SensorsDataTableInitial()) {
     initializeData();
   }
 
@@ -78,7 +79,10 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     for (SensorData data in allData) {
       List<String> row = [];
       row.add(data.id?.toString() ?? '--');
-      row.add(data.timestamp!.toIso8601String());
+      String time = data.timestamp != null
+          ? DateFormat('yyyy-MM-dd kk:mm:ss').format(data.timestamp!)
+          : '--';
+      row.add(time);
       if (data.sensorNameIdentity == null &&
           sensorDataMap[data.sensorNameIdentity!] == null) {
         row.addAll(List.filled(sensors!.length, '--'));
