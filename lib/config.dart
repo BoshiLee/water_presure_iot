@@ -10,7 +10,7 @@ class Config {
       case Flavor.PRODUCTION:
         return 'prod.nbiot.itri.org.tw';
       case Flavor.DEVELOPMENT:
-        return 'irtik900.asuscomm.com:50';
+        return '60.250.194.38:50';
       case Flavor.LOCALHOST:
         return '127.0.0.1:5000';
 
