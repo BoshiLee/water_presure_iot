@@ -4,7 +4,9 @@ import 'package:water_pressure_iot/models/login_auth.dart';
 import 'package:water_pressure_iot/models/project.dart';
 
 class RegisterProvider {
-  static final ApiBaseHelper _helper = ApiBaseHelper();
+  static final ApiBaseHelper _helper = ApiBaseHelper(
+    delay: const Duration(seconds: 30),
+  );
 
   Future<Map<String, dynamic>?> registerAccount(
       {required RegisterAuth auth}) async {

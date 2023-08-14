@@ -98,8 +98,9 @@ class RegisterRepository {
     }
   }
 
-  Future<ApiResponse> importSensorDataFromCHT(
-      {required DateTime startTime}) async {
+  Future<ApiResponse> importSensorDataFromCHT({
+    required DateTime startTime,
+  }) async {
     try {
       final response = await _regisProvider.importSensorsData(startTime);
       if (response == null) throw BadRequestException('匯入失敗，請稍後再試');
