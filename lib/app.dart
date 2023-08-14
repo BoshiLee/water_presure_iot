@@ -59,7 +59,9 @@ class App extends StatelessWidget {
         title: '壓力計顯示系統',
         home: BlocConsumer<AppCubit, AppState>(
           buildWhen: (previous, current) {
-            return current is AppAuthenticated || current is AppNotLogin;
+            return (previous is! AppAuthenticated &&
+                    current is AppAuthenticated) ||
+                current is AppNotLogin;
           },
           listener: (context, state) {
             if (state is AppUninitialized) {
