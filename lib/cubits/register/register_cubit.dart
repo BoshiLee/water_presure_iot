@@ -19,8 +19,8 @@ class RegisterCubit extends Cubit<RegisterState> {
       auth = RegisterAuth();
     }
     auth = RegisterAuth(
-      name: 'test',
-      email: 'test@dev.com',
+      name: 'Boshi',
+      email: 'boshi@example.com',
       password: '123456',
       passwordConfirmation: '123456',
     );

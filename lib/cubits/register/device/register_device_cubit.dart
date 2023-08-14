@@ -54,12 +54,22 @@ class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
     }
   }
 
-  Future portSensorData() async {
-    emit(RegisterDeviceLoading());
+  Future portingSensor() async {
     try {
-      final ApiResponse result = await _repository.importSensorsFromCHT();
+      emit(const RegisterDeviceLoading(message: '匯入感測器中...'));
+      final ApiResponse sensorResult = await _repository.importSensorsFromCHT();
       emit(
-        const RegisterDeviceSImportSensorsSuccess(),
+        RegisterDeviceSImportSensorsSuccess(
+          message: sensorResult.message ?? '匯入感測器成功',
+        ),
+      );
+      emit(const RegisterDeviceLoading(message: '匯入感測器資料中...'));
+      final ApiResponse sensorsDataResult =
+          await _repository.importSensorDataFromCHT();
+      emit(
+        RegisterDeviceSImportSensorsSuccess(
+          message: sensorsDataResult.message ?? '匯入感測器資料成功',
+        ),
       );
     } catch (e) {
       emit(RegisterDeviceFailure(e.toString()));

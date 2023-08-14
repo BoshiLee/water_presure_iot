@@ -98,6 +98,19 @@ class RegisterRepository {
     }
   }
 
+  Future<ApiResponse> importSensorDataFromCHT() async {
+    try {
+      final response = await _regisProvider.importSensorsData();
+      if (response == null) throw BadRequestException('匯入失敗，請稍後再試');
+      return compute<Map<String, dynamic>, ApiResponse>(
+        ParseJsonHelper.parseApiResponse,
+        response,
+      );
+    } catch (e) {
+      throw BadRequestException(e.toString());
+    }
+  }
+
   Future<List<Device>> registerDevices({
     required int projectId,
     required List<Device> devices,

@@ -10,6 +10,10 @@ class RegisterDeviceInitial extends RegisterDeviceState {
 }
 
 class RegisterDeviceLoading extends RegisterDeviceState {
+  final String? message;
+
+  const RegisterDeviceLoading({this.message});
+
   @override
   List<Object> get props => [DateTime.now().toIso8601String()];
 }
@@ -27,7 +31,17 @@ class RegisterDeviceSuccess extends RegisterDeviceState {
 }
 
 class RegisterDeviceSImportSensorsSuccess extends RegisterDeviceState {
-  const RegisterDeviceSImportSensorsSuccess();
+  final String message;
+
+  const RegisterDeviceSImportSensorsSuccess({required this.message});
+
+  @override
+  List<Object?> get props => [DateTime.now().toIso8601String()];
+}
+
+class RegisterDeviceSImportSensorsDataSuccess extends RegisterDeviceState {
+  final String message;
+  const RegisterDeviceSImportSensorsDataSuccess({required this.message});
 
   @override
   List<Object?> get props => [DateTime.now().toIso8601String()];

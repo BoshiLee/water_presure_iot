@@ -7,6 +7,7 @@ import 'package:water_pressure_iot/cubits/login/login_cubit.dart';
 import 'package:water_pressure_iot/screens/login/login_screen.dart';
 import 'package:water_pressure_iot/screens/login/welecome_screen.dart';
 import 'package:water_pressure_iot/screens/main/main_screen.dart';
+import 'package:water_pressure_iot/screens/widgets/custom_loading_widget.dart';
 
 class App extends StatelessWidget {
   final botToastBuilder = BotToastInit();
@@ -68,7 +69,9 @@ class App extends StatelessWidget {
               BotToast.showSimpleNotification(title: '初始化完成');
             }
             if (state is AppLoading) {
-              BotToast.showLoading();
+              BotToast.showCustomLoading(
+                toastBuilder: (_) => const CustomLoadingWidget(),
+              );
             }
           },
           builder: (context, state) {

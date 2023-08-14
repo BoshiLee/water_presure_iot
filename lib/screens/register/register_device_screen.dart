@@ -7,6 +7,7 @@ import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/screens/register/register_device_page.dart';
 import 'package:water_pressure_iot/screens/routing/dialog_helper.dart';
 import 'package:water_pressure_iot/screens/routing/navigator_extension.dart';
+import 'package:water_pressure_iot/screens/widgets/custom_loading_widget.dart';
 
 class RegisterDeviceScreen extends StatelessWidget {
   static const id = 'register_Device_screen';
@@ -25,7 +26,7 @@ class RegisterDeviceScreen extends StatelessWidget {
       ),
       body: BlocConsumer<RegisterDeviceCubit, RegisterDeviceState>(
         listener: (context, state) {
-          if (state is RegisterDeviceSImportSensorsSuccess) {
+          if (state is RegisterDeviceSImportSensorsDataSuccess) {
             BotToast.showSimpleNotification(title: '匯入成功，將進入主畫面');
             context.read<AppCubit>().authenticator();
             NavigatorExtension.popToRoot(context);
@@ -37,14 +38,15 @@ class RegisterDeviceScreen extends StatelessWidget {
               content: '點擊確認開始匯入感測器資料',
               destructiveActionText: '確認',
               destructiveAction:
-                  context.read<RegisterDeviceCubit>().portSensorData,
+                  context.read<RegisterDeviceCubit>().portingSensor,
             );
           }
           if (state is RegisterDeviceFailure) {
             BotToast.showText(text: state.error);
           }
           if (state is RegisterDeviceLoading) {
-            BotToast.showLoading();
+            BotToast.showCustomLoading(
+                toastBuilder: (_) => const CustomLoadingWidget());
           }
           if (state is RegisterDeviceLoaded) {
             BotToast.closeAllLoading();
