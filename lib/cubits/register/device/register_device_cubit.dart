@@ -18,7 +18,8 @@ class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
     required this.projectId,
     required this.devices,
   }) : super(RegisterDeviceInitial()) {
-    if (Config.appFlavor == Flavor.PRODUCTION) return;
+    if (Config.appFlavor == Flavor.PRODUCTION ||
+        Config.appFlavor == Flavor.DEVELOPMENT) return;
     final List<Device> fakeDevices = [
       devices[0]
           .copyWith(name: '3103112070100001', deviceKey: 'DK0EFSHX4CWG179RET'),

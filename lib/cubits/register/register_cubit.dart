@@ -16,8 +16,10 @@ class RegisterCubit extends Cubit<RegisterState> {
   final UserRepository _userRepository = UserRepository.shared;
   late RegisterAuth auth;
   RegisterCubit() : super(RegisterInitial()) {
-    if (Config.appFlavor == Flavor.PRODUCTION) {
+    if (Config.appFlavor == Flavor.PRODUCTION ||
+        Config.appFlavor == Flavor.DEVELOPMENT) {
       auth = RegisterAuth();
+      return;
     }
     auth = RegisterAuth(
       name: 'Boshi',
