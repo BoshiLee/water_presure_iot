@@ -1,16 +1,6 @@
 import 'package:intl/intl.dart';
 
 extension DateHelper on DateTime {
-  static DateTime date(int timeStamp) =>
-      DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000).add(
-        Duration(hours: 8),
-      );
-
-  static String dateFormatString(int timeStamp, String format) {
-    DateTime date = DateHelper.date(timeStamp);
-    return DateFormat(format).format(date);
-  }
-
   static DateTime parseToLocal(String formattedString) =>
       DateTime.parse(formattedString).toLocal();
 
