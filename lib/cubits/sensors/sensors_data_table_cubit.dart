@@ -31,12 +31,9 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   String get _exportFileName =>
       'sensor_data_${DateTime.now().iso8601StringWithTimeOffset()}';
 
-  final Duration timeInterval;
-
-  SensorsDataTableCubit(
-    this.sensors,
-    this.timeInterval,
-  ) : super(const SensorsDataTableInitial()) {
+  SensorsDataTableCubit({
+    required this.sensors,
+  }) : super(const SensorsDataTableInitial()) {
     initializeData();
   }
 

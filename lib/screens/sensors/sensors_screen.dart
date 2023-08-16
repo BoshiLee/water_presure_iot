@@ -24,7 +24,8 @@ class SensorsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xfff7f9fd),
       body: BlocConsumer<SensorsCubit, SensorsState>(
-        buildWhen: (previous, current) => current is! SensorsLoading,
+        buildWhen: (previous, current) =>
+            current is SensorsLoaded || current is SensorsLoaded,
         listener: (context, state) {
           if (state is SensorsError) {
             BotToast.showText(text: state.message);
@@ -42,14 +43,18 @@ class SensorsScreen extends StatelessWidget {
             );
           }
         },
-        builder: (context, state) {
+        builder: (ctx, state) {
+          if (state is SensorsLoading) {
+            return const CustomLoadingWidget(
+              message: '壓力計資料讀取中...',
+            );
+          }
           return BlocProvider(
             create: (context) => SensorsDataTableCubit(
-              state.sensors,
-              const Duration(minutes: 1),
+              sensors: ctx.read<SensorsCubit>().sensors,
             ),
             child: SensorsTabbedPage(
-              sensors: context.read<SensorsCubit>().sensors,
+              sensors: ctx.read<SensorsCubit>().sensors,
               gridItemWidth: gridItemWidth,
               gridItemHeight: gridItemHeight,
               isLoading: state is SensorsLoading,

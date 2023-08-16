@@ -1,8 +1,9 @@
 import 'package:intl/intl.dart';
 
 extension DateHelper on DateTime {
-  static DateTime parseToLocal(String formattedString) =>
-      DateTime.parse(formattedString).toLocal();
+  static DateTime parseToLocal(String formattedString) {
+    return DateTime.parse(formattedString).toLocal();
+  }
 
   String toDateString({required String formatString}) =>
       DateFormat(formatString, 'zh_TW').format(this);

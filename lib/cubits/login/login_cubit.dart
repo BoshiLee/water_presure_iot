@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:water_pressure_iot/config.dart';
+import 'package:water_pressure_iot/constants/test_accounts.dart';
+import 'package:water_pressure_iot/flavor.dart';
 import 'package:water_pressure_iot/models/account.dart';
 import 'package:water_pressure_iot/models/login_auth.dart';
 import 'package:water_pressure_iot/models/project.dart';
@@ -17,14 +20,19 @@ class LoginCubit extends Cubit<LoginState> {
   Project? project;
 
   LoginCubit() : super(LoginInitial()) {
+    if (Config.appFlavor == Flavor.LOCALHOST) {
+      auth = LoginAuth(
+        email: email,
+        password: password,
+      );
+      return;
+    }
     if (_userRepository.email != null && _userRepository.email!.isNotEmpty) {
       auth = LoginAuth(
         email: _userRepository.email,
         password: '',
       );
       emit(LoginEmailChanged(auth.email!));
-    } else {
-      auth = LoginAuth();
     }
   }
 
