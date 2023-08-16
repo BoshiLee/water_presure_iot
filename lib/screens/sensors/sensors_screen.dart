@@ -51,10 +51,10 @@ class SensorsScreen extends StatelessWidget {
           }
           return BlocProvider(
             create: (context) => SensorsDataTableCubit(
-              sensors: ctx.read<SensorsCubit>().sensors,
+              sensors: context.read<SensorsCubit>().sensors,
             ),
             child: SensorsTabbedPage(
-              sensors: ctx.read<SensorsCubit>().sensors,
+              sensors: context.read<SensorsCubit>().sensors,
               gridItemWidth: gridItemWidth,
               gridItemHeight: gridItemHeight,
               isLoading: state is SensorsLoading,
