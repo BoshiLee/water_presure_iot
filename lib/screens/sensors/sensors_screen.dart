@@ -1,9 +1,11 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:water_pressure_iot/cubits/sensors/sensors_cubit.dart';
 import 'package:water_pressure_iot/cubits/sensors/sensors_data_table_cubit.dart';
 import 'package:water_pressure_iot/screens/sensors/sensors_page_view.dart';
+import 'package:water_pressure_iot/screens/widgets/custom_loading_widget.dart';
 
 class SensorsScreen extends StatelessWidget {
   const SensorsScreen({
@@ -21,33 +23,38 @@ class SensorsScreen extends StatelessWidget {
     final gridItemHeight = (screenHeight) / 1.75;
     return Scaffold(
       backgroundColor: const Color(0xfff7f9fd),
-      body: BlocBuilder<SensorsCubit, SensorsState>(
-        builder: (context, state) {
+      body: BlocConsumer<SensorsCubit, SensorsState>(
+        buildWhen: (previous, current) => current is! SensorsLoading,
+        listener: (context, state) {
+          if (state is SensorsError) {
+            BotToast.showText(text: state.message);
+          }
+          if (state is SensorsLoaded) {
+            BotToast.closeAllLoading();
+          }
           if (state is SensorsLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is SensorsLoaded && state.sensors.isEmpty) {
-            return const Center(
-              child: Text('目前尚無壓力計資料'),
-            );
-          } else if (state is SensorsLoaded) {
-            return BlocProvider(
-              create: (context) => SensorsDataTableCubit(
-                state.sensors,
-                const Duration(minutes: 1),
-              ),
-              child: SensorsTabbedPage(
-                sensors: state.sensors,
-                gridItemWidth: gridItemWidth,
-                gridItemHeight: gridItemHeight,
-              ),
-            );
-          } else {
-            return const Center(
-              child: Text('無法獲取壓力計資料'),
+            BotToast.showCustomLoading(
+              toastBuilder: (_) {
+                return const CustomLoadingWidget(
+                  message: '壓力計資料讀取中...',
+                );
+              },
             );
           }
+        },
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => SensorsDataTableCubit(
+              state.sensors,
+              const Duration(minutes: 1),
+            ),
+            child: SensorsTabbedPage(
+              sensors: context.read<SensorsCubit>().sensors,
+              gridItemWidth: gridItemWidth,
+              gridItemHeight: gridItemHeight,
+              isLoading: state is SensorsLoading,
+            ),
+          );
         },
       ),
     );

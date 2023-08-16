@@ -13,12 +13,14 @@ class SensorsTabbedPage extends StatefulWidget {
   final double gridItemWidth;
   final double gridItemHeight;
   final List<Sensor> sensors;
+  final bool isLoading;
 
   const SensorsTabbedPage({
     super.key,
     required this.gridItemWidth,
     required this.gridItemHeight,
     required this.sensors,
+    this.isLoading = false,
   });
 
   @override
@@ -48,6 +50,9 @@ class _SensorsTabbedPageState extends State<SensorsTabbedPage>
               current is SensorsDataTableLoading;
         },
         listener: (context, state) {
+          if (state is SensorsDataTableError) {
+            BotToast.showText(text: state.message);
+          }
           if (state is SensorsDataExportLoading) {
             BotToast.showLoading();
           }
@@ -79,13 +84,13 @@ class _SensorsTabbedPageState extends State<SensorsTabbedPage>
         },
         builder: (context, state) {
           if (state is SensorsDataTableLoading) {
-            return const Center(
-              child: Column(
-                children: [
-                  Text('數據載入中...'),
-                  CircularProgressIndicator(),
-                ],
-              ),
+            return const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16.0),
+                Text('數據載入中...'),
+              ],
             );
           }
           if (state.dataHeader == null || state.dataTable == null) {

@@ -42,20 +42,25 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
 
   Future<void> initializeData() async {
     emit(SensorsDataTableLoading());
-    List<SensorData> allData = await compute<List<Sensor>, List<SensorData>>(
-      _flatAllSensorData,
-      sensors!,
-    );
-    _dataTable = await compute<List<SensorData>, List<List<String>>>(
-      _generateDataTable,
-      allData,
-    );
-    emit(
-      SensorsDataTableLoaded(
-        dataHeader: _dataHeader,
-        dataTable: _dataTable,
-      ),
-    );
+    try {
+      List<SensorData> allData = await compute<List<Sensor>, List<SensorData>>(
+        _flatAllSensorData,
+        sensors!,
+      );
+      _dataTable = await compute<List<SensorData>, List<List<String>>>(
+        _generateDataTable,
+        allData,
+      );
+    } on Exception catch (e) {
+      emit(SensorsDataTableError(message: e.toString()));
+    } finally {
+      emit(
+        SensorsDataTableLoaded(
+          dataHeader: _dataHeader,
+          dataTable: _dataTable,
+        ),
+      );
+    }
   }
 
   List<SensorData> _flatAllSensorData(List<Sensor> sensors) {

@@ -7,7 +7,7 @@ part 'sensors_state.dart';
 
 class SensorsCubit extends Cubit<SensorsState> {
   final SensorRepository _repository = SensorRepository();
-  List<Sensor> _sensors = [];
+  List<Sensor> sensors = [];
 
   SensorsCubit() : super(const SensorsInitial()) {
     fetchSensors();
@@ -18,21 +18,20 @@ class SensorsCubit extends Cubit<SensorsState> {
   Future<void> fetchSensors() async {
     emit(const SensorsLoading());
     try {
-      _sensors = await _repository.fetchSensors();
-      if (_sensors.isEmpty) {
+      sensors = await _repository.fetchSensors();
+      if (sensors.isEmpty) {
         throw Exception('無法取得感測器資訊');
       }
       // 只保留有sensorData的sensor
-      _sensors = await compute<List<Sensor>, List<Sensor>>(
+      sensors = await compute<List<Sensor>, List<Sensor>>(
         findValidSensors,
-        _sensors,
+        sensors,
+      );
+      emit(
+        SensorsLoaded(sensors),
       );
     } catch (e) {
       emit(SensorsError(e.toString()));
-    } finally {
-      emit(
-        SensorsLoaded(_sensors),
-      );
     }
   }
 
