@@ -7,6 +7,23 @@ extension DateHelper on DateTime {
   String toDateString({required String formatString}) =>
       DateFormat(formatString, 'zh_TW').format(this);
 
+  String iso8601StringWithTimeOffset() {
+    Duration offset = timeZoneOffset;
+
+    // ----------
+    String dateTime = toIso8601String();
+    // - or -
+    // String dateTime = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(now);
+    // ----------
+    String utcHourOffset = (offset.isNegative ? '-' : '+') +
+        offset.inHours.abs().toString().padLeft(2, '0');
+    String utcMinuteOffset =
+        (offset.inMinutes - offset.inHours * 60).toString().padLeft(2, '0');
+
+    String dateTimeWithOffset = '$dateTime$utcHourOffset:$utcMinuteOffset';
+    return dateTimeWithOffset;
+  }
+
   String getVerboseDateTimeRepresentation({bool withDate = true}) {
     DateTime now = DateTime.now();
     DateTime justNow = now.subtract(Duration(minutes: 1));

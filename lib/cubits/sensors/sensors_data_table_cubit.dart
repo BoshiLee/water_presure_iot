@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
+import 'package:water_pressure_iot/utils/date_helper.dart';
 
 part 'sensors_data_table_state.dart';
 
@@ -28,7 +29,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   List<List<String>> get _readyToExportTable => [_dataHeader, ..._dataTable];
 
   String get _exportFileName =>
-      'sensor_data_${DateTime.now().toIso8601String()}';
+      'sensor_data_${DateTime.now().iso8601StringWithTimeOffset()}';
 
   final Duration timeInterval;
 

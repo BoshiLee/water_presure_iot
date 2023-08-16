@@ -2,6 +2,7 @@ import 'package:water_pressure_iot/api/api_base_helper.dart';
 import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/models/login_auth.dart';
 import 'package:water_pressure_iot/models/project.dart';
+import 'package:water_pressure_iot/utils/date_helper.dart';
 
 class RegisterProvider {
   static final ApiBaseHelper _helper = ApiBaseHelper(
@@ -49,10 +50,14 @@ class RegisterProvider {
     );
   }
 
-  Future<Map<String, dynamic>?> importSensorsData(DateTime startTime) async =>
-      await _helper.put(
-        '/sensors/porting_sensors_data_from_nbiot?start_time=${startTime.toIso8601String()}',
-      );
+  Future<Map<String, dynamic>?> importSensorsData(DateTime startTime) async {
+    final String encode = Uri.encodeQueryComponent(
+      startTime.iso8601StringWithTimeOffset(),
+    );
+    return await _helper.put(
+      '/sensors/porting_sensors_data_from_nbiot?start_time=$encode',
+    );
+  }
 
   Future<Map<String, dynamic>?> registerProject({
     required Project project,
