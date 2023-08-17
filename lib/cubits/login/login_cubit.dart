@@ -25,6 +25,7 @@ class LoginCubit extends Cubit<LoginState> {
         email: email,
         password: password,
       );
+      emit(LoginEmailChanged(auth.email!));
       return;
     }
     if (_userRepository.email != null && _userRepository.email!.isNotEmpty) {
@@ -36,7 +37,7 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  late LoginAuth auth;
+  LoginAuth auth = LoginAuth();
 
   set rememberMail(bool rememberMe) {
     _userRepository.rememberMe = rememberMe;
