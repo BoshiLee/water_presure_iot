@@ -17,6 +17,7 @@ class SensorsCubit extends Cubit<SensorsState> {
   void refresh() => fetchSensors();
 
   Future<void> fetchSensors() async {
+    if (state is SensorsLoading) return;
     emit(const SensorsLoading(message: '感測器資料讀取中'));
     try {
       sensors = await _repository.fetchSensors();
@@ -34,7 +35,7 @@ class SensorsCubit extends Cubit<SensorsState> {
     } catch (e) {
       emit(SensorsError(e.toString()));
     } finally {
-      updateSensorsData();
+      // updateSensorsData();
     }
   }
 

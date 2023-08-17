@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:water_pressure_iot/constants/colors.dart';
 import 'package:water_pressure_iot/icons/nbiot_icons.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
-import 'package:water_pressure_iot/screens/sensors/chart/sensors_gird_view.dart';
+import 'package:water_pressure_iot/screens/sensors/chart/sensor_chart_table.dart';
 import 'package:water_pressure_iot/screens/sensors/table/sersor_tablview.dart';
 
 class SensorsTabbedPage extends StatefulWidget {
@@ -41,11 +41,14 @@ class _SensorsTabbedPageState extends State<SensorsTabbedPage>
     );
     _tabViews = [
       const SensorTableView(),
-      SensorsGridview(
+      SensorChartTable(
         sensors: widget.sensors,
-        gridItemWidth: widget.gridItemWidth,
-        gridItemHeight: widget.gridItemHeight,
-      )
+      ),
+      // SensorsGridview(
+      //   sensors: widget.sensors,
+      //   gridItemWidth: widget.gridItemWidth,
+      //   gridItemHeight: widget.gridItemHeight,
+      // )
     ];
   }
 

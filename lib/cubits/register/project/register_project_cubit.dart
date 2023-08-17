@@ -14,7 +14,8 @@ class RegisterProjectCubit extends Cubit<RegisterProjectState> {
   late Project project;
 
   RegisterProjectCubit() : super(RegisterProjectInitial()) {
-    if (Config.appFlavor == Flavor.PRODUCTION) {
+    if (Config.appFlavor == Flavor.PRODUCTION ||
+        Config.appFlavor == Flavor.DEVELOPMENT) {
       project = Project();
       return;
     }

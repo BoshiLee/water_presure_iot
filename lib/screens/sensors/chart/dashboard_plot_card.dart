@@ -92,7 +92,7 @@ class DashboardChartCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Container(
             child: sensor == null || dataList.isEmpty
                 ? const Center(
