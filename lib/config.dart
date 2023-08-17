@@ -10,9 +10,9 @@ class Config {
       case Flavor.PRODUCTION:
         return 'prod.nbiot.itri.org.tw';
       case Flavor.DEVELOPMENT:
-        return '192.168.110.200:5000';
+        return 'localhost:5000';
       case Flavor.LOCALHOST:
-        return '127.0.0.1:5000';
+        return 'localhost:5000';
 
       case Flavor.UNDETERMINED:
         return 'dev.hearting.online';
