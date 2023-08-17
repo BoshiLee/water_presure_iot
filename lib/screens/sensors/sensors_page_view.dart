@@ -62,6 +62,7 @@ class _SensorsTabbedPageState extends State<SensorsTabbedPage>
 
   @override
   Widget build(BuildContext context) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: itri_blue,
