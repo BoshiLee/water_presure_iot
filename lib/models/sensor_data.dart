@@ -20,14 +20,14 @@ class SensorData {
   });
 
   SensorData.fromJson(Map<String, dynamic> json) {
-    id = json.containsKey('id') ? json['id'] : '';
-    latitude = json.containsKey('latitude') ? json['latitude'] : 0.0;
-    longitude = json.containsKey('longitude') ? json['longitude'] : 0.0;
-    pressure = json.containsKey('pressure') ? json['pressure'] : 0.0;
-    sensorId = json.containsKey('sensor_id') ? json['sensor_id'] : '';
+    id = json.containsKey('id') ? json['id'] : null;
+    latitude = json.containsKey('latitude') ? json['latitude'] : null;
+    longitude = json.containsKey('longitude') ? json['longitude'] : null;
+    pressure = json.containsKey('pressure') ? json['pressure'] : null;
+    sensorId = json.containsKey('sensor_id') ? json['sensor_id'] : null;
     sensorNameIdentity = json.containsKey('sensor_name_identity')
         ? json['sensor_name_identity']
-        : '';
+        : null;
     timestamp = json.containsKey('timestamp') && json['timestamp'] != null
         ? DateHelper.parseToLocal(json['timestamp'])
         : null;

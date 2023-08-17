@@ -11,7 +11,9 @@ class SensorsInitial extends SensorsState {
 }
 
 class SensorsLoading extends SensorsState {
-  const SensorsLoading() : super(null);
+  final String message;
+
+  const SensorsLoading({this.message = '感測器資料讀取中'}) : super(null);
 }
 
 class SensorsLoaded extends SensorsState {
@@ -22,7 +24,6 @@ class SensorsLoaded extends SensorsState {
     this.sensors,
   ) : super(sensors);
 
-  @override
   List<Object> get props => [DateTime.now().toIso8601String()];
 }
 

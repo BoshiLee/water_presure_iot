@@ -17,7 +17,7 @@ class SensorsCubit extends Cubit<SensorsState> {
   void refresh() => fetchSensors();
 
   Future<void> fetchSensors() async {
-    emit(const SensorsLoading());
+    emit(const SensorsLoading(message: '感測器資料讀取中'));
     try {
       sensors = await _repository.fetchSensors();
       if (sensors.isEmpty) {
@@ -33,11 +33,27 @@ class SensorsCubit extends Cubit<SensorsState> {
       );
     } catch (e) {
       emit(SensorsError(e.toString()));
+    } finally {
+      updateSensorsData();
     }
   }
 
-  Future<void> updateSensorDataFromNBIOT(int index, int sensorId) async {
-    emit(const SensorsLoading());
+  Future updateSensorsData() async {
+    if (sensors.isEmpty) return;
+    int index = 0;
+    String message = '感測器 ${sensors[index].nameIdentity ?? ''} 資料更新中)';
+    emit(SensorsLoading(message: message));
+    await Future.forEach(
+      sensors,
+      (sensor) => updateSensorDataFromNBIOT(index++, sensor.id),
+    ).then(
+      (value) => index += 1,
+    );
+    emit(SensorsLoaded(sensors));
+  }
+
+  Future<void> updateSensorDataFromNBIOT(int index, int? sensorId) async {
+    if (sensorId == null) return;
     try {
       final List<SensorData> sensorData =
           await _repository.updateFromNBIOT(sensorId);
@@ -48,9 +64,6 @@ class SensorsCubit extends Cubit<SensorsState> {
         sensors[index].sensorData = [];
       }
       sensors[index].sensorData?.addAll(sensorData);
-      emit(
-        SensorsLoaded(sensors),
-      );
     } catch (e) {
       emit(SensorsError(e.toString()));
     }
