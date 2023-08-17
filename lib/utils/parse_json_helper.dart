@@ -3,6 +3,7 @@ import 'package:water_pressure_iot/models/account.dart';
 import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/models/project.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
+import 'package:water_pressure_iot/models/sensor_data.dart';
 
 class ParseJsonHelper {
   static List<Sensor> parseSensors(Map<String, dynamic> json) {
@@ -17,6 +18,19 @@ class ParseJsonHelper {
   static Account? parseAccount(Map<String, dynamic> json) {
     if (json['account'] == null) return null;
     return Account.fromJson(json['account']);
+  }
+
+  static List<SensorData> parseSensorDataList(Map<String, dynamic> json) {
+    final List<SensorData> sensorData = <SensorData>[];
+    if (json['sensor_data'] == null) {
+      return sensorData;
+    }
+    json['sensor_data'].forEach(
+      (v) => sensorData.add(
+        SensorData.fromJson(v),
+      ),
+    );
+    return sensorData;
   }
 
   static ApiResponse parseApiResponse(Map<String, dynamic> json) {

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
+import 'package:water_pressure_iot/models/sensor_data.dart';
 import 'package:water_pressure_iot/repository/sensor_repository.dart';
 
 part 'sensors_state.dart';
@@ -27,6 +28,26 @@ class SensorsCubit extends Cubit<SensorsState> {
         findValidSensors,
         sensors,
       );
+      emit(
+        SensorsLoaded(sensors),
+      );
+    } catch (e) {
+      emit(SensorsError(e.toString()));
+    }
+  }
+
+  Future<void> updateSensorDataFromNBIOT(int index, int sensorId) async {
+    emit(const SensorsLoading());
+    try {
+      final List<SensorData> sensorData =
+          await _repository.updateFromNBIOT(sensorId);
+      if (sensorData.isEmpty) {
+        throw Exception('無法取得感測器資訊');
+      }
+      if (sensors[index].sensorData == null) {
+        sensors[index].sensorData = [];
+      }
+      sensors[index].sensorData?.addAll(sensorData);
       emit(
         SensorsLoaded(sensors),
       );

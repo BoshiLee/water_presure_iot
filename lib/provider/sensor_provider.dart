@@ -6,4 +6,7 @@ class SensorProvider {
 
   Future<Map<String, dynamic>?> fetchSensors() async =>
       await _helper.get('$_route/all');
+
+  Future<Map<String, dynamic>?> updateSensorDataFromNbiot(int sensorId) async =>
+      await _helper.get('$_route/$sensorId/update_from_nbiot');
 }
