@@ -6,7 +6,7 @@ import 'package:water_pressure_iot/utils/date_helper.dart';
 
 class RegisterProvider {
   static final ApiBaseHelper _helper = ApiBaseHelper(
-    delay: const Duration(seconds: 30),
+    delay: const Duration(seconds: 60),
   );
 
   Future<Map<String, dynamic>?> registerAccount(

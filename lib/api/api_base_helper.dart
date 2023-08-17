@@ -13,10 +13,9 @@ import 'app_exception.dart';
 class ApiBaseHelper {
   final ApiVersioning apiVersion;
   final Duration delay;
-  ApiBaseHelper({
-    this.apiVersion = ApiVersioning.v1,
-    this.delay = const Duration(),
-  });
+  ApiBaseHelper(
+      {this.apiVersion = ApiVersioning.v1,
+      this.delay = const Duration(seconds: 15)});
 
   get baseUrl {
     switch (Config.appFlavor) {
@@ -132,7 +131,10 @@ class ApiBaseHelper {
         url,
         queryParameters: queryParameters,
         data: data,
-        options: Options(headers: headers),
+        options: Options(
+          headers: headers,
+          receiveTimeout: delay,
+        ),
       );
       return _returnResponse(response);
     } on SocketException {
@@ -175,7 +177,10 @@ class ApiBaseHelper {
         url,
         queryParameters: queryParameters,
         data: data,
-        options: Options(headers: headers),
+        options: Options(
+          headers: headers,
+          receiveTimeout: delay,
+        ),
       );
       return _returnResponse(response);
     } on SocketException {
@@ -218,7 +223,10 @@ class ApiBaseHelper {
         url,
         queryParameters: queryParameters,
         data: data,
-        options: Options(headers: headers),
+        options: Options(
+          headers: headers,
+          receiveTimeout: delay,
+        ),
       );
       return _returnResponse(response);
     } on SocketException {
