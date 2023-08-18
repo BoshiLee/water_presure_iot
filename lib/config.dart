@@ -10,7 +10,7 @@ class Config {
       case Flavor.PRODUCTION:
         return 'prod.nbiot.itri.org.tw';
       case Flavor.DEVELOPMENT:
-        return 'nbiot_flask:5000';
+        return 'localhost:5000';
       case Flavor.LOCALHOST:
         return 'localhost:5000';
 
