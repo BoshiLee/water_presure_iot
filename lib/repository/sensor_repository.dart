@@ -26,4 +26,14 @@ class SensorRepository {
       response,
     );
   }
+
+  Future<List<SensorData>> getLatestFromNBIOT(int sensorId) async {
+    final response =
+        await _sensorProvider.getLatestSensorDataFromNbiot(sensorId);
+    if (response == null) throw BadRequestException('無法取得壓力計資訊');
+    return compute<Map<String, dynamic>, List<SensorData>>(
+      ParseJsonHelper.parseSensorDataList,
+      response,
+    );
+  }
 }
