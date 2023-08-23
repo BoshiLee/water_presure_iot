@@ -6,11 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
+import 'package:water_pressure_iot/repository/sensor_repository.dart';
 import 'package:water_pressure_iot/utils/date_helper.dart';
 
 part 'sensors_data_table_state.dart';
 
 class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
+  final SensorRepository _sensorRepository = SensorRepository();
+
   List<Sensor>? sensors = [];
 
   List<List<String>> _dataTable = [];
@@ -116,7 +119,30 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     );
   }
 
-  Future<void> syncData() async {}
+  Future<void> syncData() async {
+    emit(SensorsDataTableLoading());
+    try {
+      List<Sensor> results =
+          await _sensorRepository.getLatestFromNBIOT(DateTime(
+        2023,
+        08,
+        01,
+      ));
+      if (results.isEmpty) {
+        throw Exception('無法取得感測器資訊');
+      }
+      for (Sensor s in results) {
+        int index = sensors!.indexWhere((element) => element.id == s.id);
+        if (index != -1 && s.sensorData != null) {
+          sensors![index].sensorData?.add(s.sensorData!.first);
+        }
+      }
+    } on Exception catch (e) {
+      emit(SensorsDataTableError(message: e.toString()));
+    } finally {
+      initializeData();
+    }
+  }
 
   List<int> createExcel(List<List<String>> dataTable) {
     final Workbook workbook = Workbook();
