@@ -8,6 +8,13 @@ import 'package:water_pressure_iot/utils/sava_file_html.dart';
 class SensorTableView extends StatelessWidget {
   const SensorTableView({super.key});
 
+  bool canNotPress(BuildContext context, SensorsDataTableState state) {
+    return state is SensorsDataExportLoading ||
+        state is SensorsDataTableLoading ||
+        state is SensorsDataTableError ||
+        state.dataTable == null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SensorsDataTableCubit, SensorsDataTableState>(
@@ -49,30 +56,62 @@ class SensorTableView extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is SensorsDataTableLoading) {
-          return const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 16.0),
-              Text('數據載入中...'),
-            ],
-          );
-        }
-        if (state.dataHeader == null || state.dataTable == null) {
-          return const Center(
-            child: Text('無法獲取壓力計資料'),
-          );
-        }
-        return SensorDataTable(
-          dataHeader: state.dataHeader!,
-          dataTable: state.dataTable!,
-          exportCSV: state is SensorsDataExportLoading
-              ? null
-              : context.read<SensorsDataTableCubit>().generateCsvFile,
-          exportExcel: state is SensorsDataExportLoading
-              ? null
-              : context.read<SensorsDataTableCubit>().generateExcelFile,
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 8,
+              ),
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: canNotPress(context, state)
+                        ? null
+                        : context.read<SensorsDataTableCubit>().generateCsvFile,
+                    child: const Text('匯出 CSV'),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  ElevatedButton(
+                    onPressed: canNotPress(context, state)
+                        ? null
+                        : context
+                            .read<SensorsDataTableCubit>()
+                            .generateExcelFile,
+                    child: const Text('匯出 Excel'),
+                  ),
+                  Expanded(child: Container()),
+                  ElevatedButton(
+                    onPressed: canNotPress(context, state)
+                        ? null
+                        : context.read<SensorsDataTableCubit>().syncData,
+                    child: const Text('開始同步'),
+                  ),
+                ],
+              ),
+            ),
+            if (state is SensorsDataTableLoading)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+            if (state.dataTable == null)
+              const Center(
+                child: Text('無法獲取壓力計資料'),
+              ),
+            if (state is SensorsDataTableError)
+              Center(
+                child: Text(state.message),
+              ),
+            if (state is SensorsDataTableLoaded)
+              Expanded(
+                child: SensorDataTable(
+                  dataHeader: state.dataHeader,
+                  dataTable: state.dataTable,
+                ),
+              ),
+          ],
         );
       },
     );

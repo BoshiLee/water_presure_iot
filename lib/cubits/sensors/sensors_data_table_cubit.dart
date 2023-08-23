@@ -116,6 +116,8 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     );
   }
 
+  Future<void> syncData() async {}
+
   List<int> createExcel(List<List<String>> dataTable) {
     final Workbook workbook = Workbook();
 

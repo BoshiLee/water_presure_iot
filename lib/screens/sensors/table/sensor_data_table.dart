@@ -5,6 +5,7 @@ class SensorDataTable extends StatelessWidget {
   final List<List<String>> dataTable;
   final VoidCallback? exportCSV;
   final VoidCallback? exportExcel;
+  final VoidCallback? syncData;
 
   const SensorDataTable({
     super.key,
@@ -12,6 +13,7 @@ class SensorDataTable extends StatelessWidget {
     required this.dataTable,
     this.exportExcel,
     this.exportCSV,
+    this.syncData,
   });
 
   List<Widget> _buildRows(List<String> dataRow) {
@@ -44,27 +46,6 @@ class SensorDataTable extends StatelessWidget {
     // 取得所有sensor的sensorData，並合併成一個列表
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 8,
-          ),
-          child: Row(
-            children: [
-              ElevatedButton(
-                onPressed: exportCSV,
-                child: const Text('匯出 CSV'),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              ElevatedButton(
-                onPressed: exportExcel,
-                child: const Text('匯出 Excel'),
-              ),
-            ],
-          ),
-        ),
         SizedBox(
           height: 50,
           child: Row(
