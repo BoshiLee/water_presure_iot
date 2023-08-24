@@ -122,7 +122,10 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   }
 
   Future<void> syncData() async {
-    emit(SensorsDataTableLoading());
+    emit(SensorsDataTablePolling(
+      dataHeader: _dataHeader,
+      dataTable: _dataTable,
+    ));
     try {
       List<Sensor> results =
           await _sensorRepository.getLatestFromNBIOT(DateTime(

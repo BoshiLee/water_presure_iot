@@ -17,15 +17,16 @@ class SensorTableView extends StatelessWidget {
   }
 
   void syncData(
-      BuildContext context, SensorsDataTableState state, int counter) {
-    if (canNotPress(context, state)) return;
-    if (counter > 0 && counter < 60) {
-      context.read<DataQueryCounterCubit>().stop();
+    BuildContext context,
+    int counter,
+  ) {
+    final resetValue = context.read<DataQueryCounterCubit>().resetValue;
+    if (counter > 0 && counter < resetValue) {
+      context.read<DataQueryCounterCubit>().pause();
+      return;
     }
-    if (counter == 60) {
-      context.read<DataQueryCounterCubit>().counting();
-      context.read<SensorsDataTableCubit>().syncData();
-    }
+    context.read<DataQueryCounterCubit>().counting();
+    context.read<SensorsDataTableCubit>().syncData();
   }
 
   @override
@@ -61,6 +62,7 @@ class SensorTableView extends StatelessWidget {
           );
         }
         if (state is SensorsDataTableLoaded) {
+          BotToast.closeAllLoading();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('數據載入完成'),
@@ -113,11 +115,12 @@ class SensorTableView extends StatelessWidget {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () => syncData(
-                              context,
-                              tableState,
-                              state,
-                            ),
+                            onPressed: canNotPress(context, tableState)
+                                ? null
+                                : () => syncData(
+                                      context,
+                                      state,
+                                    ),
                             child: Text(
                               context.read<DataQueryCounterCubit>().message,
                             ),
@@ -133,14 +136,21 @@ class SensorTableView extends StatelessWidget {
               const Center(
                 child: CircularProgressIndicator(),
               ),
-            if (tableState.dataTable == null)
-              const Center(
-                child: Text('無法獲取壓力計資料'),
-              ),
             if (tableState is SensorsDataTableError)
               Center(
                 child: Text(tableState.message),
               ),
+            if (tableState is SensorsDataTablePolling) ...[
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+              Expanded(
+                child: SensorDataTable(
+                  dataHeader: tableState.dataHeader,
+                  dataTable: tableState.dataTable,
+                ),
+              ),
+            ],
             if (tableState is SensorsDataTableLoaded)
               Expanded(
                 child: SensorDataTable(

@@ -35,7 +35,9 @@ class SensorsCubit extends Cubit<SensorsState> {
     } catch (e) {
       emit(SensorsError(e.toString()));
     } finally {
-      // updateSensorsData();
+      emit(
+        SensorsLoaded(sensors),
+      );
     }
   }
 
