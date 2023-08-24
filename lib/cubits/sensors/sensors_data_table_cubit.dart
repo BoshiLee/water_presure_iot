@@ -16,6 +16,8 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
 
   List<Sensor>? sensors = [];
 
+  Map<String, List<String>> _dataTimeSection = {};
+
   List<List<String>> _dataTable = [];
 
   List<String> get _dataHeader {
@@ -75,7 +77,6 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
       return [];
     }
     Map<String, int> sensorDataMap = {};
-    Map<String, List<String>> dataTimeSection = {};
     List<List<String>> dataTable = [];
 
     sensors?.asMap().forEach((index, sensor) {
@@ -85,20 +86,20 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
       String time = data.timestamp != null
           ? DateFormat('MM-dd kk:mm:ss').format(data.timestamp!)
           : '--';
-      if (dataTimeSection.containsKey(time) == false) {
-        dataTimeSection[time] = List.filled(sensors!.length, '--');
+      if (_dataTimeSection.containsKey(time) == false) {
+        _dataTimeSection[time] = List.filled(sensors!.length, '--');
       }
 
       // 判斷 pressure 要加在哪一個欄位
       for (int i = 0; i < sensors!.length; i++) {
         if (i == sensorDataMap[data.sensorNameIdentity!]!) {
-          dataTimeSection[time]?[i] = data.pressure.toString();
+          _dataTimeSection[time]?[i] = data.pressure.toString();
         }
       }
     }
 
     // 將 Map 轉成 List， key 為時間，value 為壓力值
-    dataTable = dataTimeSection.entries.map((e) {
+    dataTable = _dataTimeSection.entries.map((e) {
       return [
         e.key,
         ...e.value,
