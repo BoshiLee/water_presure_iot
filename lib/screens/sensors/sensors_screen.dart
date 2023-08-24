@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
+import 'package:water_pressure_iot/cubits/sensors/data_query_counter_cubit.dart';
 import 'package:water_pressure_iot/cubits/sensors/sensors_cubit.dart';
 import 'package:water_pressure_iot/cubits/sensors/sensors_data_table_cubit.dart';
 import 'package:water_pressure_iot/screens/sensors/sensors_page_view.dart';
@@ -49,10 +50,17 @@ class SensorsScreen extends StatelessWidget {
               message: '壓力計資料讀取中...',
             );
           }
-          return BlocProvider(
-            create: (context) => SensorsDataTableCubit(
-              sensors: context.read<SensorsCubit>().sensors,
-            ),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => SensorsDataTableCubit(
+                  sensors: context.read<SensorsCubit>().sensors,
+                ),
+              ),
+              BlocProvider(
+                create: (context) => DataQueryCounterCubit(resetValue: 60),
+              ),
+            ],
             child: SensorsTabbedPage(
               sensors: context.read<SensorsCubit>().sensors,
               gridItemWidth: gridItemWidth,
