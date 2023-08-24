@@ -23,7 +23,6 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
       return [];
     }
     return [
-      'UID',
       'Time',
       for (var sensor in sensors!) '${sensor.nameIdentity}',
     ];
@@ -71,38 +70,40 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     return flatData;
   }
 
-  List<List<String>> _generateDataTable(List<SensorData> allData) {
+  List<List<String>> _generateDataTable(List<SensorData> dataList) {
     if (sensors == null || sensors!.isEmpty) {
       return [];
     }
     Map<String, int> sensorDataMap = {};
+    Map<String, List<String>> dataTimeSection = {};
+    List<List<String>> dataTable = [];
 
     sensors?.asMap().forEach((index, sensor) {
       sensorDataMap[sensor.nameIdentity!] = index;
     });
-
-    List<List<String>> dataTable = [];
-    for (SensorData data in allData) {
-      List<String> row = [];
-      row.add(data.id?.toString() ?? '--');
+    for (var data in dataList) {
       String time = data.timestamp != null
-          ? DateFormat('yyyy-MM-dd kk:mm:ss').format(data.timestamp!)
+          ? DateFormat('MM-dd kk:mm:ss').format(data.timestamp!)
           : '--';
-      row.add(time);
-      if (data.sensorNameIdentity == null &&
-          sensorDataMap[data.sensorNameIdentity!] == null) {
-        row.addAll(List.filled(sensors!.length, '--'));
-        continue;
+      if (dataTimeSection.containsKey(time) == false) {
+        dataTimeSection[time] = List.filled(sensors!.length, '--');
       }
+
+      // 判斷 pressure 要加在哪一個欄位
       for (int i = 0; i < sensors!.length; i++) {
         if (i == sensorDataMap[data.sensorNameIdentity!]!) {
-          row.add(data.pressure.toString());
-        } else {
-          row.add('--');
+          dataTimeSection[time]?[i] = data.pressure.toString();
         }
       }
-      dataTable.add(row);
     }
+
+    // 將 Map 轉成 List， key 為時間，value 為壓力值
+    dataTable = dataTimeSection.entries.map((e) {
+      return [
+        e.key,
+        ...e.value,
+      ];
+    }).toList();
 
     return dataTable;
   }
@@ -137,10 +138,22 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
           sensors![index].sensorData?.add(s.sensorData!.first);
         }
       }
+      List<SensorData> allData = _flatAllSensorData(results);
+      List<List<String>> dataTable =
+          await compute<List<SensorData>, List<List<String>>>(
+        _generateDataTable,
+        allData,
+      );
+      this._dataTable.insertAll(0, dataTable);
     } on Exception catch (e) {
       emit(SensorsDataTableError(message: e.toString()));
     } finally {
-      initializeData();
+      emit(
+        SensorsDataTableLoaded(
+          dataHeader: _dataHeader,
+          dataTable: _dataTable,
+        ),
+      );
     }
   }
 
