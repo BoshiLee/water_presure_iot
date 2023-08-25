@@ -28,6 +28,24 @@ class SensorsDataTablePolling extends SensorsDataTableState {
   List<Object> get props => [];
 }
 
+class SensorsDataTablePollingUpdated extends SensorsDataTableState {
+  @override
+  final List<String> dataHeader;
+  @override
+  final List<List<String>> dataTable;
+
+  final String lastUpdated;
+
+  const SensorsDataTablePollingUpdated({
+    required this.dataHeader,
+    required this.dataTable,
+    required this.lastUpdated,
+  }) : super();
+
+  @override
+  List<Object> get props => [];
+}
+
 class SensorsDataTableLoading extends SensorsDataTableState {
   @override
   List<Object> get props => [DateTime.now().toIso8601String()];

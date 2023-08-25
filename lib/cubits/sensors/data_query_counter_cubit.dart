@@ -12,7 +12,13 @@ class DataQueryCounterCubit extends Cubit<int> {
 
   void pause() {
     _pauseFlag = true;
-    message = '繼續同步';
+    emit(_counter);
+  }
+
+  void resume() {
+    _pauseFlag = false;
+    emit(_counter);
+    counting();
   }
 
   void reset() {
@@ -23,25 +29,28 @@ class DataQueryCounterCubit extends Cubit<int> {
 
   void counting() {
     message = '暫停同步';
+    if (_pauseFlag) {
+      return;
+    }
     // decrease counter every 1 second
-    Future.delayed(const Duration(seconds: 1), () {
-      _counter--;
-      emit(_counter);
-      if (_pauseFlag) {
-        _pauseFlag = false;
-        return;
-      }
-      if (_counter == 0) {
-        timesUp();
-      }
-      counting();
-    });
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        _counter--;
+        // print('counter: $_counter');
+        if (_counter == 0) {
+          timesUp();
+          return;
+        }
+        emit(_counter);
+        counting();
+      },
+    );
   }
 
   void timesUp() {
     // send event
     emit(_counter);
     _counter = resetValue;
-    emit(_counter);
   }
 }

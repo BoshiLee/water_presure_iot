@@ -13,6 +13,7 @@ part 'sensors_data_table_state.dart';
 
 class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   final SensorRepository _sensorRepository = SensorRepository();
+  DateTime? _lastUpdated;
 
   List<Sensor>? sensors = [];
 
@@ -122,17 +123,16 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   }
 
   Future<void> syncData() async {
-    emit(SensorsDataTablePolling(
-      dataHeader: _dataHeader,
-      dataTable: _dataTable,
-    ));
+    emit(
+      SensorsDataTablePolling(
+        dataHeader: _dataHeader,
+        dataTable: _dataTable,
+      ),
+    );
     try {
-      List<Sensor> results =
-          await _sensorRepository.getLatestFromNBIOT(DateTime(
-        2023,
-        08,
-        01,
-      ));
+      List<Sensor> results = await _sensorRepository.getLatestFromNBIOT(
+        _lastUpdated ?? DateTime.now(),
+      );
       if (results.isEmpty) {
         throw Exception('無法取得感測器資訊');
       }
@@ -148,14 +148,16 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
         _generateDataTable,
         allData,
       );
-      this._dataTable.insertAll(0, dataTable);
+      _dataTable.insertAll(0, dataTable);
     } on Exception catch (e) {
       emit(SensorsDataTableError(message: e.toString()));
     } finally {
       emit(
-        SensorsDataTableLoaded(
+        SensorsDataTablePollingUpdated(
           dataHeader: _dataHeader,
           dataTable: _dataTable,
+          lastUpdated:
+              _lastUpdated != null ? _lastUpdated!.toIso8601String() : '',
         ),
       );
     }

@@ -26,7 +26,6 @@ class SensorTableView extends StatelessWidget {
       return;
     }
     context.read<DataQueryCounterCubit>().counting();
-    context.read<SensorsDataTableCubit>().syncData();
   }
 
   @override
@@ -68,6 +67,22 @@ class SensorTableView extends StatelessWidget {
               content: Text('數據載入完成'),
             ),
           );
+        }
+        if (state is SensorsDataTablePolling) {
+          context.read<DataQueryCounterCubit>().pause();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('與中華電信更新數據中...'),
+            ),
+          );
+        }
+        if (state is SensorsDataTablePollingUpdated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('數據更新完成 ${state.lastUpdated}'),
+            ),
+          );
+          context.read<DataQueryCounterCubit>().resume();
         }
       },
       builder: (context, tableState) {
