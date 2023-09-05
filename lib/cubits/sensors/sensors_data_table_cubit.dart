@@ -85,7 +85,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     });
     for (var data in dataList) {
       String time = data.timestamp != null
-          ? DateFormat('MM-dd kk:mm:ss').format(data.timestamp!)
+          ? DateFormat('MM-dd HH:mm:s').format(data.timestamp!)
           : '--';
       if (_dataTimeSection.containsKey(time) == false) {
         _dataTimeSection[time] = List.filled(sensors!.length, '--');
