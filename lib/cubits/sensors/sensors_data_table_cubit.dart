@@ -89,6 +89,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
           : '--';
       if (_dataTimeSection.containsKey(time) == false) {
         _dataTimeSection[time] = List.filled(sensors!.length, '--');
+        _lastUpdated = data.timestamp;
       }
 
       // 判斷 pressure 要加在哪一個欄位
@@ -98,6 +99,14 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
         }
       }
     }
+
+    // 由時間近到遠排序
+    _dataTimeSection = Map.fromEntries(
+      _dataTimeSection.entries.toList()
+        ..sort((e1, e2) {
+          return e2.key.compareTo(e1.key);
+        }),
+    );
 
     // 將 Map 轉成 List， key 為時間，value 為壓力值
     dataTable = _dataTimeSection.entries.map((e) {
@@ -134,7 +143,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
         _lastUpdated ?? DateTime.now(),
       );
       if (results.isEmpty) {
-        throw Exception('無法取得感測器資訊');
+        throw Exception('沒有更新的數據');
       }
       for (Sensor s in results) {
         int index = sensors!.indexWhere((element) => element.id == s.id);
@@ -143,15 +152,16 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
         }
       }
       List<SensorData> allData = _flatAllSensorData(results);
-      List<List<String>> dataTable =
-          await compute<List<SensorData>, List<List<String>>>(
+      _dataTable = await compute<List<SensorData>, List<List<String>>>(
         _generateDataTable,
         allData,
       );
-      _dataTable.insertAll(0, dataTable);
     } on Exception catch (e) {
       emit(SensorsDataTableError(message: e.toString()));
     } finally {
+      print(
+        'lastUpdated: ${_lastUpdated?.toIso8601String()}, allData: ${_dataTable.length}',
+      );
       emit(
         SensorsDataTablePollingUpdated(
           dataHeader: _dataHeader,

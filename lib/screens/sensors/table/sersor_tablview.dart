@@ -13,6 +13,7 @@ class SensorTableView extends StatelessWidget {
     return state is SensorsDataExportLoading ||
         state is SensorsDataTableLoading ||
         state is SensorsDataTableError ||
+        state is SensorsDataTablePolling ||
         state.dataTable == null;
   }
 
@@ -33,6 +34,8 @@ class SensorTableView extends StatelessWidget {
     return BlocConsumer<SensorsDataTableCubit, SensorsDataTableState>(
       buildWhen: (previous, current) {
         return current is SensorsDataTableLoaded ||
+            current is SensorsDataTablePolling ||
+            current is SensorsDataTablePollingUpdated ||
             current is SensorsDataTableLoading;
       },
       listener: (context, state) {
@@ -156,8 +159,11 @@ class SensorTableView extends StatelessWidget {
                 child: Text(tableState.message),
               ),
             if (tableState is SensorsDataTablePolling) ...[
-              const Center(
-                child: CircularProgressIndicator(),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
               Expanded(
                 child: SensorDataTable(
@@ -166,11 +172,12 @@ class SensorTableView extends StatelessWidget {
                 ),
               ),
             ],
-            if (tableState is SensorsDataTableLoaded)
+            if (tableState is SensorsDataTableLoaded ||
+                tableState is SensorsDataTablePollingUpdated)
               Expanded(
                 child: SensorDataTable(
-                  dataHeader: tableState.dataHeader,
-                  dataTable: tableState.dataTable,
+                  dataHeader: tableState.dataHeader!,
+                  dataTable: tableState.dataTable!,
                 ),
               ),
           ],
