@@ -120,8 +120,8 @@ class StaticPaginationListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (this.onRefresh != null)
+    if (onRefresh != null)
       return RefreshIndicator(child: this.listView, onRefresh: this.onRefresh!);
-    return this.listView;
+    return listView;
   }
 }

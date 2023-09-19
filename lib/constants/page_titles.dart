@@ -7,15 +7,15 @@ typedef IndexSidebarBuilder = SidebarXItem Function(
 class PageTitle {
   static const List<IconData> icons = [
     Icons.home,
-    Icons.person,
-    Icons.settings,
+//     Icons.person,
+//     Icons.settings,
     Icons.logout,
   ];
 
   static const List<String> titles = [
     'Dashboard',
-    'Profile',
-    'Settings',
+//     'Profile',
+//     'Settings',
     'Logout',
   ];
 
