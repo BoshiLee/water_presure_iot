@@ -29,6 +29,8 @@ class SensorsCubit extends Cubit<SensorsState> {
         findValidSensors,
         sensors,
       );
+      // 取得最新的sensorData
+      final DateTime? latest = _compareTimeStampInSensors(sensors);
       emit(
         SensorsLoaded(sensors),
       );
@@ -39,6 +41,14 @@ class SensorsCubit extends Cubit<SensorsState> {
         SensorsLoaded(sensors),
       );
     }
+  }
+
+  DateTime? _compareTimeStampInSensors(List<Sensor> sensors) {
+    final DateTime? latest = sensors
+        .map((sensor) => sensor.sensorData?.first.timestamp)
+        .reduce((value, element) => value!.isAfter(element!) ? value : element);
+
+    return latest;
   }
 
   Future updateSensorsData() async {

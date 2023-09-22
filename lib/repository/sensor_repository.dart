@@ -5,10 +5,13 @@ import 'package:water_pressure_iot/models/sensor_data.dart';
 import 'package:water_pressure_iot/utils/date_helper.dart';
 import 'package:water_pressure_iot/utils/parse_json_helper.dart';
 
+import '../api/api_response.dart';
+import '../provider/register_provider.dart';
 import '../provider/sensor_provider.dart';
 
 class SensorRepository {
   final SensorProvider _sensorProvider = SensorProvider();
+  final RegisterProvider _regisProvider = RegisterProvider();
 
   Future<List<Sensor>> fetchSensors() async {
     final response = await _sensorProvider.fetchSensors();
@@ -37,5 +40,20 @@ class SensorRepository {
       ParseJsonHelper.parseSensors,
       response,
     );
+  }
+
+  Future<ApiResponse> importSensorDataFromCHT({
+    required DateTime startTime,
+  }) async {
+    try {
+      final response = await _regisProvider.importSensorsData(startTime);
+      if (response == null) throw BadRequestException('匯入失敗，請稍後再試');
+      return compute<Map<String, dynamic>, ApiResponse>(
+        ParseJsonHelper.parseApiResponse,
+        response,
+      );
+    } catch (e) {
+      throw BadRequestException(e.toString());
+    }
   }
 }
