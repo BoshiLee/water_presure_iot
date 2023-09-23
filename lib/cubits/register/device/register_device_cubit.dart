@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:water_pressure_iot/api/api_response.dart';
 import 'package:water_pressure_iot/models/device.dart';
 import 'package:water_pressure_iot/repository/register_repository.dart';
+import 'package:water_pressure_iot/repository/sensor_repository.dart';
 import 'package:water_pressure_iot/repository/user_repository.dart';
 
 part 'register_device_state.dart';
@@ -10,6 +11,7 @@ part 'register_device_state.dart';
 class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
   final int projectId;
   final RegisterRepository _repository = RegisterRepository();
+  final SensorRepository _sensorRepository = SensorRepository();
   List<Device> devices = [];
 
   RegisterDeviceCubit({
@@ -53,7 +55,7 @@ class RegisterDeviceCubit extends Cubit<RegisterDeviceState> {
       );
       emit(const RegisterDeviceLoading(message: '匯入感測器資料中...'));
       final ApiResponse sensorsDataResult =
-          await _repository.importSensorDataFromCHT(
+          await _sensorRepository.importSensorDataFromCHT(
         startTime: DateTime(
           DateTime.now().year,
           DateTime.now().month,
