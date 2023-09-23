@@ -57,6 +57,8 @@ class SensorDataTable extends StatelessWidget {
         ),
         Expanded(
           child: ListView.builder(
+            shrinkWrap: true,
+            itemExtent: 50,
             itemCount: dataTable.length,
             itemBuilder: (context, index) {
               return Row(
