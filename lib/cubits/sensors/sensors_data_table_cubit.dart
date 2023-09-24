@@ -15,19 +15,19 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   final SensorRepository _sensorRepository = SensorRepository();
   DateTime? _lastUpdated;
 
-  List<Sensor>? sensors = [];
+  List<Sensor> sensors = [];
 
   Map<String, List<String>> _dataTimeSection = {};
 
   List<List<String>> _dataTable = [];
 
   List<String> get _dataHeader {
-    if (sensors == null || sensors!.isEmpty) {
+    if (sensors.isEmpty) {
       return [];
     }
     return [
       'Time',
-      for (var sensor in sensors!) '${sensor.nameIdentity}',
+      for (var sensor in sensors) '${sensor.nameIdentity}',
     ];
   }
 
@@ -47,7 +47,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     try {
       List<SensorData> allData = await compute<List<Sensor>, List<SensorData>>(
         _flatAllSensorData,
-        sensors!,
+        sensors,
       );
       _dataTable = await compute<List<SensorData>, List<List<String>>>(
         _generateDataTable,
@@ -74,13 +74,13 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
   }
 
   List<List<String>> _generateDataTable(List<SensorData> dataList) {
-    if (sensors == null || sensors!.isEmpty) {
+    if (sensors.isEmpty) {
       return [];
     }
     Map<String, int> sensorDataMap = {};
     List<List<String>> dataTable = [];
 
-    sensors?.asMap().forEach((index, sensor) {
+    sensors.asMap().forEach((index, sensor) {
       sensorDataMap[sensor.nameIdentity!] = index;
     });
     for (var data in dataList) {
@@ -88,12 +88,12 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
           ? DateFormat('MM-dd HH:mm:ss').format(data.timestamp!)
           : '--';
       if (_dataTimeSection.containsKey(time) == false) {
-        _dataTimeSection[time] = List.filled(sensors!.length, '--');
+        _dataTimeSection[time] = List.filled(sensors.length, '--');
         _lastUpdated = data.timestamp;
       }
 
       // 判斷 pressure 要加在哪一個欄位
-      for (int i = 0; i < sensors!.length; i++) {
+      for (int i = 0; i < sensors.length; i++) {
         if (i == sensorDataMap[data.sensorNameIdentity!]!) {
           _dataTimeSection[time]?[i] = data.pressure.toString();
         }
@@ -146,9 +146,9 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
         throw Exception('沒有更新的數據');
       }
       for (Sensor s in results) {
-        int index = sensors!.indexWhere((element) => element.id == s.id);
+        int index = sensors.indexWhere((element) => element.id == s.id);
         if (index != -1 && s.sensorData != null) {
-          sensors![index].sensorData?.add(s.sensorData!.first);
+          sensors[index].sensorData?.add(s.sensorData!.first);
         }
       }
       List<SensorData> allData = _flatAllSensorData(results);
