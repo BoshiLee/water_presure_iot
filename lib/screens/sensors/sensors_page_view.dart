@@ -5,13 +5,13 @@ import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/screens/sensors/chart/sensor_chart_table.dart';
 import 'package:water_pressure_iot/screens/sensors/table/sersor_tablview.dart';
 
-class SensorsTabbedPage extends StatefulWidget {
+class SensorsPageView extends StatefulWidget {
   final double gridItemWidth;
   final double gridItemHeight;
   final List<Sensor> sensors;
   final bool isLoading;
 
-  const SensorsTabbedPage({
+  const SensorsPageView({
     super.key,
     required this.gridItemWidth,
     required this.gridItemHeight,
@@ -20,10 +20,10 @@ class SensorsTabbedPage extends StatefulWidget {
   });
 
   @override
-  State<SensorsTabbedPage> createState() => _SensorsTabbedPageState();
+  State<SensorsPageView> createState() => _SensorsPageViewState();
 }
 
-class _SensorsTabbedPageState extends State<SensorsTabbedPage>
+class _SensorsPageViewState extends State<SensorsPageView>
     with SingleTickerProviderStateMixin {
   static const List<Tab> _tabs = <Tab>[
     Tab(text: '統計表'),
@@ -44,11 +44,6 @@ class _SensorsTabbedPageState extends State<SensorsTabbedPage>
       SensorChartTable(
         sensors: widget.sensors,
       ),
-      // SensorsGridview(
-      //   sensors: widget.sensors,
-      //   gridItemWidth: widget.gridItemWidth,
-      //   gridItemHeight: widget.gridItemHeight,
-      // )
     ];
   }
 

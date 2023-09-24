@@ -61,7 +61,7 @@ class SensorsScreen extends StatelessWidget {
                 create: (context) => DataQueryCounterCubit(resetValue: 50),
               ),
             ],
-            child: SensorsTabbedPage(
+            child: SensorsPageView(
               sensors: context.read<SensorsCubit>().sensors,
               gridItemWidth: gridItemWidth,
               gridItemHeight: gridItemHeight,
