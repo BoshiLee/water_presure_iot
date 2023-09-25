@@ -43,7 +43,6 @@ class DashboardChartCard extends StatelessWidget {
             mainAxisAlignment:
                 MainAxisAlignment.spaceAround, // 將Text和ElevatedButton置中
             children: [
-              // Expanded(child: Container()),
               IconButton(
                 onPressed: () {
                   // _showHistoryDialog(context, sensor);
@@ -66,7 +65,7 @@ class DashboardChartCard extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: '  ${sensor?.unit ?? 'kgf'}',
+                        text: ' Bar',
                         style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                         ),
