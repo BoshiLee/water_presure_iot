@@ -9,6 +9,26 @@ class SensorHistoryDialog extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  List<Widget> _buildRows(List<String> dataRow) {
+    return dataRow
+        .map(
+          (e) => Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              height: 50,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+              ),
+              child: Text(e),
+            ),
+          ),
+        )
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SensorHistoryCubit, SensorHistoryState>(
@@ -31,7 +51,7 @@ class SensorHistoryDialog extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('${sensor.name} Pressure History'),
+                  Text('${sensor.name} History'),
                   IconButton(
                     color: Colors.redAccent[400],
                     onPressed: () {
@@ -41,7 +61,6 @@ class SensorHistoryDialog extends StatelessWidget {
                   ),
                 ],
               ),
-              const Text('Pressure, Longitude, Latitude, Date'),
             ],
           ),
           actions: [
@@ -65,20 +84,40 @@ class SensorHistoryDialog extends StatelessWidget {
               ),
             ),
           ],
-          content: SizedBox(
-            width: double.maxFinite,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: sensor.sensorData?.length ?? 0,
-              itemBuilder: (context, index) {
-                var data = sensor.sensorData![index];
-                return ListTile(
-                  title: Text(
-                    '${data.pressure} | ${data.longitude} | ${data.latitude} | ${data.timestamp}',
+          content: Column(
+            children: [
+              SizedBox(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: _buildRows(
+                    ['Time', 'Pressure'],
                   ),
-                );
-              },
-            ),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  width: double.maxFinite,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemExtent: 50,
+                    itemCount: sensor.sensorData?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      var data = sensor.sensorData![index];
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: _buildRows(
+                          [
+                            data.timestamp.toString(),
+                            data.pressure.toString(),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

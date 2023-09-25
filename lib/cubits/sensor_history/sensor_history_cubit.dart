@@ -15,16 +15,13 @@ class SensorHistoryCubit extends Cubit<SensorHistoryState> {
 
   void exportToCsv() {
     List<List<String>> csvData = [
-      ['Name', 'Pressure', 'Date', 'Latitude', 'Longitude']
+      ['Time', 'Pressure']
     ];
 
     for (SensorData data in sensor.sensorData ?? []) {
       csvData.add([
-        data.sensorNameIdentity.toString(),
-        data.pressure.toString(),
         data.timestamp.toString(),
-        data.latitude.toString(),
-        data.longitude.toString(),
+        data.pressure.toString(),
       ]);
     }
 
