@@ -27,7 +27,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     }
     return [
       'Time',
-      for (var sensor in sensors) '${sensor.nameIdentity}',
+      for (var sensor in sensors) '${sensor.name}',
     ];
   }
 
