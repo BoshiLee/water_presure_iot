@@ -139,7 +139,8 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
       ),
     );
     try {
-      List<Sensor> results = await _sensorRepository.getLatestFromNBIOT();
+      List<Sensor> results = await _sensorRepository.fetchSensors();
+      ;
       if (results.isEmpty) {
         throw Exception('沒有更新的數據');
       }

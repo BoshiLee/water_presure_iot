@@ -10,8 +10,6 @@ import 'package:water_pressure_iot/screens/sensors/chart/sensor_chart_table.dart
 import 'package:water_pressure_iot/screens/sensors/table/sensor_data_table.dart';
 import 'package:water_pressure_iot/utils/sava_file_html.dart';
 
-import '../../cubits/sensors/sensors_cubit.dart';
-
 class SensorsPageView extends StatefulWidget {
   final double gridItemWidth;
   final double gridItemHeight;
@@ -207,7 +205,7 @@ class _SensorsPageViewState extends State<SensorsPageView>
                     BlocConsumer<DataQueryCounterCubit, int>(
                       listener: (context, state) {
                         if (state == 0) {
-                          context.read<SensorsCubit>().refresh();
+                          context.read<SensorsDataTableCubit>().syncData();
                         }
                       },
                       builder: (context, state) {
