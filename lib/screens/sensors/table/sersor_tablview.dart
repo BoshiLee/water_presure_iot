@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water_pressure_iot/cubits/sensors/data_query_counter_cubit.dart';
-import 'package:water_pressure_iot/cubits/sensors/sensors_cubit.dart';
 import 'package:water_pressure_iot/cubits/sensors/sensors_data_table_cubit.dart';
 import 'package:water_pressure_iot/screens/sensors/table/sensor_data_table.dart';
 import 'package:water_pressure_iot/utils/sava_file_html.dart';
@@ -120,7 +119,7 @@ class SensorTableView extends StatelessWidget {
                   BlocConsumer<DataQueryCounterCubit, int>(
                     listener: (context, state) {
                       if (state == 0) {
-                        context.read<SensorsCubit>().refresh();
+                        context.read<SensorsDataTableCubit>().syncData();
                       }
                     },
                     builder: (context, state) {

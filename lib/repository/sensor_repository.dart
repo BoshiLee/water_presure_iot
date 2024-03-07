@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:water_pressure_iot/api/app_exception.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
 import 'package:water_pressure_iot/models/sensor_data.dart';
-import 'package:water_pressure_iot/utils/date_helper.dart';
 import 'package:water_pressure_iot/utils/parse_json_helper.dart';
 
-import '../api/api_response.dart';import '../provider/sensor_provider.dart';
+import '../api/api_response.dart';
+import '../provider/sensor_provider.dart';
 
 class SensorRepository {
   final SensorProvider _sensorProvider = SensorProvider();
@@ -28,10 +28,8 @@ class SensorRepository {
     );
   }
 
-  Future<List<Sensor>> getLatestFromNBIOT(DateTime latest) async {
-    final response = await _sensorProvider.getLatestSensorDataFromNbiot(
-      latest.iso8601StringWithTimeOffset(),
-    );
+  Future<List<Sensor>> getLatestFromNBIOT() async {
+    final response = await _sensorProvider.getLatestSensorDataFromNbiot();
     if (response == null) throw BadRequestException('無法取得壓力計資訊');
     return compute<Map<String, dynamic>, List<Sensor>>(
       ParseJsonHelper.parseSensors,
@@ -43,7 +41,9 @@ class SensorRepository {
     DateTime? startTime,
   }) async {
     try {
-      final response = await _sensorProvider.importSensorsData(startTime: startTime,);
+      final response = await _sensorProvider.importSensorsData(
+        startTime: startTime,
+      );
       if (response == null) throw BadRequestException('匯入失敗，請稍後再試');
       return compute<Map<String, dynamic>, ApiResponse>(
         ParseJsonHelper.parseApiResponse,
