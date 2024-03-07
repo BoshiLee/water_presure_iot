@@ -58,7 +58,7 @@ class SensorsScreen extends StatelessWidget {
                 ),
               ),
               BlocProvider(
-                create: (context) => DataQueryCounterCubit(resetValue: 50),
+                create: (context) => DataQueryCounterCubit(resetValue: 25),
               ),
             ],
             child: SensorsPageView(

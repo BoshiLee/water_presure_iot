@@ -14,14 +14,18 @@ class SensorsCubit extends Cubit<SensorsState> {
     fetchSensors();
   }
 
-  void refresh() => fetchSensors();
+  void refresh() => fetchSensors(refresh: true);
 
-  Future<void> fetchSensors() async {
+  Future<void> fetchSensors({bool refresh = false}) async {
     if (state is SensorsLoading) return;
     emit(const SensorsLoading(message: '感測器資料讀取中'));
     try {
-      // 先更新 DB 資料
-      await _repository.importSensorDataFromCHT();
+      if (refresh) {
+        sensors = [];
+      } else {
+        // 先更新 DB 資料
+        await _repository.importSensorDataFromCHT();
+      }
       // 取得感測器資料
       sensors = await _repository.fetchSensors();
       if (sensors.isEmpty) {
