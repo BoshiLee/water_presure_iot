@@ -12,7 +12,7 @@ class Config {
       case Flavor.DEVELOPMENT:
         return '60.250.194.38:50';
       case Flavor.LOCALHOST:
-        return 'localhost:5000';
+        return 'localhost:50';
 
       case Flavor.UNDETERMINED:
         return 'dev.hearting.online';
