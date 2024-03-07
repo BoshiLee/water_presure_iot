@@ -1,2 +1,2 @@
-const String email = 'boshi@example.com';
+const String email = 'test@mail.com';
 const String password = 'password123';
