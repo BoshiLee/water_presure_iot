@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:water_pressure_iot/models/sensor.dart';
-import 'package:water_pressure_iot/models/sensor_data.dart';
 import 'package:water_pressure_iot/repository/sensor_repository.dart';
 
 part 'sensors_state.dart';
@@ -24,7 +23,7 @@ class SensorsCubit extends Cubit<SensorsState> {
         sensors = [];
       } else {
         // 先更新 DB 資料
-        await _repository.importSensorDataFromCHT();
+        // await _repository.importSensorDataFromCHT();
       }
       // 取得感測器資料
       sensors = await _repository.fetchSensors();
@@ -45,37 +44,6 @@ class SensorsCubit extends Cubit<SensorsState> {
       emit(
         SensorsLoaded(sensors),
       );
-    }
-  }
-
-  Future updateSensorsData() async {
-    if (sensors.isEmpty) return;
-    int index = 0;
-    String message = '感測器 ${sensors[index].nameIdentity ?? ''} 資料更新中)';
-    emit(SensorsLoading(message: message));
-    await Future.forEach(
-      sensors,
-      (sensor) => updateSensorDataFromNBIOT(index++, sensor.id),
-    ).then(
-      (value) => index += 1,
-    );
-    emit(SensorsLoaded(sensors));
-  }
-
-  Future<void> updateSensorDataFromNBIOT(int index, int? sensorId) async {
-    if (sensorId == null) return;
-    try {
-      final List<SensorData> sensorData =
-          await _repository.updateFromNBIOT(sensorId);
-      if (sensorData.isEmpty) {
-        throw Exception('無法取得感測器資訊');
-      }
-      if (sensors[index].sensorData == null) {
-        sensors[index].sensorData = [];
-      }
-      sensors[index].sensorData?.addAll(sensorData);
-    } catch (e) {
-      emit(SensorsError(e.toString()));
     }
   }
 
