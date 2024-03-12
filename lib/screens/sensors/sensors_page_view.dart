@@ -202,38 +202,42 @@ class _SensorsPageViewState extends State<SensorsPageView>
                       child: const Text('匯出 Excel'),
                     ),
                     Expanded(child: Container()),
-                    BlocConsumer<DataQueryCounterCubit, int>(
-                      listener: (context, state) {
-                        if (state == 0) {
-                          context.read<SensorsDataTableCubit>().syncData();
-                        }
-                      },
-                      builder: (context, state) {
-                        return Row(
-                          children: [
-                            Text(
-                              '下次同步時間: ${state.toString()} 秒',
-                              style: const TextStyle(
-                                fontSize: 10,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: canNotPress(context, tableState)
-                                  ? null
-                                  : () => syncData(
-                                        context,
-                                        state,
-                                      ),
-                              child: Text(
-                                context.read<DataQueryCounterCubit>().message,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: BlocConsumer<DataQueryCounterCubit, int>(
+                  listener: (context, state) {
+                    if (state == 0) {
+                      context.read<SensorsDataTableCubit>().syncData();
+                    }
+                  },
+                  builder: (context, state) {
+                    return Row(
+                      children: [
+                        Text(
+                          '下次同步時間: ${state.toString()} 秒',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: canNotPress(context, tableState)
+                              ? null
+                              : () => syncData(
+                                    context,
+                                    state,
+                                  ),
+                          child: Text(
+                            context.read<DataQueryCounterCubit>().message,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
               if (tableState is SensorsDataTableLoading)

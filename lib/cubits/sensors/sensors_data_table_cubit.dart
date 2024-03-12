@@ -17,7 +17,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
 
   List<Sensor> sensors = [];
 
-  Map<String, List<String>> _dataTimeSection = {};
+  Map<DateTime, List<String>> _dataTimeSection = {};
 
   List<List<String>> _dataTable = [];
 
@@ -84,12 +84,11 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
       sensorDataMap[sensor.nameIdentity!] = index;
     });
     for (var data in dataList) {
-      String time = data.timestamp != null
-          ? DateFormat('yyyy MM-dd HH:mm').format(data.timestamp!)
-          : '--';
+      final time = data.timestamp;
+      if (time == null) continue;
       if (_dataTimeSection.containsKey(time) == false) {
         _dataTimeSection[time] = List.filled(sensors.length, '--');
-        _lastUpdated = data.timestamp;
+        _lastUpdated = time;
       }
 
       // 判斷 pressure 要加在哪一個欄位
@@ -111,7 +110,7 @@ class SensorsDataTableCubit extends Cubit<SensorsDataTableState> {
     // 將 Map 轉成 List， key 為時間，value 為壓力值
     dataTable = _dataTimeSection.entries.map((e) {
       return [
-        e.key,
+        DateFormat('MM-dd\nHH:mm').format(e.key),
         ...e.value,
       ];
     }).toList();

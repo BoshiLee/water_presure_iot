@@ -22,8 +22,8 @@ class SensorDataTable extends StatelessWidget {
           (e) => Expanded(
             child: Container(
               alignment: Alignment.center,
-              height: 50,
-              padding: const EdgeInsets.all(8),
+              height: 140,
+              padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.grey,

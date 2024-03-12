@@ -46,7 +46,7 @@ class ApiBaseHelper {
   Dio get _dio {
     final dio = Dio(
       BaseOptions(
-        connectTimeout: const Duration(seconds: 5),
+        connectTimeout: const Duration(seconds: 15),
         receiveTimeout: delay,
         receiveDataWhenStatusError: true,
         baseUrl: baseUrl,
